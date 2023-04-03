@@ -1,0 +1,7 @@
+{
+  "name": "prueba-bio",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
