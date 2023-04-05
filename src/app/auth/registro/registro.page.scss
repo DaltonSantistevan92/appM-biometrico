@@ -1,0 +1,22 @@
+
+
+.container {
+    text-align: center;
+    left: 0;
+    right: 0;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50%;
+    /* top: 50%;
+    transform: translateY(-50%); */
+
+    .center{
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+}
+
+ion-content{
+    --ion-background-color: linear-gradient(180deg, #5d6366 0, #415460 25%, #1f4459 50%, #003553 75%, #00264d 100%);
+}

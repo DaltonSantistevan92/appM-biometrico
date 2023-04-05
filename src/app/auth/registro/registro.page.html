@@ -1,0 +1,62 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="primary" (click)="regresar()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding container">
+
+  <ion-card class="container">
+    <ion-card-title>
+      <ion-item>
+        <ion-label> <strong class="center"> Registro del Trabajador</strong> </ion-label>
+      </ion-item>
+    </ion-card-title>
+
+    <ion-card-content>
+      <form [formGroup]="formuRT" (submit)="guardarTrabajador()">
+
+        <ion-item fill="solid" class="ion-margin-bottom">
+          <ion-input type="text" placeholder="Ingrese el nombre" formControlName="nombres"></ion-input>
+          <ion-note slot="error"
+            *ngIf="formuRT.get('nombres')?.errors?.['required'] && (formuRT.get('nombres')?.dirty || formuRT.get('nombres')?.touched)">
+            El nombre es requerido
+          </ion-note>
+        </ion-item>
+
+        <ion-item fill="solid" class="ion-margin-bottom">
+          <ion-input type="email" placeholder="Ingrese el correo" formControlName="email"></ion-input>
+          <ion-note slot="error"
+            *ngIf="formuRT.get('email')?.errors?.['required'] && (formuRT.get('email')?.dirty || formuRT.get('email')?.touched)">
+            El correo es requerido.
+          </ion-note>
+          <ion-note slot="error"
+            *ngIf="(formuRT.get('email')?.errors?.['email'] || formuRT.get('email')?.errors?.['pattern'] ) && (formuRT.get('email')?.dirty || formuRT.get('email')?.touched)">
+            El correo no es válido.
+          </ion-note>
+        </ion-item>
+
+        <ion-item fill="solid" class="ion-margin-bottom">
+          <ion-input type="password" placeholder="Ingrese la contraseña" formControlName="password"></ion-input>
+          <ion-note slot="error"
+            *ngIf="formuRT.get('password')?.errors?.['required'] && (formuRT.get('password')?.dirty || formuRT.get('password')?.touched)">
+            La contraseña es requerido.
+          </ion-note>
+
+          <ion-note slot="error"
+            *ngIf="formuRT.get('password')?.errors?.['minLength'] && (formuRT.get('password')?.dirty || formuRT.get('password')?.touched)">
+            La contraseña debe tener 6 caracteres.
+          </ion-note>
+        </ion-item>
+
+        <ion-button fill="outline" expand="block" size="small" type="submit"
+          [disabled]="formuRT.invalid">Registrar</ion-button>
+
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
