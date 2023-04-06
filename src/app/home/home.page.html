@@ -1,15 +1,22 @@
 <ion-header>
 	<ion-toolbar color="primary">
-		<ion-button size="small" slot="start" color="primary">
-			<ion-icon slot="icon-only" name="menu-outline"></ion-icon>
-		</ion-button>
+		<ion-buttons slot="start">
+			<ion-menu-button></ion-menu-button>
+		</ion-buttons>
+
 		<ion-title>Mi Home</ion-title>
-		<ion-button size="small" slot="end" color="primary" (click)="salir()">
-			<ion-icon slot="icon-only" name="exit-outline"></ion-icon>
-		</ion-button>
+
+		<ion-buttons slot="primary">
+			<ion-button size="small" (click)="salir()">
+			  <ion-icon slot="icon-only" name="exit-outline"></ion-icon>
+			</ion-button>
+		  </ion-buttons>
 	</ion-toolbar>
 </ion-header>
 
+
 <ion-content [fullscreen]="true">
+
+	
 
 </ion-content>

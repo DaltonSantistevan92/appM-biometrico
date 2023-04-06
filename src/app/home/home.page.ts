@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, MenuController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -14,7 +14,8 @@ import { Router } from '@angular/router';
 export class HomePage implements OnInit {
 
   constructor(
-   private router: Router
+   private router: Router,
+   private menuController: MenuController,
   ) {}
 
   ngOnInit(): void {
@@ -27,6 +28,7 @@ export class HomePage implements OnInit {
     this.router.navigateByUrl('/login');
 
   }
+
 
  
 

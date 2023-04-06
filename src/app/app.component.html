@@ -1,3 +1,34 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-split-pane contentId="main-content">
+
+    <ion-menu contentId="main-content" type="overlay">
+      <ion-content>
+        
+        <ion-card>
+          <ion-card-header>
+            <ion-item lines="none">
+              <ion-avatar slot="start">
+                <img alt="Silhouette of mountains" src="../assets/img/user-default.jpg" />
+              </ion-avatar>
+
+              <ion-list>
+                <ion-item lines="none">
+                  <ion-label class="center">Dalton Santistevan</ion-label>
+                </ion-item>
+                <ion-item lines="none">
+                  <ion-label class="center">Administrador</ion-label>
+                </ion-item>
+              </ion-list>
+            </ion-item>
+          </ion-card-header>
+        </ion-card>
+
+        <app-menu></app-menu> 
+
+      </ion-content>
+
+    </ion-menu>
+    
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
 </ion-app>
