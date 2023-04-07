@@ -3,6 +3,7 @@ export interface RespLogin {
   message: string;
   user: User;
   token: string;
+  menu : Menu[];
 }
 
 export interface User {
@@ -32,4 +33,13 @@ export interface Rol {
   id: number;
   cargo: string;
   estado: string;
+}
+
+export interface Menu {
+  icono:        string;
+  id:           number;
+  id_seccion?:  number;
+  menus_hijos?: Menu[];
+  nombre:       string;
+  url:          string;
 }

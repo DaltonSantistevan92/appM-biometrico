@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule, LoadingController } from '@ionic/angular';
+import { IonicModule, LoadingController, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Formulario } from '../interfaces/registro.interface';
@@ -22,11 +22,14 @@ export class LoginPage implements OnInit {
     private fb: FormBuilder,
     private loadingController: LoadingController,
     private router : Router,
-    private _auSer: AuthService
+    private _auSer: AuthService,
+    private menuController: MenuController,
+
   ) {}
 
   ngOnInit(): void {
     this.initForm();
+    this.menuController.enable(false);
   }
 
   initForm(){
@@ -53,7 +56,6 @@ export class LoginPage implements OnInit {
   loginAcceso(data: Formulario){
     this._auSer.login(data).subscribe({
       next: (resp) => { 
-        console.log(resp);
         if (resp.status) {
           this.router.navigateByUrl('/home');
           this._auSer.Mensaje(resp.message);

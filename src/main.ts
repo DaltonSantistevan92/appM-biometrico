@@ -6,10 +6,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
-import { AuthInterceptorService } from './app/interceptor/auth-interceptor.service';
-import { provideHttpClient, withInterceptors , HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { MenuComponent } from './app/componentes/menu/menu.component';
-
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { httpInterceptor } from './app/interceptor/http.interceptor';
 
 
 if (environment.production) {
@@ -18,10 +16,8 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideHttpClient(),
-   /*  provideHttpClient(withInterceptors([AuthInterceptorService])), */
+    provideHttpClient(withInterceptors([httpInterceptor])),
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
     importProvidersFrom(IonicModule.forRoot({})),
     provideRouter(routes),
   ],
