@@ -23,7 +23,15 @@ export const routes: Routes = [
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full',
+  },  {
+    path: 'datos-t',
+    loadComponent: () => import('./auth/datos-t/datos-t.page').then( m => m.DatosTPage)
   },
+  {
+    path: 'asistencia',
+    loadComponent: () => import('./auth/asistencia/asistencia.page').then( m => m.AsistenciaPage)
+  },
+
   
   
 ];

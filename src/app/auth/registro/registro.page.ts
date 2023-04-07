@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, MenuController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Formulario, RegIntTrabajador } from '../interfaces/registro.interface';
@@ -23,11 +23,13 @@ export class RegistroPage implements OnInit {
   constructor(
     private _builder: FormBuilder,
     private _auSer: AuthService,
-    private router: Router
+    private router: Router,
+    private menuController: MenuController
   ) { }
 
   ngOnInit() {
     this.validarFrmulario();
+    this.menuController.enable(false);
   }
 
   validarFrmulario() {

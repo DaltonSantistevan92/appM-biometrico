@@ -19,7 +19,7 @@ export class HomePage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    
+    this.menuController.enable(true);
   }
 
   salir(){
