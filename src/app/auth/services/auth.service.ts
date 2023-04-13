@@ -22,11 +22,6 @@ export class AuthService {
     return JSON.parse(localStorage.getItem('user')!) || '';
   }
 
-  /* get menu(): any {
-   return JSON.parse( localStorage.getItem('menu')!) || [];
-  } */
-
-  //otra forma menu
   private _listaMenus : any [] = [];  //lista de menus
 
   get menu(): any { //getter de menu

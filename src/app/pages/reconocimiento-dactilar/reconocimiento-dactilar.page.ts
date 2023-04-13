@@ -4,13 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'app-datos-t',
-  templateUrl: './datos-t.page.html',
-  styleUrls: ['./datos-t.page.scss'],
+  selector: 'app-reconocimiento-dactilar',
+  templateUrl: './reconocimiento-dactilar.page.html',
+  styleUrls: ['./reconocimiento-dactilar.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
-export class DatosTPage implements OnInit {
+export class ReconocimientoDactilarPage implements OnInit {
 
   constructor() { }
 

@@ -14,7 +14,6 @@ import { AuthService } from 'src/app/auth/services/auth.service';
   standalone: true,
   imports: [IonicModule, CommonModule, RouterLink, NgFor],
   schemas : [CUSTOM_ELEMENTS_SCHEMA]
-
 })
 export class MenuComponent  implements OnInit {
 

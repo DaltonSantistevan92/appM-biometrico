@@ -1,0 +1,21 @@
+.input-field {
+    background: rgba(250,250,250,1);
+    border: solid 1px rgb(20, 20, 20);
+    margin-bottom: 12px;
+    height: 45px;
+    border-radius: 5px;
+    padding-left: 16px;
+}
+.ion-select{
+    font-size: 20px !important;
+}
+#map_canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  ion-input {
+    --placeholder-color:black;     /* placeholder text color */
+    color: var(--ion-color-primary); /* input text color to primary */
+}  
+
