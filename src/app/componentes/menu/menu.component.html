@@ -1,42 +1,5 @@
 
-
-  <!-- Accordion menu -->
-  <!-- <ion-accordion-group >
-
-    <ion-accordion value="mailbox" toggle-icon="arrow-down-circle">
-      <ion-item slot="header">
-        <ion-label>Mailbox</ion-label>
-      </ion-item>
-
-      <ion-list id="inbox-list" slot="content" >
-        <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-          <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-          <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-          <ion-label>{{ p.title }}</ion-label>
-        </ion-item>
-        </ion-menu-toggle>
-      </ion-list>
-    </ion-accordion>
-
-    <ion-accordion value="labels" toggle-icon="arrow-down-circle">
-      <ion-item slot="header">
-        <ion-label>Labels</ion-label>
-      </ion-item>
-
-      <ion-list slot="content">
-        <ion-item *ngFor="let label of labels" lines="none">
-          <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-          <ion-label>{{ label }}</ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-accordion>
-
-  </ion-accordion-group> -->
-
-
-
-  <ion-accordion-group >
-
+  <ion-accordion-group>
     <ion-accordion  toggle-icon="arrow-down-circle" *ngFor="let m of menu">
       <ion-item slot="header">
         <ion-label> {{ m.nombre | titlecase}} </ion-label>
@@ -45,13 +8,12 @@
       <ion-list id="inbox-list" slot="content" >
         <ion-menu-toggle auto-hide="false" *ngFor="let sm of m.menus_hijos; let i = index">
           <ion-item routerDirection="root" [routerLink]="[sm.url]" lines="none" detail="false" routerLinkActive="selected">
-          <ion-icon slot="start" [ios]="sm.icono" [md]="sm.icon"></ion-icon>
+          <ion-icon slot="start" [ios]="sm.icono" [md]="sm.icon" [name]="sm.icono"></ion-icon>
           <ion-label>{{ sm.nombre | titlecase }}</ion-label>
         </ion-item>
         </ion-menu-toggle>
       </ion-list>
     </ion-accordion>
-
   </ion-accordion-group>
 
 

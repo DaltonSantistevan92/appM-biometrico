@@ -33,9 +33,9 @@ export class HomePage implements OnInit {
     this.router.navigateByUrl('/login');
   }
 
+  
 
- 
-
+  
 
 
 }

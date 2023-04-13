@@ -1,0 +1,73 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="regresar()">
+        <ion-icon color="light" slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+      Asistente Form
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="container">
+
+  <ion-card-content>
+      <form  [formGroup]="formAsistencia">
+        <ion-grid>
+          
+          <ion-list>
+            <ion-label type="email" class="prompt-text" position="stacked">Email</ion-label><br />
+            <ion-input
+              class="input-field"
+              placeholder="email@example.com"
+              formControlName="email"
+            ></ion-input>
+          </ion-list>
+
+          <ion-list>
+            <ion-label class="prompt-text" position="stacked">Fecha</ion-label><br />
+            <ion-input
+              class="input-field"
+              type="date"
+              formControlName="fecha"
+            ></ion-input>
+          </ion-list>
+
+          <ion-list>
+            <ion-label class="prompt-text" position="stacked">Tipo de Registro</ion-label><br />
+            <ion-item>
+              <ion-select formControlName="tipo_registro_id" interface="popover" placeholder="Seleccione un tipo">
+                <ion-select-option *ngFor="let lt of listaTipos" [value]="lt.id"> {{lt.tipo}} </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+
+          <ion-list>
+            <ion-label class="prompt-text" position="stacked" >Hora</ion-label
+            ><br />
+            <ion-input
+              class="input-field"
+              type="text"
+              [value]="fecha"
+              readonly
+            > </ion-input>
+          </ion-list>
+
+          <ion-list>
+            <ion-label class="prompt-text" position="stacked">Ubicacion</ion-label><br />
+            <ion-input class="input-field" type="text" readonly>
+              Lat: {{coordinate?.latitude }} Long:{{ coordinate?.longitude }}
+            </ion-input>
+          </ion-list>
+
+          <ion-button color="secondary" class="center" type="button" fill="outline" expand="block" [disabled]="formAsistencia.invalid" (click)="saveAsistencia()">
+           Guardar
+          </ion-button>
+
+
+        </ion-grid>
+      </form>
+      
+    </ion-card-content>
+
+</ion-content>
