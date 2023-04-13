@@ -19,15 +19,14 @@ export class RegistroPage implements OnInit {
   public formuRT!: FormGroup;
   emailValidate: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
 
-
   constructor(
     private _builder: FormBuilder,
     private _auSer: AuthService,
     private router: Router,
-    private menuController: MenuController
-  ) { }
+    private menuController: MenuController) { }
 
   ngOnInit() {
+    this.menuController.enable(false);
     this.validarFrmulario();
     this.menuController.enable(false);
   }

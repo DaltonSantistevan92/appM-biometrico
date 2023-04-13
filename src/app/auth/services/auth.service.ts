@@ -5,7 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.prod';
 import { Formulario, RegIntTrabajador, ResponseTrabajador } from '../interfaces/registro.interface';
 import { Observable, of, tap } from 'rxjs';
-import { RespLogin } from '../interfaces/auth.interface';
+import { Menu, RespLogin, User } from '../interfaces/auth.interface';
+
 
 
 @Injectable({
@@ -17,18 +18,32 @@ export class AuthService {
     return localStorage.getItem('token') || '';
   }
 
+  get user(): User {
+    return JSON.parse(localStorage.getItem('user')!) || '';
+  }
+
+  /* get menu(): any {
+   return JSON.parse( localStorage.getItem('menu')!) || [];
+  } */
+
+  //otra forma menu
+  private _listaMenus : any [] = [];  //lista de menus
+
+  get menu(): any { //getter de menu
+    return [...this._listaMenus];
+  } 
+
+  //private http = inject(HttpClient);
   constructor(
     private route: Router,
     private toast:ToastController,
     private http: HttpClient
-  ) { }
+  ) { 
+    this._listaMenus = JSON.parse( localStorage.getItem('menu')!) || [];
+
+  }
 
   api = environment.apiUrl;
-
-  saveTrabajador(data:RegIntTrabajador): Observable<ResponseTrabajador>{
-    const url = `${this.api}/registro`;
-    return this.http.post<ResponseTrabajador>(url,data);
-  }
 
   verificacionAutenticacion():Observable<boolean>{
     const token = localStorage.getItem('token');
@@ -42,20 +57,25 @@ export class AuthService {
     const url = `${this.api}/login`;
     return this.http.post<RespLogin>(url,data)
     .pipe(tap( (resp) => {
-        if (resp.token) {
+        if (resp.token && resp.user && resp.menu.length > 0) {
           localStorage.setItem('token', JSON.stringify(resp.token)); 
+          localStorage.setItem('user', JSON.stringify(resp.user));
+
+          this._listaMenus = resp.menu; // recuperamos el menu y lo igualmos a la lista
+          localStorage.setItem('menu', JSON.stringify(this._listaMenus));
         }else{
           return;
         }
       })
-    ).pipe(tap( (data) => {
-      if (data.user) {
-        localStorage.setItem('user', JSON.stringify(data.user)); 
-      }else{
-        return;
-      }
-    }));
+    );
   }
+
+  saveTrabajador(data:RegIntTrabajador): Observable<ResponseTrabajador>{
+    const url = `${this.api}/registro`;
+    return this.http.post<ResponseTrabajador>(url,data);
+  }
+
+ 
 
 
   irA(url: string) {

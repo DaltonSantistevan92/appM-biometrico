@@ -23,9 +23,7 @@ export class LoginPage implements OnInit {
     private loadingController: LoadingController,
     private router : Router,
     private _auSer: AuthService,
-    private menuController: MenuController
-
-  ) {}
+    private menuController: MenuController) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -56,7 +54,6 @@ export class LoginPage implements OnInit {
   loginAcceso(data: Formulario){
     this._auSer.login(data).subscribe({
       next: (resp) => { 
-        console.log(resp);
         if (resp.status) {
           this.router.navigateByUrl('/home');
           this._auSer.Mensaje(resp.message);
