@@ -1,5 +1,5 @@
-import { Component, OnInit, NgZone } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { Component, OnInit, NgZone, ViewChild, ElementRef, Renderer2, Inject } from '@angular/core';
+import { CommonModule, DOCUMENT, DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -9,7 +9,9 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { MiserviciosService } from '../Mis_Servicios/miservicios.service';
 import { IntTipo } from '../interfaces/misInterface';
 import { map } from 'rxjs';
+import { GoogleMapService } from '../Mis_Servicios/google-map.service';
 
+declare var google: any;
 
 @Component({
   selector: 'app-asistencia',
@@ -28,16 +30,27 @@ export class AsistenciaPage implements OnInit {
 
   cargandoUbicacion: boolean = false;
 
+  //mapa
+  
+  map: any;  marker: any;  infowindow: any;  positionSet: any;
+
+  @ViewChild('map') divMap!: ElementRef; //obtener el elemnt de la vista #map
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private _authS :AuthService,
     private _misSe : MiserviciosService,
     private menuController: MenuController,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document:Document,
+    private googleServ: GoogleMapService
     
   ) { }
 
   ngOnInit(): void {
+    console.log('divMap', this.divMap);
+    
     this.menuController.enable(true);
     this.initFormAsistencia();
     this.setearEmail();
@@ -46,6 +59,35 @@ export class AsistenciaPage implements OnInit {
     this.selectTipos();
     this.getFecha();    
     this.printCurrentPosition();
+
+    this.init();
+
+  }
+
+  async init(){
+    this.googleServ.init(this.renderer, this.document).then( (resp) =>{
+        console.log(resp);
+        
+        this.initMap();
+    }).catch( (err) => {
+      console.log(err);
+    });
+  }
+
+  initMap(){
+    const positions = { lat:-2.232425,lng:-80.900891 };
+    
+    let latLng = new google.maps.LatLng(positions.lat,positions.lng); //crea una nueva posision    
+    
+    let mapOptions = { center: latLng, zoom: 15, disableDefaultUI:true, clickableIcons: false };
+    
+    this.map = new google.maps.Map(this.divMap.nativeElement, mapOptions);
+    
+    this.marker = new google.maps.Marker({
+      map: this.map,
+      animation: google.maps.Animation.DROP,
+      draggable: true,
+    });
 
   }
 

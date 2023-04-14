@@ -38,7 +38,7 @@ export class GoogleMapService {
       }, 500);
 
       if(this.apiKey){
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${this.apiKey}&callback`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${this.apiKey}`;
       }else{
         script.src = `https://maps.googleapis.com/maps/api/js?callback`;
       }
