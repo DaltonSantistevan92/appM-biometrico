@@ -57,7 +57,7 @@ export class LoginPage implements OnInit {
     this._auSer.login(data).subscribe({
       next: (resp) => { 
         if (resp.status) {
-          this.router.navigateByUrl('/home');
+          this.router.navigate(['/home']);
           this._auSer.Mensaje(resp.message);
         }
       }, 

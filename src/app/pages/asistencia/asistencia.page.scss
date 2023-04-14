@@ -17,5 +17,12 @@
   ion-input {
     --placeholder-color:black;     /* placeholder text color */
     color: var(--ion-color-primary); /* input text color to primary */
-}  
+} 
+
+
+.map{
+    display: block;
+    width: 100%;
+    height: 100px;
+}
 

@@ -1,4 +1,6 @@
 
+
+
   <ion-accordion-group>
     <ion-accordion  toggle-icon="arrow-down-circle" *ngFor="let m of menu">
       <ion-item slot="header">
@@ -7,7 +9,7 @@
 
       <ion-list id="inbox-list" slot="content" >
         <ion-menu-toggle auto-hide="false" *ngFor="let sm of m.menus_hijos; let i = index">
-          <ion-item routerDirection="root" [routerLink]="[sm.url]" lines="none" detail="false" routerLinkActive="selected">
+          <ion-item  [routerLink]="[sm.url]" lines="none" detail="false" routerLinkActive="selected">
           <ion-icon slot="start" [ios]="sm.icono" [md]="sm.icon" [name]="sm.icono"></ion-icon>
           <ion-label>{{ sm.nombre | titlecase }}</ion-label>
         </ion-item>

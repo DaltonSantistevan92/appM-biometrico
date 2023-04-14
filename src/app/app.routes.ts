@@ -33,7 +33,11 @@ export const routes: Routes = [
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full',
+  },  {
+    path: 'card',
+    loadComponent: () => import('./componentes/card/card.page').then( m => m.CardPage)
   },
+
 
   
   
