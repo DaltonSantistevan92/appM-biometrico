@@ -59,7 +59,13 @@
               Lat: {{coordinate?.latitude }} Long:{{ coordinate?.longitude }}
             </ion-input>
           </ion-list>
+          <ion-list>
+            <ion-content padding>
 
+              <div id="map"></div>
+            
+            </ion-content>
+          </ion-list>
           <ion-button color="secondary" class="center" type="button" fill="outline" expand="block" [disabled]="formAsistencia.invalid" (click)="saveAsistencia()">
            Guardar
           </ion-button>
