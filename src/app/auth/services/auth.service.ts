@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.prod';
 import { Formulario, RegIntTrabajador, ResponseTrabajador } from '../interfaces/registro.interface';
-import { Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { Menu, RespLogin, User } from '../interfaces/auth.interface';
 
 
@@ -28,6 +28,11 @@ export class AuthService {
     return [...this._listaMenus];
   } 
 
+
+  private objSourceUser = new BehaviorSubject<{}>({});
+  $getObjSourceUser = this.objSourceUser.asObservable();
+
+
   //private http = inject(HttpClient);
   constructor(
     private route: Router,
@@ -35,7 +40,6 @@ export class AuthService {
     private http: HttpClient
   ) { 
     this._listaMenus = JSON.parse( localStorage.getItem('menu')!) || [];
-
   }
 
   api = environment.apiUrl;
@@ -53,7 +57,9 @@ export class AuthService {
     return this.http.post<RespLogin>(url,data)
     .pipe(tap( (resp) => {
         if (resp.token && resp.user && resp.menu.length > 0) {
-          localStorage.setItem('token', JSON.stringify(resp.token)); 
+          localStorage.setItem('token', JSON.stringify(resp.token));
+          
+          this.sendObjeUser(resp.user);
           localStorage.setItem('user', JSON.stringify(resp.user));
 
           this._listaMenus = resp.menu; // recuperamos el menu y lo igualmos a la lista
@@ -63,6 +69,10 @@ export class AuthService {
         }
       })
     );
+  }
+
+  sendObjeUser(data:User){
+    this.objSourceUser.next(data);
   }
 
   saveTrabajador(data:RegIntTrabajador): Observable<ResponseTrabajador>{

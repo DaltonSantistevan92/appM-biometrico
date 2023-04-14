@@ -7,6 +7,8 @@
       Asistente Form
     </ion-buttons>
   </ion-toolbar>
+ <!--  <ion-progress-bar color="dark" *ngIf="cargandoUbicacion == true" type="indeterminate"></ion-progress-bar> -->
+
 </ion-header>
 
 <ion-content [fullscreen]="true" class="container">
@@ -21,6 +23,7 @@
               class="input-field"
               placeholder="email@example.com"
               formControlName="email"
+              readonly
             ></ion-input>
           </ion-list>
 
@@ -30,6 +33,7 @@
               class="input-field"
               type="date"
               formControlName="fecha"
+              readonly
             ></ion-input>
           </ion-list>
 
@@ -53,20 +57,24 @@
             > </ion-input>
           </ion-list>
 
-          <ion-list>
+          <ion-list *ngIf="!cargandoUbicacion">
             <ion-label class="prompt-text" position="stacked">Ubicacion</ion-label><br />
-            <ion-input class="input-field" type="text" readonly>
-              Lat: {{coordinate?.latitude }} Long:{{ coordinate?.longitude }}
+            <ion-input class="input-field" formControlName="coordenadas" type="text" readonly>
             </ion-input>
           </ion-list>
-          <ion-list>
-            <ion-content padding>
 
-              <div id="map"></div>
-            
-            </ion-content>
+          <ion-list *ngIf="cargandoUbicacion">
+            <ion-label class="prompt-text" position="stacked">
+              <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
+            </ion-label><br />
+            <ion-input class="input-field" formControlName="coordenadas" type="text" readonly>
+              <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
+            </ion-input>
           </ion-list>
-          <ion-button color="secondary" class="center" type="button" fill="outline" expand="block" [disabled]="formAsistencia.invalid" (click)="saveAsistencia()">
+
+          <div #map id="map" class="map"></div>
+
+          <ion-button color="secondary" class="center" type="button"  expand="block" [disabled]="formAsistencia.invalid" (click)="saveAsistencia()">
            Guardar
           </ion-button>
 

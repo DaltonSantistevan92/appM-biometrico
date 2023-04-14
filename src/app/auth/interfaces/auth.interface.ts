@@ -7,6 +7,7 @@ export interface RespLogin {
 }
 
 export interface User {
+  usuario: any;
   id: number;
   persona_id: number;
   rol_id: number;

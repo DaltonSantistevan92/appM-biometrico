@@ -16,7 +16,7 @@ export class AutoLoginGuard implements CanActivate {
     const token = this._autSer.token;
 
     if (token) {
-      this.router.navigateByUrl('/home');
+      this.router.navigate(['/home']);
       return false;
     }
     return true;

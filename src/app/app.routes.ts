@@ -30,9 +30,18 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/reconocimiento-dactilar/reconocimiento-dactilar.page').then( m => m.ReconocimientoDactilarPage)
   },
   {
+    path: 'card',
+    loadComponent: () => import('./componentes/card/card.page').then( m => m.CardPage)
+  },
+  {
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full',
-  }
+  },
+  
+
+
+  
+  
 ];
 
