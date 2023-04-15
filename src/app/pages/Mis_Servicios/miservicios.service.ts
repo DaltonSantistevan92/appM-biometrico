@@ -45,6 +45,11 @@ export class MiserviciosService {
     return this.http.get<number>(url);
   }
 
+  getTiposAsistencias():Observable<any>{
+    let url = this.API + '/getTipoAsistencia';
+    return this.http.get<any>(url);
+  }
+
   //'search/{user_id}
 
   /* //funcion para obtener las coordenads actual

@@ -2,7 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, MenuController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MenuComponent } from '../componentes/menu/menu.component';
 import { CardPage } from '../componentes/card/card.page';
 
@@ -11,7 +11,7 @@ import { CardPage } from '../componentes/card/card.page';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, CardPage, MenuComponent],
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, CardPage, MenuComponent, RouterLink],
   schemas : [CUSTOM_ELEMENTS_SCHEMA]
 
 })
@@ -38,6 +38,12 @@ export class HomePage implements OnInit {
   
 
   
+irRegistro(){
+  this.router.navigate(['/asistencia/registrar']);
+}
 
-
+  
+irReporte(){
+  this.router.navigate(['/ringreso']);
+}
 }
