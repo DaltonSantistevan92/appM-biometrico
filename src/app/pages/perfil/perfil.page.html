@@ -1,0 +1,79 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="regresar()">
+        <ion-icon color="light" slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+      Perfil
+    </ion-buttons>
+  </ion-toolbar>
+  <!--  <ion-progress-bar color="dark" *ngIf="cargandoUbicacion == true" type="indeterminate"></ion-progress-bar> -->
+
+</ion-header>
+
+<!-- 
+  <div class="col-12">
+            <div class="h-100 w-100 d-flex justify-content-center mt-2">
+                <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" [multiple]="false" (change)="onSelect($event)">
+                    <ngx-dropzone-label> 
+                        <div> <h2>&nbsp;Ingrese su foto&nbsp;</h2> </div> 
+                    </ngx-dropzone-label>
+                    <ngx-dropzone-image-preview 
+                        ngProjectAs="ngx-dropzone-preview" 
+                        *ngFor="let f of files" [file]="f" 
+                        [removable]="true" (removed)="onRemove(f)"> 
+                    </ngx-dropzone-image-preview>
+                </div>
+            </div>
+          </div>
+ -->
+
+<ion-content [fullscreen]="true">
+  <form>
+  <ion-card-content>
+    <ion-grid>
+        <div>
+          <ion-label class="center">Foto</ion-label>
+        <div class="col-12"> 
+          <div class="h-100 w-100 d-flex justify-content-center mt-2">
+            <!-- 
+           <p style="text-align: center;"><img width="100" height="100"></p>
+           <div class="btc"> 
+           <ion-button shape="round" color="secondary" type="button"  >Cargar</ion-button>
+           <ion-input type="file" multiple id="add-new-photo" name="images[]" shape="round" accept="image/png, .jpeg, .jpg, image/gif"></ion-input>
+           </div>   -->
+           <ngx-dropzone [multiple]="false" (change)="onSelect($event)"  [accept]="'image/png, .jpeg, .jpg, image/gif'">
+            <ngx-dropzone-label class="custom-dropzone">Imagen!</ngx-dropzone-label>
+            <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+              <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+            </ngx-dropzone-preview>
+          </ngx-dropzone>
+          </div>
+          </div>
+      
+
+       <ion-row>     
+            <ion-col> 
+              <ion-label>Usuario</ion-label>
+              <ion-input type="text"></ion-input>
+            </ion-col>
+            <ion-col> 
+              <ion-label>Correo</ion-label>
+              <ion-input type="text"></ion-input></ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col> <ion-label>Nombre</ion-label><ion-input type="text"></ion-input></ion-col>
+            <ion-col> <ion-label>Apellido</ion-label><ion-input type="text"></ion-input></ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col> <ion-label>Celular</ion-label><ion-input type="text"></ion-input></ion-col>
+            <ion-col> <ion-label>Direccion</ion-label><ion-input type="text"></ion-input></ion-col>
+          </ion-row>
+        </div>
+      </ion-grid>
+      <ion-button color="secondary" class="center" type="button" expand="block">
+        Guardar
+    </ion-button>
+    </ion-card-content>
+     </form> 
+    </ion-content>

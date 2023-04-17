@@ -30,6 +30,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/reconocimiento-dactilar/reconocimiento-dactilar.page').then( m => m.ReconocimientoDactilarPage)
   },
   {
+    path: 'datos/perfil',
+    loadComponent: () => import('./pages/perfil/perfil.page').then( m => m.PerfilPage)
+  },
+  {
     path: 'card',
     loadComponent: () => import('./componentes/card/card.page').then( m => m.CardPage)
   },
@@ -43,4 +47,6 @@ export const routes: Routes = [
     redirectTo: 'login',
     pathMatch: 'full',
   },
+  
+
 ];

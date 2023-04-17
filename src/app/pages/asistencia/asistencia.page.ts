@@ -184,6 +184,9 @@ export class AsistenciaPage implements OnInit {
   }
 
   regresar() {
+    this.formAsistencia.reset();
+    this.bandera = false;
+
     this.router.navigate(['/home']);
   }
 
