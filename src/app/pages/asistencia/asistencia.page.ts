@@ -232,8 +232,8 @@ export class AsistenciaPage implements OnInit {
       },
       ubicacion : [
         {
-          latitud: form.latitud,
-          longitud: form.longitud
+          latitud: -2.162599 , //-2.162592  form.latitud
+          longitud: -79.929570    //-79.929580   form.longitud
         }
       ]
     }
@@ -250,7 +250,10 @@ export class AsistenciaPage implements OnInit {
           this.bandera = false;
           this.router.navigate(['/home']);
         }else{
-          this._authS.Mensaje(resp.message,'danger');        
+          this.formAsistencia.reset();
+          this._authS.Mensaje(resp.message,'danger');
+          this.bandera = false;
+          this.router.navigate(['/home']);        
         }
       }, 
       error: (err) => { console.log(err); } 
