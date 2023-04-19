@@ -103,4 +103,13 @@ export class MiserviciosService {
 
     await alert.present();
   }
+
+
+  updateUserPerfil(data:any):Observable<any>{
+    let url = this.API + '/updateDataUser';
+    return this.http.post<any>(url,data);
+  }
+
+
+
 }

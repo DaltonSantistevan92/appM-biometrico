@@ -1,10 +1,49 @@
 
 
-    <ion-item lines="none">
+<ion-header >
+  <ion-toolbar  color="light" >
+    <br>
+    <div class = "ion-text-center">  
+      <img style="border-radius: 50%" width="40%" height="40%" alt="Silhouette of mountains" src="../assets/img/user-default.jpg" />
+    </div>
+    
+    <div   class = "ion-text-center">  
+        <ion-label style="font-weight: bold; font-size: 17px;" class="center"> {{ nombre | titlecase }}</ion-label> <br/>
+        <ion-label  style="font-size: 15px;"> {{ cargo | titlecase }} </ion-label>
+    </div>
+    <br>
+  </ion-toolbar>
+
+</ion-header>
+
+
+
+ 
+
+<!--
+style="background-color: rgb(120, 133, 215);"
+
+  <div class = "ion-text-center">  
+  <img style="border-radius: 50%" width="40%" height="40%" alt="Silhouette of mountains" src="../assets/img/user-default.jpg" />
+</div>
+
+<div class = "ion-text-center">  
+    <ion-label style="font-weight: bold; font-size: 16px;" class="center"> {{ nombre | titlecase }}</ion-label> <br/>
+    <ion-label style="font-size: 14px;"> {{ cargo | titlecase }} </ion-label>
+</div>
+<ion-item lines="none">
       <ion-avatar slot="start">
         <img alt="Silhouette of mountains" src="../assets/img/user-default.jpg" />
       </ion-avatar>
 
+
+      <div class="ion-text-center">
+        <ion-item lines="none">
+          <ion-label class="center"> {{ nombre | titlecase }}</ion-label>
+        </ion-item>
+      </div>
+
+      
       <ion-list>
         <ion-item lines="none">
           <ion-label class="center"> {{ nombre | titlecase }}</ion-label>
@@ -14,7 +53,11 @@
           <ion-label class="center"> {{ cargo | titlecase }} </ion-label>
         </ion-item>
       </ion-list>
+
+      
     </ion-item>
+
+-->
 
 
  

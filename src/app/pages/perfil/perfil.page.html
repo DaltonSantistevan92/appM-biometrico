@@ -7,73 +7,125 @@
       Perfil
     </ion-buttons>
   </ion-toolbar>
-  <!--  <ion-progress-bar color="dark" *ngIf="cargandoUbicacion == true" type="indeterminate"></ion-progress-bar> -->
-
 </ion-header>
 
-<!-- 
-  <div class="col-12">
-            <div class="h-100 w-100 d-flex justify-content-center mt-2">
-                <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" [multiple]="false" (change)="onSelect($event)">
-                    <ngx-dropzone-label> 
-                        <div> <h2>&nbsp;Ingrese su foto&nbsp;</h2> </div> 
-                    </ngx-dropzone-label>
-                    <ngx-dropzone-image-preview 
-                        ngProjectAs="ngx-dropzone-preview" 
-                        *ngFor="let f of files" [file]="f" 
-                        [removable]="true" (removed)="onRemove(f)"> 
-                    </ngx-dropzone-image-preview>
-                </div>
+<ion-content [fullscreen]="true">
+  <ion-card-content>
+    <form [formGroup]="formPerfil" (ngSubmit)="actualizar()">
+      <ion-grid>
+        <ion-card-content>
+          <div class="col-12">
+            <!--  <img [src]="img" alt=""> -->
+            <div style="display: flex; justify-content: center; padding: 5px" class="mt-2">
+              <ngx-dropzone ngx-dropzone [accept]="'image/*'" [multiple]="false" (change)="onSelect($event)">
+                <ngx-dropzone-label class="custom-dropzone">
+                  &nbsp; Ingrese una Imagen &nbsp;
+                </ngx-dropzone-label>
+                <ngx-dropzone-image-preview [imageUrl]="img" ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
+                  [file]="f" [removable]="true" (removed)="onRemove(f)">
+                </ngx-dropzone-image-preview>
+              </ngx-dropzone>
             </div>
           </div>
- -->
 
-<ion-content [fullscreen]="true">
-  <form>
-  <ion-card-content>
-    <ion-grid>
-        <div>
-          <ion-label class="center">Foto</ion-label>
-        <div class="col-12"> 
-          <div class="h-100 w-100 d-flex justify-content-center mt-2">
-            <!-- 
-           <p style="text-align: center;"><img width="100" height="100"></p>
-           <div class="btc"> 
-           <ion-button shape="round" color="secondary" type="button"  >Cargar</ion-button>
-           <ion-input type="file" multiple id="add-new-photo" name="images[]" shape="round" accept="image/png, .jpeg, .jpg, image/gif"></ion-input>
-           </div>   -->
-           <ngx-dropzone [multiple]="false" (change)="onSelect($event)"  [accept]="'image/png, .jpeg, .jpg, image/gif'">
-            <ngx-dropzone-label class="custom-dropzone">Imagen!</ngx-dropzone-label>
-            <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
-              <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-            </ngx-dropzone-preview>
-          </ngx-dropzone>
-          </div>
-          </div>
-      
+          <ion-list>
+            <ion-label class="prompt-text" position="stacked">Usuario</ion-label><br />
+            <ion-input type="text" placeholder="Ingrese el usuario" formControlName="name"></ion-input>
 
-       <ion-row>     
-            <ion-col> 
-              <ion-label>Usuario</ion-label>
-              <ion-input type="text"></ion-input>
-            </ion-col>
-            <ion-col> 
-              <ion-label>Correo</ion-label>
-              <ion-input type="text"></ion-input></ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col> <ion-label>Nombre</ion-label><ion-input type="text"></ion-input></ion-col>
-            <ion-col> <ion-label>Apellido</ion-label><ion-input type="text"></ion-input></ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col> <ion-label>Celular</ion-label><ion-input type="text"></ion-input></ion-col>
-            <ion-col> <ion-label>Direccion</ion-label><ion-input type="text"></ion-input></ion-col>
-          </ion-row>
-        </div>
+            <small *ngIf="formPerfil.get('name')?.dirty || formPerfil.get('name')?.touched">
+              <ion-note color="danger" slot="error" *ngIf="formPerfil.get('name')?.errors?.['required']">
+                El usuario es requerido.
+              </ion-note>
+
+              <ion-note color="danger" slot="error" *ngIf="formPerfil.get('name')?.errors?.['pattern']">
+                El usuario no puede tener caracteres especiales y numéricos.
+              </ion-note>
+
+              <ion-note color="danger" slot="error" *ngIf="formPerfil.get('name')?.errors">
+                Minimo 3 caracteres.
+              </ion-note>
+            </small>
+
+          </ion-list>
+
+          <ion-list>
+            <ion-label class="prompt-text" position="stacked">Correo</ion-label><br />
+            <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+            <small *ngIf="formPerfil.get('email')?.dirty || formPerfil.get('email')?.touched">
+              <ion-note color="danger" slot="error"
+                *ngIf="formPerfil.get('email')?.errors?.['required'] && (formPerfil.get('email')?.dirty || formPerfil.get('email')?.touched)">
+                El correo es requerido.
+              </ion-note>
+              <ion-note color="danger" slot="error"
+                *ngIf="formPerfil.get('email')?.errors?.['pattern'] && (formPerfil.get('email')?.dirty || formPerfil.get('pattern')?.touched)">
+                El correo incorrecto.
+              </ion-note>
+            </small>
+          </ion-list>
+
+          <ion-list>
+            <ion-label class="prompt-text" position="stacked">Nombre</ion-label><br />
+            <ion-input type="nombres" placeholder="nombres" formControlName="nombres"></ion-input>
+            <small *ngIf="formPerfil.get('nombres')?.dirty || formPerfil.get('nombres')?.touched">
+              <ion-note color="danger" slot="error" *ngIf="formPerfil.get('nombres')?.errors?.['required']">
+                El nombre es requerido.
+              </ion-note>
+              <ion-note color="danger" slot="error" *ngIf="formPerfil.get('nombres')?.errors?.['pattern']">
+                El Nombre no puede tener caracteres especiales y numéricos.
+              </ion-note>
+              <ion-note color="danger" slot="error" *ngIf="formPerfil.get('nombres')?.errors">
+                Minimo 3 caracteres.
+              </ion-note>
+            </small>
+          </ion-list>
+
+          <ion-list>
+
+            <ion-label class="prompt-text" position="stacked">Apellido</ion-label><br />
+            <ion-input type="apellidos" placeholder="apellidos" formControlName="apellidos"></ion-input>
+            <small *ngIf="formPerfil.get('apellidos')?.dirty || formPerfil.get('apellidos')?.touched">
+              <ion-note color="danger" slot="error" *ngIf="formPerfil.get('apellidos')?.errors?.['required']">
+                El Apellido es requerido.
+              </ion-note>
+              <ion-note color="danger" slot="error" *ngIf="formPerfil.get('apellidos')?.errors?.['pattern']">
+                El apellido no puede tener caracteres especiales y numéricos.
+              </ion-note>
+              <ion-note color="danger" slot="error" *ngIf="formPerfil.get('apellidos')?.errors">
+                Minimo 3 caracteres.
+              </ion-note>
+
+            </small>
+          </ion-list>
+
+          <ion-list>
+            <ion-label class="prompt-text" position="stacked">Celular</ion-label><br />
+            <ion-input type="num_celular" placeholder="num_celular" formControlName="num_celular"
+              maxlength="10"></ion-input>
+              <small *ngIf="formPerfil.get('num_celular')?.dirty || formPerfil.get('num_celular')?.touched">
+                <ion-note color="danger" slot="error" *ngIf="formPerfil.get('num_celular')?.errors?.['required']">
+                  El celular es requerido.
+                </ion-note>
+  
+                <ion-note color="danger" slot="error" *ngIf="formPerfil.get('num_celular')?.errors?.['pattern']">
+                  Celular es incorrecto
+                </ion-note>
+  
+                <ion-note color="danger" slot="error" *ngIf="formPerfil.get('num_celular')?.errors">
+                  Maximo 10 numero.
+                </ion-note>
+              </small>
+          </ion-list>
+
+          <ion-list>
+            <ion-label class="prompt-text" position="stacked">Direccion</ion-label><br />
+            <ion-input type="text"> </ion-input>
+          </ion-list>
+
+          <ion-button [disabled]="formPerfil.invalid" color="secondary" class="center" type="submit" expand="block">
+            Actualizar
+          </ion-button>
+        </ion-card-content>
       </ion-grid>
-      <ion-button color="secondary" class="center" type="button" expand="block">
-        Guardar
-    </ion-button>
-    </ion-card-content>
-     </form> 
-    </ion-content>
+    </form>
+  </ion-card-content>
+</ion-content>

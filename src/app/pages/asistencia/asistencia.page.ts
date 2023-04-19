@@ -8,7 +8,7 @@ import { Capacitor } from '@capacitor/core';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { MiserviciosService } from '../Mis_Servicios/miservicios.service';
 import { IntTipo } from '../interfaces/misInterface';
-import { map } from 'rxjs';
+import { map, interval, tap , takeUntil, Subject, take } from 'rxjs';
 import { GoogleMapService } from '../Mis_Servicios/google-map.service';
 
 declare var google: any;
@@ -41,6 +41,8 @@ export class AsistenciaPage implements OnInit {
 
   @ViewChild('map') divMap!: ElementRef; //obtener el elemnt de la vista #map
 
+  private stop$ = new Subject<number>();
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -59,7 +61,8 @@ export class AsistenciaPage implements OnInit {
     this.setearEmail();
     this.traerTipoBd();
     this.selectTipos();
-    this.getFecha();    
+    this.getFecha(); 
+    this.init();   
     
     //this.onValueChanges();
 
@@ -95,20 +98,11 @@ export class AsistenciaPage implements OnInit {
       this.selectTipos(); 
       this.getFecha();    
       this.printCurrentPosition();
-      this.init();
     }else{//evento
       this.banderaUbicacion = false;
       this.setearEmail();
       this.selectTipos(); 
       this.getFecha();
-
-      /* this.formAsistencia.valueChanges.subscribe(val => {
-        if (val.tipo_registro_id==1 || val.tipo_registro_id == 2) {
-          //console.log('value tipo_registro_id', val.tipo_registro_id);
-          this.formAsistencia.get('tipo_registro_id')?.setValue('');
-        }
-      }); */
-
     }
   }
 
@@ -124,24 +118,6 @@ export class AsistenciaPage implements OnInit {
       localStorage.setItem('tipo', JSON.stringify(resp))
     });
   }
-
- /*  selectTipos(){
-    this._misSe.getTipos()
-      .pipe( map( (resp:IntTipo[]) => { resp.filter( r => {
-          let tipo = JSON.parse(localStorage.getItem('tipo')!) || '';
-         
-          if ( (tipo == '' && r.id == 1)  ||  (tipo == 2  && r.id == 1) ||  (tipo == 1 && r.id == 2 ) ) {
-            this.listaTipos.push(r); 
-          }else if (r.id == 2 && tipo == 1) {
-            this.listaTipos.push(r);
-          }
-        });
-      }))
-      .subscribe({
-      next: (resp) => { }, 
-      error: (err) => { console.log(err); }
-    });
-  } */
 
   selectTipos(){
     this._misSe.getTipos()
@@ -197,8 +173,12 @@ export class AsistenciaPage implements OnInit {
     this.formAsistencia.get('latitud')?.setValue(coordinates.coords.latitude);
     this.formAsistencia.get('longitud')?.setValue(coordinates.coords.longitude);
 
+    this.init();
+
     let coord =  `Lat: ${coordinates.coords.latitude} Log ${coordinates.coords.longitude}`;
     this.formAsistencia.get('coordenadas')?.setValue(coord);
+
+
     this.cargandoUbicacion = false;
   };
 
@@ -209,17 +189,8 @@ export class AsistenciaPage implements OnInit {
       const form = this.formAsistencia.value;
       
       const data = this.seteandoData(form);
-      console.log('asistencia',data);
+      //console.log('asistencia',data);
       this.serviceAsistencia(data);
-
-      /* if (form.tipo_asistencia_id == 1) {//asistencia
-
-
-      }else{//evento
-        console.log('evento',form);
-      } */
-
-      
     }
   }
 
@@ -269,23 +240,27 @@ export class AsistenciaPage implements OnInit {
   }
 
   initMap(){
-
     if (this.divMap == undefined) { return; }
 
-    const positions = { lat:-2.232425,lng:-80.900891 };
-    
-    let latLng = new google.maps.LatLng(positions.lat,positions.lng); //crea una nueva posision    
-    
-    let mapOptions = { center: latLng, zoom: 15, disableDefaultUI:true, clickableIcons: false };
-    
-    this.map = new google.maps.Map(this.divMap.nativeElement, mapOptions);
-    
-    this.marker = new google.maps.Marker({
-      map: this.map,
-      animation: google.maps.Animation.DROP,
-      draggable: true,
-    });
+      const dataform = this.formAsistencia.value;
+      //console.log('latitud',dataform.latitud)
+      //console.log('longitud',dataform.longitud)
 
+      //const positions = { lat:-2.232425,lng:-80.900891 };
+      const positions = { lat:dataform.latitud,lng:dataform.longitud };
+
+    
+      let latLng = new google.maps.LatLng(positions.lat,positions.lng); //crea una nueva posision    
+      
+      let mapOptions = { center: latLng, zoom: 15, disableDefaultUI:true, clickableIcons: false };
+      
+      this.map = new google.maps.Map(this.divMap.nativeElement, mapOptions);
+      
+      this.marker = new google.maps.Marker({
+        map: this.map,
+        animation: google.maps.Animation.DROP,
+        draggable: true,
+      });
   }
 
 }

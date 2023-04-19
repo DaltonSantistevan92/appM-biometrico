@@ -12,22 +12,22 @@ import { CardPage } from '../componentes/card/card.page';
   styleUrls: ['home.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, CardPage, MenuComponent, RouterLink],
-  schemas : [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })
 export class HomePage implements OnInit {
 
   constructor(
-   private router: Router,
-   private menuController: MenuController,
+    private router: Router,
+    private menuController: MenuController,
 
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.menuController.enable(true);
   }
 
-  salir(){
+  salir() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('menu');
@@ -35,15 +35,9 @@ export class HomePage implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  
 
-  
-irRegistro(){
-  this.router.navigate(['/asistencia/registrar']);
-}
+  ir(ruta: string) {
+    this.router.navigate([ruta]);
+  }
 
-  
-irReporte(){
-  this.router.navigate(['/ringreso']);
-}
 }

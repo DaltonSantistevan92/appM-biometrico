@@ -31,6 +31,7 @@ export const routes: Routes = [
   },
   {
     path: 'datos/perfil',
+    canActivate: [AuthGuardGuard],
     loadComponent: () => import('./pages/perfil/perfil.page').then( m => m.PerfilPage)
   },
   {
@@ -39,7 +40,7 @@ export const routes: Routes = [
   },
   {
     path: 'ringreso',
-    //canActivate: [AuthGuardGuard],
+    canActivate: [AuthGuardGuard],
     loadComponent: () => import('./reporte/ringreso/ringreso.page').then( m => m.RIngresoPage)
   },
   {
