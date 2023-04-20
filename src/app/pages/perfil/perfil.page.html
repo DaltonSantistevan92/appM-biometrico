@@ -35,9 +35,6 @@
               <ion-note color="danger" slot="error" *ngIf="formPerfil.get('name')?.errors?.['required']">
                 El usuario es requerido.
               </ion-note>
-              <ion-note color="danger" slot="error" *ngIf="formPerfil.get('name')?.errors?.['pattern']">
-                El usuario no puede tener caracteres especiales y numéricos.
-              </ion-note>
               <ion-note color="danger" slot="error" *ngIf="formPerfil.get('name')?.errors?.['minLength']">
                 Minimo 3 caracteres.
               </ion-note>

@@ -92,6 +92,11 @@ export class MiserviciosService {
     return this.http.post<any>(url,data);
   }
 
+  updatePassword(data:any):Observable<any>{
+    let url = this.API + '/updatePassword';
+    return this.http.post<any>(url,data);
+  }
+
 
   validateCedulaEcuatoriana(cedula:string){
     if(cedula.length == 10){

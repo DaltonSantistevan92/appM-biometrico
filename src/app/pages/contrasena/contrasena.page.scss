@@ -43,4 +43,48 @@ ion-header {
     --color: #fff;
     --border-radius: 5px;
   }
+
+
+  
+
+
+
+
+  //
+
+  .end {
+    display: flex;
+    justify-content: end;
+
+  }
+
+  .btn_eye_icon{
+    //position: fixed;
+    right: 0;
+    bottom: 4px;
+    align-items: right;
+    background: transparent;
+    ion-icon{
+        font-size: 22px;
+        color:#757575;
+    }
+  }  
+
+  .btn_eye_icon:focus{
+      outline: none  !important;
+  }
+
+
+  
+
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+ 
+  
+
+  ////
+  /// 
   

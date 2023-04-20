@@ -4,7 +4,7 @@
 			<ion-menu-button></ion-menu-button>
 		</ion-buttons>
 
-		<ion-title>Mi Home</ion-title>
+		<ion-title >Mi Home</ion-title>
 
 		<ion-buttons slot="primary">
 			<ion-button size="small" (click)="salir()">
@@ -16,14 +16,29 @@
 
 <ion-content padding id="myPage">
 	<ion-header class="ion-no-border">
-		<ion-toolbar color="primary">
+		<ion-toolbar color="light" style="height: 150px">
+
 			<br>
 			<div align="center">
-				<ion-label>
+				<ion-label style="font-weight: bold; font-size: 18px;">
+					<!--
 					<h1> &nbsp; &nbsp;SISTEMA DE CONTROL ASISTENCIA</h1>
+					-->
+					SISTEMA DE CONTROL ASISTENCIA
+					
 				</ion-label> 
-			</div><br>
-			<ion-label></ion-label><br>
+			</div>
+			
+			<ion-grid>
+				<div style="text-align:center;padding:1em 0;">
+					<iframe
+						src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=es&size=small&timezone=America%2FGuayaquil"
+						width="50%" height="20%" frameborder="0" seamless>
+					</iframe>
+				</div>
+				
+			</ion-grid>
+			
 		</ion-toolbar>
 	</ion-header>
 
@@ -113,23 +128,19 @@
 		</ion-row>
 		<br>
 	</ion-grid>
-	<ion-grid>
-		<div style="text-align:center;padding:1em 0;">
-			<iframe
-				src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=es&size=small&timezone=America%2FGuayaquil"
-				width="100%" height="90" frameborder="0" seamless>
-			</iframe>
-		</div>
-		<footer class="footer-container color-scheme-dark">
-			<br>
-			<div class="container main-footer">
-				<aside class="footer-sidebar widget-area row" role="complementary">
-					<ion-card-content text-center mode="md">
-						<p>By using this site, you agree to our Cookie Policy and Privacy Policy</p>
-					</ion-card-content>
+    
 
-				</aside>
-			</div>
-		</footer>
-	</ion-grid>
+	
+	<footer class="footer-container color-scheme-dark">
+		<br>
+		<div class="container main-footer">
+			<aside class="footer-sidebar widget-area row" role="complementary">
+				<ion-card-content text-center mode="md">
+					<p>By using this site, you agree to our Cookie Policy and Privacy Policy</p>
+				</ion-card-content>
+
+			</aside>
+		</div>
+	</footer>
+	
 </ion-content>
