@@ -2,7 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, MenuController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MenuComponent } from '../componentes/menu/menu.component';
 import { CardPage } from '../componentes/card/card.page';
 
@@ -11,23 +11,23 @@ import { CardPage } from '../componentes/card/card.page';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, CardPage, MenuComponent],
-  schemas : [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, CardPage, MenuComponent, RouterLink],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })
 export class HomePage implements OnInit {
 
   constructor(
-   private router: Router,
-   private menuController: MenuController,
+    private router: Router,
+    private menuController: MenuController,
 
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.menuController.enable(true);
   }
 
-  salir(){
+  salir() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('menu');
@@ -35,9 +35,9 @@ export class HomePage implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  
 
-  
-
+  ir(ruta: string) {
+    this.router.navigate([ruta]);
+  }
 
 }

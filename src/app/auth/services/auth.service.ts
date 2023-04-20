@@ -98,4 +98,23 @@ export class AuthService {
 
 
   
+  validateNumber(event:any):Boolean{
+    const charcode:any = (event.which) ? event.which : event.keyCode;
+
+    if(charcode == 31 || (charcode >= 48 && charcode <= 57)){
+      return true;
+    }
+
+    return false;
+  }
+
+  validateLetters(event:any):Boolean{
+    const charcode:any = (event.which) ? event.which : event.keyCode;
+
+    if(charcode == 31 || charcode == 32 || (charcode >= 65 && charcode <= 122)){
+      return true;
+    }
+
+    return false;
+  }
 }

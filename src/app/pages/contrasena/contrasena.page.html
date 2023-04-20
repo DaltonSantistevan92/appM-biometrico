@@ -1,0 +1,31 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="regresar()">
+        <ion-icon color="light" slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+      Cambio de Contraseña
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <form [formGroup]="cambioContrasenaForm">
+      <ion-item>
+        <ion-label position="floating">Correo</ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Nueva contraseña</ion-label>
+        <ion-input type="password" formControlName="nuevaContrasena"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Confirmar nueva contraseña</ion-label>
+        <ion-input type="password" formControlName="confirmarNuevaContrasena"></ion-input>
+      </ion-item>
+      <ion-button type="submit" [disabled]="cambioContrasenaForm.invalid">Guardar cambios</ion-button>
+    </form>
+  </ion-list>
+</ion-content>
+

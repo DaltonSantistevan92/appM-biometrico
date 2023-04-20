@@ -8,7 +8,7 @@ import { Capacitor } from '@capacitor/core';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { MiserviciosService } from '../Mis_Servicios/miservicios.service';
 import { IntTipo } from '../interfaces/misInterface';
-import { map } from 'rxjs';
+import { map, interval, tap , takeUntil, Subject, take } from 'rxjs';
 import { GoogleMapService } from '../Mis_Servicios/google-map.service';
 
 declare var google: any;
@@ -25,9 +25,14 @@ export class AsistenciaPage implements OnInit {
   filtered: any;
   formAsistencia!: FormGroup;
   listaTipos: IntTipo[] = []; 
+  listaTiposAsistencia: any[] = []; 
+
   pipe = new DatePipe('en-Us');
 
+  bandera: boolean = false;
+  banderaUbicacion: boolean = false;
 
+  //tipo_registro : string = '';
   cargandoUbicacion: boolean = false;
 
   //mapa
@@ -35,6 +40,8 @@ export class AsistenciaPage implements OnInit {
   map: any;  marker: any;  infowindow: any;  positionSet: any;
 
   @ViewChild('map') divMap!: ElementRef; //obtener el elemnt de la vista #map
+
+  private stop$ = new Subject<number>();
 
   constructor(
     private router: Router,
@@ -48,61 +55,64 @@ export class AsistenciaPage implements OnInit {
     
   ) { }
 
-  ngOnInit(): void {
-    console.log('divMap', this.divMap);
-    
+  ngOnInit(): void {  
     this.menuController.enable(true);
     this.initFormAsistencia();
     this.setearEmail();
-    this.traerTipo();
-
+    this.traerTipoBd();
     this.selectTipos();
-    this.getFecha();    
-    this.printCurrentPosition();
+    this.getFecha(); 
+    this.init();   
+    
+    //this.onValueChanges();
 
-    this.init();
-
+    this.getTiposAsistencia();
   }
-
-  async init(){
-    this.googleServ.init(this.renderer, this.document).then( (resp) =>{
-        console.log(resp);
-        
-        this.initMap();
-    }).catch( (err) => {
-      console.log(err);
-    });
-  }
-
-  initMap(){
-    const positions = { lat:-2.232425,lng:-80.900891 };
-    
-    let latLng = new google.maps.LatLng(positions.lat,positions.lng); //crea una nueva posision    
-    
-    let mapOptions = { center: latLng, zoom: 15, disableDefaultUI:true, clickableIcons: false };
-    
-    this.map = new google.maps.Map(this.divMap.nativeElement, mapOptions);
-    
-    this.marker = new google.maps.Marker({
-      map: this.map,
-      animation: google.maps.Animation.DROP,
-      draggable: true,
-    });
-
-  }
+  
 
   initFormAsistencia(){
     this.formAsistencia = this.fb.group({
 			email: ['', [Validators.required]],
-			fecha: ['', [Validators.required]],
-      tipo_registro_id : ['', [Validators.required]],
-      latitud : ['', [Validators.required]],
-      longitud : ['', [Validators.required]],
-      coordenadas : ['', [Validators.required]]
+			fecha: [''],
+      tipo_registro_id : [''],
+      tipo_asistencia_id : ['', [Validators.required]],
+      tipo_registro: [''],
+      latitud : [''],
+      longitud : [''],
+      coordenadas : ['']
 		});
   }
 
-  traerTipo(){
+  getTiposAsistencia(){
+    this._misSe.getTiposAsistencias().subscribe( {
+      next: (resp) => {  this.listaTiposAsistencia = resp.data; }, 
+      error: (err) => { console.log(err); }
+    });
+  }
+
+  validarTipoAsistencia(event: any){
+    this.bandera = true;
+    if (event.detail.value == 1 ) {//asistencia
+      this.banderaUbicacion = true; 
+      this.setearEmail();
+      this.selectTipos(); 
+      this.getFecha();    
+      this.printCurrentPosition();
+    }else{//evento
+      this.banderaUbicacion = false;
+      this.setearEmail();
+      this.selectTipos(); 
+      this.getFecha();
+    }
+  }
+
+  /* onValueChanges(): void {
+    this.formAsistencia.valueChanges.subscribe(val => {
+      console.log('value', val.tipo_asistencia_id);
+    });
+  } */
+
+  traerTipoBd(){
     if (this._authS.user == null) {  return; }
     this._misSe.getUltimaAsistencia(this._authS.user.id).subscribe( (resp) =>{
       localStorage.setItem('tipo', JSON.stringify(resp))
@@ -115,9 +125,11 @@ export class AsistenciaPage implements OnInit {
           let tipo = JSON.parse(localStorage.getItem('tipo')!) || '';
          
           if ( (tipo == '' && r.id == 1)  ||  (tipo == 2  && r.id == 1) ||  (tipo == 1 && r.id == 2 ) ) {
-            this.listaTipos.push(r); 
+            this.formAsistencia.get('tipo_registro_id')?.setValue(r.id);
+            this.formAsistencia.get('tipo_registro')?.setValue(r.tipo);
           }else if (r.id == 2 && tipo == 1) {
-            this.listaTipos.push(r);
+            this.formAsistencia.get('tipo_registro_id')?.setValue(r.id);
+            this.formAsistencia.get('tipo_registro')?.setValue(r.tipo);
           }
         });
       }))
@@ -148,7 +160,10 @@ export class AsistenciaPage implements OnInit {
   }
 
   regresar() {
-    this.router.navigateByUrl('/login');
+    this.formAsistencia.reset();
+    this.bandera = false;
+
+    this.router.navigate(['/home']);
   }
 
   printCurrentPosition = async () => {
@@ -158,8 +173,12 @@ export class AsistenciaPage implements OnInit {
     this.formAsistencia.get('latitud')?.setValue(coordinates.coords.latitude);
     this.formAsistencia.get('longitud')?.setValue(coordinates.coords.longitude);
 
+    this.init();
+
     let coord =  `Lat: ${coordinates.coords.latitude} Log ${coordinates.coords.longitude}`;
     this.formAsistencia.get('coordenadas')?.setValue(coord);
+
+
     this.cargandoUbicacion = false;
   };
 
@@ -168,8 +187,9 @@ export class AsistenciaPage implements OnInit {
 
     if (this.formAsistencia.valid) {
       const form = this.formAsistencia.value;
-
+      
       const data = this.seteandoData(form);
+      //console.log('asistencia',data);
       this.serviceAsistencia(data);
     }
   }
@@ -178,12 +198,13 @@ export class AsistenciaPage implements OnInit {
     const data = {
       asistencia: {
           user_id : this._authS.user.id,
-          tipo_registro_id : form.tipo_registro_id
+          tipo_registro_id : form.tipo_registro_id,
+          tipo_asistencia_id : form.tipo_asistencia_id
       },
       ubicacion : [
         {
-          latitud: form.latitud,
-          longitud: form.longitud
+          latitud: -2.162599 , //-2.162592  form.latitud
+          longitud: -79.929570    //-79.929580   form.longitud
         }
       ]
     }
@@ -197,11 +218,16 @@ export class AsistenciaPage implements OnInit {
           localStorage.setItem('tipo',JSON.stringify(data.asistencia.tipo_registro_id));
           this.formAsistencia.reset();
           this._authS.Mensaje(resp.message);
+          this.bandera = false;
           this.router.navigate(['/home']);
         }else{
-          this._authS.Mensaje(resp.message,'danger');        
+          this.formAsistencia.reset();
+          this._authS.Mensaje(resp.message,'danger');
+          this.bandera = false;
+          this.router.navigate(['/home']);        
         }
       }, 
+<<<<<<< HEAD
       error: (err) => { console.log(err); 
         
         
@@ -211,3 +237,42 @@ export class AsistenciaPage implements OnInit {
 
 
 }
+=======
+      error: (err) => { console.log(err); } 
+    });
+  }
+
+  async init(){
+    this.googleServ.init(this.renderer, this.document).then( (resp) =>{
+        this.initMap();
+    }).catch( (err) => {
+      console.log(err);
+    });
+  }
+
+  initMap(){
+    if (this.divMap == undefined) { return; }
+
+      const dataform = this.formAsistencia.value;
+      //console.log('latitud',dataform.latitud)
+      //console.log('longitud',dataform.longitud)
+
+      //const positions = { lat:-2.232425,lng:-80.900891 };
+      const positions = { lat:dataform.latitud,lng:dataform.longitud };
+
+    
+      let latLng = new google.maps.LatLng(positions.lat,positions.lng); //crea una nueva posision    
+      
+      let mapOptions = { center: latLng, zoom: 15, disableDefaultUI:true, clickableIcons: false };
+      
+      this.map = new google.maps.Map(this.divMap.nativeElement, mapOptions);
+      
+      this.marker = new google.maps.Marker({
+        map: this.map,
+        animation: google.maps.Animation.DROP,
+        draggable: true,
+      });
+  }
+
+}
+>>>>>>> 3107cc3aecefb3cdba4332cf487135c40b699b5d
