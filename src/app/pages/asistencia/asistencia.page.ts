@@ -204,8 +204,10 @@ export class AsistenciaPage implements OnInit {
       }, 
       error: (err) => { console.log(err); 
         
+        
       } 
     });
   }
+
 
 }
