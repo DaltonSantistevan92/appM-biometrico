@@ -62,6 +62,8 @@ export class AsistenciaPage implements OnInit {
 
     this.init();
 
+    this.cargarTipoAsistencia();
+
   }
 
   async init(){
@@ -89,6 +91,12 @@ export class AsistenciaPage implements OnInit {
       draggable: true,
     });
 
+  }
+
+  cargarTipoAsistencia(){
+    this._misSe.getTipoAsistencia().subscribe((res) => {
+      console.log(JSON.stringify(res.data));
+    })
   }
 
   initFormAsistencia(){
@@ -191,6 +199,10 @@ export class AsistenciaPage implements OnInit {
   }
 
   serviceAsistencia(data:any){
+
+    console.log("Asistencia: ", data)
+
+    /*
     this._misSe.saveAsistencia(data).subscribe({
       next: (resp) => { 
         if (resp.status) {
@@ -206,6 +218,7 @@ export class AsistenciaPage implements OnInit {
         
       } 
     });
+    */
   }
 
 }

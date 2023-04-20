@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Formulario } from '../interfaces/registro.interface';
 
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -30,6 +32,9 @@ export class LoginPage implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.menuController.enable(false);
+    /*
+      Hola a todos brothers!!!!!
+    */
   }
 
   initForm(){
@@ -54,7 +59,9 @@ export class LoginPage implements OnInit {
   }
 
   loginAcceso(data: Formulario){
+    console.log("Data a enviar: ", data);
     this._auSer.login(data).subscribe({
+
       next: (resp) => { 
         if (resp.status) {
           this.router.navigate(['/home']);
