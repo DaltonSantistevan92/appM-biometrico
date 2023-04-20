@@ -18,7 +18,6 @@ export class ToolService {
     return this.http.get(url , { responseType: 'blob' });
   }
 
-
   subirArchivo(files: Array<File>, name:string, url:string){
     let urlCompleta = `${this.API}/${url}`;
     let formdata = new FormData();
@@ -30,5 +29,8 @@ export class ToolService {
     }
    return this.http.post(urlCompleta, formdata);
   }
+
+
+  
 
 }

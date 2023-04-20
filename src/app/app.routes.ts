@@ -44,10 +44,17 @@ export const routes: Routes = [
     loadComponent: () => import('./reporte/ringreso/ringreso.page').then( m => m.RIngresoPage)
   },
   {
+    path: 'datos/updatepassword',
+    canActivate: [AuthGuardGuard],
+    loadComponent: () => import('./pages/contrasena/contrasena.page').then( m => m.ContrasenaPage)
+  },
+  {
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full',
   },
+  
+
   
 
 ];

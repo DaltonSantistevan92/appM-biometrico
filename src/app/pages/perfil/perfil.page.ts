@@ -30,6 +30,8 @@ export class PerfilPage implements OnInit {
   img: string = '';
 
   base64Image: string = '';
+  cedulaValid: boolean = false;
+  imagenDefault: string = 'user-default.jpg';
 
   constructor(
     private router: Router,
@@ -48,6 +50,7 @@ export class PerfilPage implements OnInit {
     this.formPerfil = this.fb.group({
       name: ['', [Validators.required, Validators.pattern(this.nombreValidTilde), Validators.minLength(3)]],//usuario
       email: ['', [Validators.required, Validators.email, Validators.pattern(this.emailValidate)]],
+      cedula: ['', [Validators.required]],
       nombres: ['', [Validators.required, Validators.pattern(this.nombreValidTilde), Validators.minLength(3)]],
       apellidos: ['', [Validators.required, Validators.pattern(this.nombreValidTilde), Validators.minLength(3)]],
       num_celular: ['', [Validators.required, Validators.pattern(this.numbers), Validators.minLength(10), Validators.maxLength(10)]],
@@ -57,17 +60,44 @@ export class PerfilPage implements OnInit {
   }
 
   cargarUser() {
+    console.log(this._authS.user);
+    
     if (this._authS.user == null) { return; }
 
     this.serviceImagen(this._authS.user.imagen!); //cargar
 
     this.formPerfil.get('email')?.setValue(this._authS.user.email);
     this.formPerfil.get('name')?.setValue(this._authS.user.name || '');
+    this.formPerfil.get('cedula')?.setValue(this._authS.user.persona.cedula || '');
     this.formPerfil.get('nombres')?.setValue(this._authS.user.persona.nombres || '');
     this.formPerfil.get('apellidos')?.setValue(this._authS.user.persona.apellidos || '');
     this.formPerfil.get('num_celular')?.setValue(this._authS.user.persona.num_celular || '');
     this.formPerfil.get('direccion')?.setValue(this._authS.user.persona.direccion || '');
     this.formPerfil.get('imagen')?.setValue(this._authS.user.imagen || '');
+
+    this.validCedulaRetornoEditar(this._authS.user.persona.cedula);
+  }
+
+  validCedulaRetornoEditar(cedula: string) {
+    this.cedulaValid = this._ms.validateCedulaEcuatoriana(cedula!);
+    if (!this.cedulaValid) {
+        return this.cedulaValid;
+    } else {
+        return this.cedulaValid;
+    };
+  }
+
+  valiteCed(event:any){
+    const cedula = event.detail.value;
+
+    this.cedulaValid = this._ms.validateCedulaEcuatoriana(cedula!);
+    if (!this.cedulaValid) {
+        alert('La cédula es incorrecta');
+        return this.cedulaValid;
+    } else {
+        alert('La cédula es correcta');
+        return this.cedulaValid;
+    };
   }
 
   serviceImagen(imagen: string) {
@@ -112,8 +142,24 @@ export class PerfilPage implements OnInit {
 
     if (this.formPerfil.valid) {
       const form = this.formPerfil.value;
-      const data = this.addObjeto(form);
-      this.actualizandoUser(data);
+
+      if (form.imagen === this.imagenDefault || form.imagen === '' ) {
+        //alert('la imagen es defaul');
+        const data = this.addObjeto(form);  
+        this.actualizandoUser(data);
+      }else{
+        //alert('la imagen es nueva');
+        this._ts.subirArchivo(this.files, 'img_user', 'subirArchivo').subscribe((res:any) => {
+          if(res.status){  
+            const data = this.addObjeto(form);
+            this.actualizandoUser(data);
+
+            const index = this.files[0].name.indexOf(data.usuario.imagen,1);
+            this.files.splice(index, 1);
+            this.activeImage = false;
+          }
+        }); 
+      }
     }
   }
 
@@ -123,10 +169,11 @@ export class PerfilPage implements OnInit {
         user_id: this._authS.user.id,
         name: form.name,
         email: form.email,
-        imagen: form.imagen,
+        imagen: (this.activeImage) ? form.imagen : 'user-default.jpg'
       },
       persona: {
         persona_id: this._authS.user.persona.id,
+        cedula : form.cedula,
         nombres: form.nombres,
         apellidos: form.apellidos,
         num_celular: form.num_celular,
@@ -141,6 +188,10 @@ export class PerfilPage implements OnInit {
       next: (resp) => {
         if (resp.status) {
           this.formPerfil.reset();
+          this.router.navigate(['/home']);
+
+          this._authS.sendObjeUser(resp.data);
+          localStorage.setItem('user', JSON.stringify(resp.data));
         }
       }
     });
@@ -151,25 +202,16 @@ export class PerfilPage implements OnInit {
   }
 
   onSelect(event: any) {
-    //console.log(event.addedFiles[0].name);
-
     if (!this.activeImage) {
       this.files.push(...event.addedFiles);
       this.activeImage = true;
       this.formPerfil.get('imagen')?.setValue(event.addedFiles[0].name);
-
-      const form = this.formPerfil.value;
-
-      console.log('ver data form add', form);
-
     } else {
       alert('Solo sube 1 imagen !!');
-      //this._sns.error('Solo sube 1 imagen !!');
     }
   }
 
   onRemove(event: any) {
-    console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
     this.activeImage = false;
     this.formPerfil.get('imagen')?.setValue('');
@@ -182,28 +224,6 @@ export class PerfilPage implements OnInit {
 
   validarLetras(e: any) {
     return this._authS.validateLetters(e);
-
   }
-
-
-  updatePerfil() {
-    if (this.formPerfil.invalid) { return; }
-    if (this.formPerfil.valid) {
-      const form = this.formPerfil.value;
-      const data = this.seteandoData(form);
-      console.log('perfil', data);
-      this.servicePerfil(data);
-    }
-
-  }
-
-  seteandoData(form: any): any {
-
-  }
-
-  servicePerfil(data: any) {
-
-  }
-
 
 }
