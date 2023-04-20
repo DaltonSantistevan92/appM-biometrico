@@ -9,23 +9,56 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
+<ion-content [fullscreen]="true">
+  <ion-card-content>
     <form [formGroup]="cambioContrasenaForm">
-      <ion-item>
+      
+      <ion-list>
         <ion-label position="floating">Correo</ion-label>
-        <ion-input type="email" formControlName="email"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Nueva contraseña</ion-label>
-        <ion-input type="password" formControlName="nuevaContrasena"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Confirmar nueva contraseña</ion-label>
-        <ion-input type="password" formControlName="confirmarNuevaContrasena"></ion-input>
-      </ion-item>
-      <ion-button type="submit" [disabled]="cambioContrasenaForm.invalid">Guardar cambios</ion-button>
-    </form>
-  </ion-list>
-</ion-content>
+        <ion-input type="eamil" formControlName="email" readonly></ion-input>
+      </ion-list>
 
+      <ion-list>
+        <ion-label class="prompt-text" position="stacked">Nueva contraseña</ion-label><br />
+
+        <ion-row>
+          <ion-input [type]="hide ? 'password' : 'text'" placeholder="Ingrese su nueva contraseña" formControlName="nuevaContrasena" min="6"
+            maxlength="10">
+          </ion-input>
+          <button class="end" (click)="hide = !hide" class="btn_eye_icon">
+            <ion-icon [name]="hide ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </button>
+
+          <small *ngIf="cambioContrasenaForm.get('nuevaContrasena')?.dirty || cambioContrasenaForm.get('nuevaContrasena')?.touched">
+            <ion-note color="danger" slot="error" *ngIf="cambioContrasenaForm.get('nuevaContrasena')?.errors?.['required']">
+              La Contraseña es requerido.
+            </ion-note>
+          </small>
+        </ion-row>
+      </ion-list>
+
+      <ion-list>
+        <ion-label class="prompt-text" position="stacked">Confirmar Nueva Contraseña</ion-label><br />
+        <ion-row>
+          <ion-input [type]="hideConf ? 'password' : 'text'" placeholder="confirmar nueva contraseña" formControlName="confirmar" min="6"
+            maxlength="10">
+          </ion-input>
+          <button class="end" (click)="hideConf = !hideConf" class="btn_eye_icon">
+            <ion-icon [name]="hideConf ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </button>
+
+          <small *ngIf="cambioContrasenaForm.get('confirmar')?.dirty || cambioContrasenaForm.get('confirmar')?.touched">
+            <ion-note color="danger" slot="error" *ngIf="cambioContrasenaForm.get('confirmar')?.errors?.['required']">
+              La Contraseña de confirmación es requerido.
+            </ion-note>
+         </small>
+
+        </ion-row>
+      
+      </ion-list>
+   
+    </form>
+    
+    <ion-button type="button" (click)="update()" [disabled]="cambioContrasenaForm.invalid">Actualizar Contraseña</ion-button>
+  </ion-card-content>
+</ion-content>
