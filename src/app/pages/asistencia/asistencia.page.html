@@ -66,14 +66,14 @@
               </ion-input>
             </ion-list>
 
-            <ion-list *ngIf="cargandoUbicacion">
+            <ion-item *ngIf="cargandoUbicacion">
               <ion-label class="prompt-text" position="stacked">
                 <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
               </ion-label><br />
               <ion-input class="input-field" formControlName="coordenadas" type="text" readonly>
                 <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
               </ion-input>
-            </ion-list>
+            </ion-item>
 
           <div #map id="map" class="map"></div> <br>
           </div>

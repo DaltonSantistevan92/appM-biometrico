@@ -27,7 +27,7 @@
             </div>
           </div>
 
-          <ion-list>
+          <ion-item>
             <ion-label class="prompt-text" position="stacked">Usuario</ion-label><br />
             <ion-input type="text" placeholder="Ingrese el usuario" formControlName="name"></ion-input>
 
@@ -39,9 +39,9 @@
                 Minimo 3 caracteres.
               </ion-note>
             </small>
-          </ion-list>
+          </ion-item>
 
-          <ion-list>
+          <ion-item>
             <ion-label class="prompt-text" position="stacked">Correo</ion-label><br />
             <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
 
@@ -53,9 +53,9 @@
                 El correo incorrecto.
               </ion-note>
             </small>
-          </ion-list>
+          </ion-item>
 
-          <ion-list>
+          <ion-item>
             <ion-label class="prompt-text" position="stacked">Cédula</ion-label><br />
             <ion-input type="cedula" placeholder="cedula" formControlName="cedula" max="10"
               maxlength="10" (keypress)="validarNumero($event)" (ionChange)="valiteCed($event)">
@@ -70,9 +70,9 @@
                 Cédula Incorrecta
               </ion-note>
             </small>
-          </ion-list>
+          </ion-item>
 
-          <ion-list>
+          <ion-item>
             <ion-label class="prompt-text" position="stacked">Nombre</ion-label><br />
             <ion-input type="nombres" placeholder="nombres" formControlName="nombres"></ion-input>
 
@@ -87,9 +87,9 @@
                 Minimo 3 caracteres.
               </ion-note>
             </small>
-          </ion-list>
+          </ion-item>
 
-          <ion-list>
+          <ion-item>
             <ion-label class="prompt-text" position="stacked">Apellido</ion-label><br />
             <ion-input type="apellidos" placeholder="apellidos" formControlName="apellidos"></ion-input>
 
@@ -104,9 +104,9 @@
                 Minimo 3 caracteres.
               </ion-note>
             </small>
-          </ion-list>
+          </ion-item>
 
-          <ion-list>
+          <ion-item>
             <ion-label class="prompt-text" position="stacked">Celular</ion-label><br />
             <ion-input type="num_celular" placeholder="num_celular" formControlName="num_celular"
               maxlength="10">
@@ -129,12 +129,12 @@
                 Minimo 10 numero.
               </ion-note>
             </small>
-          </ion-list>
+          </ion-item>
 
-          <ion-list>
+          <ion-item>
             <ion-label class="prompt-text" position="stacked">Direccion</ion-label><br />
             <ion-input formControlName="direccion" type="text"> </ion-input>
-          </ion-list>
+          </ion-item>
 
           <ion-button [disabled]="formPerfil.invalid || !cedulaValid" color="secondary" class="center" type="submit" expand="block">
             Actualizar

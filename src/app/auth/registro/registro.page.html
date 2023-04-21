@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border">
+<!-- <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button color="primary" (click)="regresar()">
@@ -59,4 +59,84 @@
       </form>
     </ion-card-content>
   </ion-card>
+</ion-content> -->
+
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="primary" (click)="regresar()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-title>
+      <ion-item>
+        <ion-label> <strong class="center"> Registro del Trabajador</strong> </ion-label>
+      </ion-item>
+    </ion-card-title>
+
+    <ion-card-content class="ion-padding">
+      <div class="ion-padding container">
+  
+        <div class="form-container">
+          <form [formGroup]="formuRT">
+  
+            <ion-item>
+              <ion-label position="floating">Nombre</ion-label>
+              <ion-input type="text" placeholder="Ingrese su nombre" formControlName="nombres"></ion-input>
+              <ng-container *ngIf="formuRT.get('nombres')?.dirty || formuRT.get('nombres')?.touched">
+                <ion-note slot="error" *ngIf="formuRT.get('nombres')?.errors?.['required']">
+                  El nombre es requerido.
+                </ion-note>
+                <ion-note slot="error" *ngIf="formuRT.controls['nombres'].errors?.['minlength']">
+                  El nombre debe tener 3 caracteres.
+                </ion-note>
+              </ng-container>
+            </ion-item>
+  
+            <ion-item >
+              <ion-label position="floating">Email</ion-label>
+              <ion-input type="email" placeholder="Ingrese su email" formControlName="email"></ion-input>
+              <ng-container *ngIf="formuRT.get('email')?.dirty || formuRT.get('email')?.touched">
+                <ion-note slot="error" *ngIf="formuRT.get('email')?.errors?.['required']">
+                  El correo es requerido.
+                </ion-note>
+                <ion-note slot="error" *ngIf="formuRT.get('email')?.errors?.['pattern']">
+                  El correo no es válido.
+                </ion-note>
+              </ng-container>
+            </ion-item>
+  
+            <ion-item >
+              <ion-label position="floating">Password</ion-label>
+                <ion-input [type]="hide ? 'password' : 'text'" placeholder="Ingrese su contraseña"
+                  formControlName="password" min="6" maxlength="10">
+                </ion-input>
+                <button (click)="hide = !hide" class="btn_eye_icon">
+                  <ion-icon slot="end" [name]="hide ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+                </button>
+                <ng-container *ngIf="formuRT.get('password')?.dirty || formuRT.get('password')?.touched">
+                  <ion-note slot="error" *ngIf="formuRT.get('password')?.errors?.['required']">
+                    La Contraseña es requerido.
+                  </ion-note>
+                  <ion-note slot="error" *ngIf="formuRT.controls['password'].errors?.['minlength']">
+                    La contraseña debe tener 6 caracteres.
+                  </ion-note>
+                </ng-container>
+            </ion-item>
+
+          </form>
+  
+          <ion-button expand="block" fill="outline" class="main-button" [disabled]="formuRT.invalid" (click)="guardarTrabajador()">Crear Cuenta</ion-button>
+  
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
+
+

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, LoadingController, MenuController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Formulario } from '../interfaces/registro.interface';
 
@@ -11,12 +11,14 @@ import { Formulario } from '../interfaces/registro.interface';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink]
 })
 export class LoginPage implements OnInit {
 
   formLogin!: FormGroup;
   emailValidate: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
+  hide = true;
+
 
   constructor(
     private fb: FormBuilder,
@@ -57,21 +59,19 @@ export class LoginPage implements OnInit {
     this._auSer.login(data).subscribe({
       next: (resp) => { 
         if (resp.status) {
-          this.router.navigate(['/home']);
+          this.formLogin.reset();
           this._auSer.Mensaje(resp.message);
+          this.router.navigate(['/home']);
+        }else{
+          this.formLogin.reset();
+          this._auSer.Mensaje(resp.message,'danger');
         }
       }, 
-      error: (err) => { 
-        console.log(err);
-        this._auSer.Mensaje(err.error.message,'danger');
-      }
+      error: (err) => { console.log(err); }
     });  
 
   }
 
-  crearCuenta(){
-    this.router.navigateByUrl('/registro');
-  }
 
 
  

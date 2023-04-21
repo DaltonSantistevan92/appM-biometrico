@@ -13,12 +13,12 @@
   <ion-card-content>
     <form [formGroup]="cambioContrasenaForm">
       
-      <ion-list>
+      <ion-item>
         <ion-label position="floating">Correo</ion-label>
         <ion-input type="eamil" formControlName="email" readonly></ion-input>
-      </ion-list>
+      </ion-item>
 
-      <ion-list>
+      <ion-item>
         <ion-label class="prompt-text" position="stacked">Nueva contraseña</ion-label><br />
 
         <ion-row>
@@ -35,9 +35,9 @@
             </ion-note>
           </small>
         </ion-row>
-      </ion-list>
+      </ion-item>
 
-      <ion-list>
+      <ion-item>
         <ion-label class="prompt-text" position="stacked">Confirmar Nueva Contraseña</ion-label><br />
         <ion-row>
           <ion-input [type]="hideConf ? 'password' : 'text'" placeholder="confirmar nueva contraseña" formControlName="confirmar" min="6"
@@ -55,7 +55,7 @@
 
         </ion-row>
       
-      </ion-list>
+      </ion-item>
    
     </form>
     
