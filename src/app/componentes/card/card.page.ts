@@ -31,7 +31,7 @@ export class CardPage implements OnInit {
           let localUser : User = JSON.parse(localStorage.getItem('user')!) || null;
 
           if (localUser != null) {
-            this.nombre = localUser.persona.nombres;
+            this.nombre = `${localUser.persona.nombres} ${localUser.persona.apellidos || ''}`;
             this.cargo = localUser.rol.cargo; 
           }
         }else{//lleno 

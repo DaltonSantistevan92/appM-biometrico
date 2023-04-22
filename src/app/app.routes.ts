@@ -30,15 +30,31 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/reconocimiento-dactilar/reconocimiento-dactilar.page').then( m => m.ReconocimientoDactilarPage)
   },
   {
-    path: '**',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  },  {
+    path: 'datos/perfil',
+    canActivate: [AuthGuardGuard],
+    loadComponent: () => import('./pages/perfil/perfil.page').then( m => m.PerfilPage)
+  },
+  {
     path: 'card',
     loadComponent: () => import('./componentes/card/card.page').then( m => m.CardPage)
   },
-
+  {
+    path: 'ringreso',
+    canActivate: [AuthGuardGuard],
+    loadComponent: () => import('./reporte/ringreso/ringreso.page').then( m => m.RIngresoPage)
+  },
+  {
+    path: 'datos/updatepassword',
+    canActivate: [AuthGuardGuard],
+    loadComponent: () => import('./pages/contrasena/contrasena.page').then( m => m.ContrasenaPage)
+  },
+  {
+    path: '**',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
+  
 
   
-  
+
 ];

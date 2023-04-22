@@ -4,20 +4,127 @@
 			<ion-menu-button></ion-menu-button>
 		</ion-buttons>
 
-		<ion-title>Mi Home</ion-title>
+		<ion-title >Mi Home</ion-title>
 
 		<ion-buttons slot="primary">
 			<ion-button size="small" (click)="salir()">
-			  <ion-icon slot="icon-only" name="exit-outline"></ion-icon>
+				<ion-icon slot="icon-only" name="exit-outline"></ion-icon>
 			</ion-button>
-		  </ion-buttons>
+		</ion-buttons>
 	</ion-toolbar>
 </ion-header>
 
+<ion-content padding id="myPage">
+	<ion-header class="ion-no-border">
+		<ion-toolbar color="light" style="height: 150px">
+			<div class="center" style="margin-top: 10px;">
+				<ion-label style="font-weight: bold; font-size: 18px;">
+					SISTEMA DE CONTROL ASISTENCIA	
+				</ion-label> 
+			</div>
+			
+			<ion-grid>
+				<div style="text-align:center;padding:1em 0;">
+					<iframe
+						src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=es&size=small&timezone=America%2FGuayaquil"
+						width="50%" height="20%" frameborder="0" seamless>
+					</iframe>
+				</div>
+			</ion-grid>
+		</ion-toolbar>
+	</ion-header>
 
-<ion-content [fullscreen]="true">
+	<ion-grid fixed>
+		<ion-row>
+			<ion-col size="6">
+				<ion-card class="colorcard" color="light" mode="ios" style="height: 170px; cursor: pointer" (click)="ir('/datos/perfil')">
+					<ion-card-header class="center">
+						<img src="/assets/img/user.png" class="mediana" alt="" />
+					</ion-card-header>
+					
+					<ion-card-content text-center mode="md" class="let center">
+						<ion-card-title>
+							Perfil
+						</ion-card-title>
+					</ion-card-content>
+				  </ion-card>
+			</ion-col>
+			<ion-col size="6">
+				<ion-card class="colorcard" color="light" mode="ios" style="height: 170px; cursor: pointer" (click)="ir('/asistencia/registrar')">
+					<ion-card-header class="center">
+						<img src="/assets/img/f.png" class="mediana" alt="" />
+					</ion-card-header>
+					
+					<ion-card-content text-center mode="md" class="let center">
+						<ion-card-title>
+							Registro
+						</ion-card-title>
+					</ion-card-content>
+				</ion-card>
+			</ion-col>
+		</ion-row>
 
-	<!-- <app-card  [data]="data" ></app-card> -->
-	
+		<ion-row>
+			<ion-col size="6">
+				<ion-card class="colorcard" color="light" mode="ios" style="height: 170px; cursor: pointer">
+					<ion-card-header class="center">
+						<img src="/assets/img/ruta.png" class="mediana" alt="" />
+					</ion-card-header>
+					
+					<ion-card-content text-center mode="md" class="let center">
+						<ion-card-title>
+							Rutas
+						</ion-card-title>
+					</ion-card-content>
+				</ion-card>
+			</ion-col>
 
+			<ion-col size="6">
+				<ion-card class="colorcard" color="light" mode="ios" style="height: 170px; cursor: pointer" (click)="ir('/ringreso')">
+					<ion-card-header class="center">
+						<img src="/assets/img/reporte.png" class="mediana" alt="" />
+					</ion-card-header>
+					
+					<ion-card-content text-center mode="md" class="let center">
+						<ion-card-title>
+							Reporte
+						</ion-card-title>
+					</ion-card-content>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+		
+		<!-- <ion-row>
+			<ion-col size="12">
+				<ion-item button detail="true" mode="ios" detail-icon="caret-forward-outline" class="colorcard"
+					color="light" button>
+					<img src="assets/img/localizacion.png" width="100" height="100" />
+					<div align="center" style="height: 100px">
+						<ion-card-content text-center mode="md">
+							<h1>Estado Actual</h1>
+							<p>Detalles de las rutas del usuario</p>
+						</ion-card-content>
+					</div>
+				</ion-item>
+			</ion-col>
+		</ion-row> -->
+	</ion-grid>
 </ion-content>
+
+<ion-footer  [translucent]="true">
+	<ion-toolbar color="primary">
+	  <ion-title class="fs"> Reservados todos los derechos</ion-title>
+	</ion-toolbar>
+  </ion-footer>
+
+<!-- <footer class="footer-container color-scheme-dark">
+	<br>
+	<div class="container main-footer">
+		<aside class="footer-sidebar widget-area row" role="complementary">
+			<ion-card-content text-center mode="md">
+				<p>By using this site, you agree to our Cookie Policy and Privacy Policy</p>
+			</ion-card-content>
+
+		</aside>
+	</div>
+</footer> -->

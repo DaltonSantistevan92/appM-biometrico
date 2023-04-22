@@ -18,6 +18,8 @@ export class RegistroPage implements OnInit {
 
   public formuRT!: FormGroup;
   emailValidate: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
+  hide = true;
+
 
   constructor(
     private _builder: FormBuilder,
@@ -34,7 +36,7 @@ export class RegistroPage implements OnInit {
 
   validarFrmulario() {
     this.formuRT = this._builder.group({
-      nombres: ["", [Validators.required]],
+      nombres: ["", [Validators.required, Validators.minLength(3)]],
       email: ["", [Validators.required, Validators.email, Validators.pattern(this.emailValidate)]],
       password: ["", [Validators.required, Validators.minLength(6)]]
     })
@@ -75,6 +77,7 @@ export class RegistroPage implements OnInit {
   }
 
   regresar() {
+    this.formuRT.reset();
     this.router.navigateByUrl('/login');
   }
 

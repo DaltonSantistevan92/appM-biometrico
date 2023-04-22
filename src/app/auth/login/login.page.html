@@ -1,14 +1,26 @@
-<!-- <ion-header class="ion-no-border">
-	<ion-toolbar >
-		<ion-title>Mi App Movil</ion-title>
-	</ion-toolbar>
-</ion-header> -->
 
-<ion-content class="ion-padding container">
+<!-- 
+  <ion-input style="margin-top: 3px;" type="email" label="Email" label-placement="floating" 
+                        fill="outline" placeholder="Ingrese su email" formControlName="email">
+              </ion-input>
+              <small *ngIf="formLogin.get('email')?.dirty || formLogin.get('email')?.touched">
+                <ion-note color="danger" *ngIf="formLogin.get('email')?.errors?.['required']">
+                  El correo es requerido.
+                </ion-note>
+                <ion-note color="danger" *ngIf="formLogin.get('email')?.errors?.['pattern']">
+                  El correo no es válido.
+                </ion-note>
+              </small>
+ -->
 
-  <ion-card class="container">
-    <img src="assets/img/bg-biometrico.jpg" />
+  <div class="card-container"> 
+    <ion-card> 
+      <ion-row> 
+        <ion-col size-lg="12" size="12" class="ion-padding ion-blue-bkg">
+          <img src="assets/img/bg-biometrico.jpg" alt="Ionic logo" loading="lazy" />
+        </ion-col> 
 
+<<<<<<< HEAD
     <ion-card-content>
       <form  [formGroup]="formLogin">
         <ion-item fill="solid" class="ion-margin-bottom">
@@ -40,5 +52,58 @@
   </ion-card>
 
 </ion-content>
+=======
+        <ion-col size-md="12" size="12" class="welcome">
+>>>>>>> a0c0bd9c642be54da8f710fa9073d2d6d57ada0f
 
+          <ion-card-content class="ion-padding">
+            <div class="ion-padding container">
+              <div class="form-container">
+                <form [formGroup]="formLogin">
+                  <ion-item>
+                    <ion-label position="floating">Email</ion-label>
+                    <ion-input type="text" placeholder="Ingrese su email" formControlName="email"></ion-input>
+                    <ng-container *ngIf="formLogin.get('email')?.dirty || formLogin.get('email')?.touched">
+                      <ion-note slot="error" *ngIf="formLogin.get('email')?.errors?.['required']">
+                        El correo es requerido.
+                      </ion-note>
+                      <ion-note slot="error" *ngIf="formLogin.controls['email'].errors?.['pattern']">
+                        El correo no es válido.
+                      </ion-note>
+                    </ng-container>
+                  </ion-item>
+      
+                  <ion-item>
+                    <ion-label position="floating">Contraseña</ion-label>
+                    <ion-input [type]="hide ? 'password' : 'text'" formControlName="password"></ion-input>
+                    <button (click)="hide = !hide" item-end class="btn_eye_icon">
+                      <ion-icon slot="end" [name]="hide ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+                    </button>
+                    <ng-container *ngIf="formLogin.get('password')?.dirty || formLogin.get('password')?.touched">
+                      <ion-note slot="error" *ngIf="formLogin.get('password')?.errors?.['required']">
+                        La Contraseña es requerido.
+                      </ion-note>
+                      <ion-note slot="error" *ngIf="formLogin.controls['password'].errors?.['minlength']">
+                        La contraseña debe tener 6 caracteres.
+                      </ion-note>
+                    </ng-container>
+                  </ion-item>
+                </form>
+      
+                <ion-button expand="block" fill="outline" class="main-button" [disabled]="formLogin.invalid"
+                  (click)="login()">Iniciar Sesion</ion-button>
+      
+                <div class="sign-up">
+                  ¿No tienes una cuenta?
+                  <ion-button color="dark" fill="clear" routerLink="/registro" routerDirection="forward">
+                    Crear Cuenta
+                  </ion-button>
+                </div>
+              </div>
 
+            </div>
+          </ion-card-content> 
+        </ion-col> 
+      </ion-row> 
+    </ion-card> 
+  </div>

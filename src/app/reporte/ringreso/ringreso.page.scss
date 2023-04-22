@@ -1,0 +1,101 @@
+#container {
+    text-align: center;
+  
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  #container strong {
+    font-size: 20px;
+    line-height: 26px;
+  }
+  
+  #container p {
+    font-size: 16px;
+    line-height: 22px;
+  
+    color: #8c8c8c;
+  
+    margin: 0;
+  }
+  
+  #container a {
+    text-decoration: none;
+  }
+  
+  body {
+    cursor: url('http://ionicframework.com/img/finger.png'), auto;
+  }
+  
+  .header .col {
+    background-color:lightgrey;
+  }
+  
+  .col {
+    border: solid 1px grey;
+    border-bottom-style: none;
+    border-right-style: none;
+  }
+  
+  .col:last-child {
+    border-right: solid 1px grey;
+  }
+  
+  .row:last-child .col {
+    border-bottom: solid 1px grey;
+  }
+  .ion-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+
+
+  .btn_eye_icon{
+    position: center;
+    right: 0;
+    bottom: 2px;
+    //margin-top: 18px;
+    background: transparent;
+
+    ion-icon{
+        font-size: 22px;
+        color:#757575;
+    }
+}  
+
+.btn_eye_icon:focus{
+    outline: none  !important;
+}
+
+.centerrow{
+  height: 100%;
+  align-content: center;
+}
+
+.centercolums {
+  justify-content: center;
+  align-items: center;
+}
+/*
+ion-card {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+ion-card-header {
+  background-color: #2196F3;
+  color: #fff;
+  text-align: center;
+}
+*/
+.userName {
+  font-size: 16px;
+  font-weight: bold;
+  color: #5D5F65;
+}

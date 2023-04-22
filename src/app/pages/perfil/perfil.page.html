@@ -1,0 +1,155 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="regresar()">
+        <ion-icon color="light" slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+      Perfil
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card-content>
+    <form [formGroup]="formPerfil" (ngSubmit)="actualizar()">
+      <ion-grid>
+        <ion-card-content>
+          <div class="col-12">
+            <div style="display: flex; justify-content: center; padding: 5px" class="mt-2">
+              <ngx-dropzone ngx-dropzone [accept]="'image/*'" [multiple]="false" (change)="onSelect($event)">
+                <ngx-dropzone-label class="custom-dropzone">
+                  &nbsp; Ingrese una Imagen &nbsp;
+                </ngx-dropzone-label>
+                <ngx-dropzone-image-preview [imageUrl]="img" ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
+                  [file]="f" [removable]="true" (removed)="onRemove(f)">
+                </ngx-dropzone-image-preview>
+              </ngx-dropzone>
+            </div>
+          </div>
+        
+          <ion-row size="12">
+            <ion-col size-lg="6" size="6">
+              <ion-item>
+                <ion-label class="prompt-text" position="floating">Usuario</ion-label><br />
+                <ion-input type="text" placeholder="Ingrese el usuario" formControlName="name"></ion-input>
+                <ng-container *ngIf="formPerfil.get('name')?.dirty || formPerfil.get('name')?.touched">
+                  <ion-note slot="error" *ngIf="formPerfil.get('name')?.errors?.['required']">
+                    El usuario es requerido.
+                  </ion-note>
+                  <ion-note slot="error" *ngIf="formPerfil.get('name')?.errors?.['minLength']">
+                    Minimo 3 caracteres.
+                  </ion-note>
+                </ng-container>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size-lg="6" size="6">
+              <ion-item>
+                <ion-label class="prompt-text" position="floating">Cédula</ion-label><br />
+                <ion-input type="cedula" placeholder="cedula" formControlName="cedula" max="10"
+                  maxlength="10" (keypress)="validarNumero($event)" (ionChange)="valiteCed($event)">
+                </ion-input>
+                <ng-container *ngIf="formPerfil.get('cedula')?.dirty || formPerfil.get('cedula')?.touched">
+                  <ion-note slot="error" *ngIf="formPerfil.get('cedula')?.errors?.['required']">
+                    La cedula es requerido.
+                  </ion-note>
+    
+                  <ion-note slot="error" *ngIf="!cedulaValid">
+                    Cédula Incorrecta
+                  </ion-note>
+                </ng-container>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row size="12">
+            <ion-col size-lg="6" size="6">
+              <ion-item>
+                <ion-label class="prompt-text" position="floating">Nombre</ion-label><br />
+                <ion-input type="nombres" placeholder="nombres" formControlName="nombres"></ion-input>
+    
+                <ng-container *ngIf="formPerfil.get('nombres')?.dirty || formPerfil.get('nombres')?.touched">
+                  <ion-note  slot="error" *ngIf="formPerfil.get('nombres')?.errors?.['required']">
+                    El nombre es requerido.
+                  </ion-note>
+                  <ion-note  slot="error" *ngIf="formPerfil.get('nombres')?.errors?.['pattern']">
+                    El Nombre no puede tener caracteres especiales y numéricos.
+                  </ion-note>
+                  <ion-note  slot="error" *ngIf="formPerfil.get('nombres')?.errors?.['minLength']">
+                    Minimo 3 caracteres.
+                  </ion-note>
+                </ng-container>
+              </ion-item>
+            </ion-col>
+  
+            <ion-col size-lg="6" size="6">
+              <ion-item>
+                <ion-label class="prompt-text" position="floating">Apellido</ion-label><br />
+                <ion-input type="apellidos" placeholder="apellidos" formControlName="apellidos"></ion-input>
+    
+                <ng-container *ngIf="formPerfil.get('apellidos')?.dirty || formPerfil.get('apellidos')?.touched">
+                  <ion-note slot="error" *ngIf="formPerfil.get('apellidos')?.errors?.['required']">
+                    El Apellido es requerido.
+                  </ion-note>
+                  <ion-note slot="error" *ngIf="formPerfil.get('apellidos')?.errors?.['pattern']">
+                    El apellido no puede tener caracteres especiales y numéricos.
+                  </ion-note>
+                  <ion-note slot="error" *ngIf="formPerfil.get('apellidos')?.errors?.['minLength']">
+                    Minimo 3 caracteres.
+                  </ion-note>
+                </ng-container>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-item>
+            <ion-label class="prompt-text" position="floating">Celular</ion-label><br />
+            <ion-input type="num_celular" placeholder="num_celular" formControlName="num_celular"
+              maxlength="10">
+            </ion-input>
+
+            <ng-container *ngIf="formPerfil.get('num_celular')?.dirty || formPerfil.get('num_celular')?.touched">
+              <ion-note slot="error" *ngIf="formPerfil.get('num_celular')?.errors?.['required']">
+                El celular es requerido.
+              </ion-note>
+
+              <ion-note slot="error" *ngIf="formPerfil.get('num_celular')?.errors?.['pattern']">
+                Celular es incorrecto
+              </ion-note>
+
+              <ion-note slot="error" *ngIf="formPerfil.get('num_celular')?.errors?.['maxLength']">
+                Maximo 10 numero.
+              </ion-note>
+
+              <ion-note slot="error" *ngIf="formPerfil.get('num_celular')?.errors?.['minLength']">
+                Minimo 10 numero.
+              </ion-note>
+            </ng-container>
+          </ion-item>
+
+          <ion-item>
+            <ion-label class="prompt-text" position="floating">Correo</ion-label><br />
+            <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+            <ng-container *ngIf="formPerfil.get('email')?.dirty || formPerfil.get('email')?.touched">
+              <ion-note  slot="error" *ngIf="formPerfil.get('email')?.errors?.['required']">
+                El correo es requerido.
+              </ion-note>
+              <ion-note  slot="error" *ngIf="formPerfil.get('email')?.errors?.['pattern']">
+                El correo incorrecto.
+              </ion-note>
+            </ng-container>
+          </ion-item>
+
+          <ion-item>
+            <ion-label class="prompt-text" position="floating">Direccion</ion-label><br />
+            <ion-input formControlName="direccion" type="text"> </ion-input>
+          </ion-item>
+
+          <ion-button style="margin-top: 12px;" [disabled]="formPerfil.invalid || !cedulaValid"  fill="outline" class="main-button" class="center" type="submit" expand="block">
+            Actualizar
+          </ion-button>
+        </ion-card-content>
+      </ion-grid>
+    </form>
+  </ion-card-content>
+</ion-content>

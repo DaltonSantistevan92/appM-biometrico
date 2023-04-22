@@ -1,0 +1,55 @@
+/* ion-card img { 
+    width: 20%;
+     height: 20%; 
+} */
+
+
+
+.let p {
+  text-transform: lowercase;
+}
+
+.let p:first-letter {
+  text-transform: uppercase;
+}
+
+ion-card{
+border-radius: 10px;
+}
+
+.colorcard{
+ //background-color: rgb(112, 189, 240);
+ border: solid 1px rgb(155, 161, 163)
+}
+
+.footer-container {
+  background-color: #3880ff;
+}
+
+.color-scheme-dark {
+  color: #ffffff;
+}
+
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mediana{
+  height: 60px;
+  width: 60px;
+}
+
+.fs{
+  font-size: 13px;
+}

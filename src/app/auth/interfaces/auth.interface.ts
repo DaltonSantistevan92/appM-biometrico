@@ -14,8 +14,9 @@ export interface User {
   name?: any;
   email: string;
   email_verified_at?: any;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
+  imagen? : string;
   rol: Rol;
   persona: Persona;
 }
