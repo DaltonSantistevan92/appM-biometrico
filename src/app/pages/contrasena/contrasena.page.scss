@@ -1,4 +1,4 @@
-ion-header {
+/* ion-header {
     --background: #3880ff;
     --color: #fff;
   }
@@ -42,7 +42,7 @@ ion-header {
     --background: #3880ff;
     --color: #fff;
     --border-radius: 5px;
-  }
+  } */
 
 
   
@@ -59,20 +59,21 @@ ion-header {
   }
 
   .btn_eye_icon{
-    //position: fixed;
+    position: absolute;
     right: 0;
-    bottom: 4px;
-    align-items: right;
+    bottom: 2px;
+    //margin-top: 18px;
     background: transparent;
+
     ion-icon{
         font-size: 22px;
         color:#757575;
     }
-  }  
+}  
 
-  .btn_eye_icon:focus{
-      outline: none  !important;
-  }
+.btn_eye_icon:focus{
+    outline: none  !important;
+}
 
 
   

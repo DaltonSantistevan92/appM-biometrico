@@ -1,7 +1,7 @@
 
 /* .container {
     text-align: center;
-    left: 0;
+    left: 0; 
     right: 0;
     align-items: center;
     justify-content: center;
@@ -48,7 +48,7 @@ ion-toolbar {
 }
 
 .form-container ion-item {
-    --padding-start: 0;
+   // --padding-start: 0;
     --border-color: #DADADA;
 }
 
@@ -85,4 +85,25 @@ ion-toolbar {
 
 .btn_eye_icon:focus{
     outline: none  !important;
+}
+
+.card-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    ion-card{
+        max-width: 600px;
+        .ion-blue-bkg{
+            background-color: #176bff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            img{
+                height: 100%;
+            }
+        }
+    }
 }

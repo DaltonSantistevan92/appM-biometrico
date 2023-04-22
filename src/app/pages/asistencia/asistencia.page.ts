@@ -175,7 +175,7 @@ export class AsistenciaPage implements OnInit {
 
     this.init();
 
-    let coord =  `Lat: ${coordinates.coords.latitude} Log ${coordinates.coords.longitude}`;
+    let coord =  `Lat: ${coordinates.coords.latitude} Lon: ${coordinates.coords.longitude}`;
     this.formAsistencia.get('coordenadas')?.setValue(coord);
 
 
@@ -203,8 +203,8 @@ export class AsistenciaPage implements OnInit {
       },
       ubicacion : [
         {
-          latitud: -2.162599 , //-2.162592  form.latitud
-          longitud: -79.929570    //-79.929580   form.longitud
+          latitud: form.latitud, //-2.162592  form.latitud  -2.232822
+          longitud: form.longitud   //-79.929580   form.longitud   -80.879130 
         }
       ]
     }

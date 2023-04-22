@@ -59,7 +59,7 @@ ion-toolbar {
 }
 
 .form-container ion-item ion-icon {
-    margin-top: auto;
+    //margin-top: auto;
     color: #c6cbd4;
 }
 
@@ -80,8 +80,6 @@ ion-toolbar {
 
 
 //
-
-
 .btn_eye_icon{
     position: absolute;
     right: 0;
@@ -98,5 +96,29 @@ ion-toolbar {
 .btn_eye_icon:focus{
     outline: none  !important;
 }
+
+  //new login
+.card-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    ion-card{
+        max-width: 600px;
+        .ion-blue-bkg{
+            background-color: #176bff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            img{
+                height: 100%;
+            }
+        }
+    }
+}
+
+  
 
 

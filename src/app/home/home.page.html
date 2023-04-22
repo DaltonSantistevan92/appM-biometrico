@@ -17,15 +17,9 @@
 <ion-content padding id="myPage">
 	<ion-header class="ion-no-border">
 		<ion-toolbar color="light" style="height: 150px">
-
-			<br>
-			<div align="center">
+			<div class="center" style="margin-top: 10px;">
 				<ion-label style="font-weight: bold; font-size: 18px;">
-					<!--
-					<h1> &nbsp; &nbsp;SISTEMA DE CONTROL ASISTENCIA</h1>
-					-->
-					SISTEMA DE CONTROL ASISTENCIA
-					
+					SISTEMA DE CONTROL ASISTENCIA	
 				</ion-label> 
 			</div>
 			
@@ -36,82 +30,71 @@
 						width="50%" height="20%" frameborder="0" seamless>
 					</iframe>
 				</div>
-				
 			</ion-grid>
-			
 		</ion-toolbar>
 	</ion-header>
 
 	<ion-grid fixed>
 		<ion-row>
 			<ion-col size="6">
-				<ion-card class="colorcard" color="light" mode="ios"style="height: 150px; cursor: pointer"
-						(click)="ir('/datos/perfil')">
-					<br>
-					<div align="center">
+				<ion-card class="colorcard" color="light" mode="ios" style="height: 170px; cursor: pointer" (click)="ir('/datos/perfil')">
+					<ion-card-header class="center">
 						<img src="/assets/img/user.png" class="mediana" alt="" />
-					</div>
-					<div align="center" style="height: 100px;">
-						<ion-card-content text-center mode="md" class="let">
-							<ion-card-title>
-								Perfil
-							</ion-card-title>
-						</ion-card-content>
-					</div>
-				</ion-card>
+					</ion-card-header>
+					
+					<ion-card-content text-center mode="md" class="let center">
+						<ion-card-title>
+							Perfil
+						</ion-card-title>
+					</ion-card-content>
+				  </ion-card>
 			</ion-col>
 			<ion-col size="6">
-				<ion-card class="colorcard" color="light" mode="ios" style="height: 150px; cursor: pointer"
-					(click)="ir('/asistencia/registrar')">
-					<br>
-					<div align="center">
-						<img src="assets/img/f.png" class="" alt="" />
-					</div>
-					<div align="center" style="height: 100px">
-						<ion-card-content text-center mode="md">
-							<ion-card-title>
-								Registro
-							</ion-card-title>
-						</ion-card-content>
-					</div>
+				<ion-card class="colorcard" color="light" mode="ios" style="height: 170px; cursor: pointer" (click)="ir('/asistencia/registrar')">
+					<ion-card-header class="center">
+						<img src="/assets/img/f.png" class="mediana" alt="" />
+					</ion-card-header>
+					
+					<ion-card-content text-center mode="md" class="let center">
+						<ion-card-title>
+							Registro
+						</ion-card-title>
+					</ion-card-content>
 				</ion-card>
 			</ion-col>
 		</ion-row>
 
 		<ion-row>
 			<ion-col size="6">
-				<ion-card class="colorcard" color="light" mode="ios" style="height: 150px; cursor: pointer">
-					<br>
-					<div align="center">
-						<img src="assets/img/ruta.png" />
-					</div>
-					<div align="center" style="height: 100px">
-						<ion-card-content text-center mode="md">
-							<ion-card-title>
-								Rutas
-							</ion-card-title>
-						</ion-card-content>
-					</div>
+				<ion-card class="colorcard" color="light" mode="ios" style="height: 170px; cursor: pointer">
+					<ion-card-header class="center">
+						<img src="/assets/img/ruta.png" class="mediana" alt="" />
+					</ion-card-header>
+					
+					<ion-card-content text-center mode="md" class="let center">
+						<ion-card-title>
+							Rutas
+						</ion-card-title>
+					</ion-card-content>
 				</ion-card>
 			</ion-col>
+
 			<ion-col size="6">
-				<ion-card class="colorcard" color="light" mode="ios" style="height: 150px; cursor: pointer" 
-					(click)="ir('/ringreso')">
-					<br>
-					<div align="center">
-						<img src="assets/img/reporte.png" />
-					</div>
-					<div align="center" style="height: 100px">
-						<ion-card-content text-center mode="md">
-							<ion-card-title>
-								Reporte
-							</ion-card-title>
-						</ion-card-content>
-					</div>
+				<ion-card class="colorcard" color="light" mode="ios" style="height: 170px; cursor: pointer" (click)="ir('/ringreso')">
+					<ion-card-header class="center">
+						<img src="/assets/img/reporte.png" class="mediana" alt="" />
+					</ion-card-header>
+					
+					<ion-card-content text-center mode="md" class="let center">
+						<ion-card-title>
+							Reporte
+						</ion-card-title>
+					</ion-card-content>
 				</ion-card>
 			</ion-col>
 		</ion-row>
-		<ion-row>
+		
+		<!-- <ion-row>
 			<ion-col size="12">
 				<ion-item button detail="true" mode="ios" detail-icon="caret-forward-outline" class="colorcard"
 					color="light" button>
@@ -124,23 +107,24 @@
 					</div>
 				</ion-item>
 			</ion-col>
-
-		</ion-row>
-		<br>
+		</ion-row> -->
 	</ion-grid>
-    
-
-	
-	<footer class="footer-container color-scheme-dark">
-		<br>
-		<div class="container main-footer">
-			<aside class="footer-sidebar widget-area row" role="complementary">
-				<ion-card-content text-center mode="md">
-					<p>By using this site, you agree to our Cookie Policy and Privacy Policy</p>
-				</ion-card-content>
-
-			</aside>
-		</div>
-	</footer>
-	
 </ion-content>
+
+<ion-footer  [translucent]="true">
+	<ion-toolbar color="primary">
+	  <ion-title class="fs"> Reservados todos los derechos</ion-title>
+	</ion-toolbar>
+  </ion-footer>
+
+<!-- <footer class="footer-container color-scheme-dark">
+	<br>
+	<div class="container main-footer">
+		<aside class="footer-sidebar widget-area row" role="complementary">
+			<ion-card-content text-center mode="md">
+				<p>By using this site, you agree to our Cookie Policy and Privacy Policy</p>
+			</ion-card-content>
+
+		</aside>
+	</div>
+</footer> -->

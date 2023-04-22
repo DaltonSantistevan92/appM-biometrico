@@ -49,8 +49,7 @@ export class LoginPage implements OnInit {
       await loading.present();
 
       const form : Formulario = this.formLogin.value; 
-
-      this.loginAcceso(form)
+      this.loginAcceso(form);
       await loading.dismiss();
     }
   }
@@ -58,13 +57,13 @@ export class LoginPage implements OnInit {
   loginAcceso(data: Formulario){
     this._auSer.login(data).subscribe({
       next: (resp) => { 
-        if (resp.status) {
+        if (resp.status === true) {
           this.formLogin.reset();
           this._auSer.Mensaje(resp.message);
           this.router.navigate(['/home']);
         }else{
-          this.formLogin.reset();
           this._auSer.Mensaje(resp.message,'danger');
+          this.formLogin.reset();
         }
       }, 
       error: (err) => { console.log(err); }

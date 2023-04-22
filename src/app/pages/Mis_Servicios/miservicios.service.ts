@@ -50,6 +50,11 @@ export class MiserviciosService {
     return this.http.get<any>(url);
   }
 
+  getReport(user_id:number, fecha_inicio: string, fecha_fin:string, tipo_asistencia_id:number):Observable<any>{
+    let url = `${this.API}/reporte/${user_id}/${fecha_inicio}/${fecha_fin}/${tipo_asistencia_id}`;
+    return this.http.get<any>(url);
+  }
+
   async presentAlert() {
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
