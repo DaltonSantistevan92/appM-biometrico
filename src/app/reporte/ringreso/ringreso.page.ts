@@ -30,8 +30,9 @@ export class RIngresoPage implements OnInit {
   ngOnInit() {
     if (this._authS.user == null) { return; }
     this.initForm();
-    this.infoData();
     this.getTiposAsistencia();
+
+    //this.infoData();
   }
 
   initForm() {
@@ -41,6 +42,15 @@ export class RIngresoPage implements OnInit {
       fecha_fin: ['', [Validators.required]]
     });
   }
+
+  getTiposAsistencia() {
+    this._misSe.getTiposAsistencias().subscribe({
+      next: (resp) => { this.listaTiposAsistencia = resp.data; },
+      error: (err) => { console.log(err); }
+    });
+  }
+
+
 
   infoData() {
     this.data = [
@@ -88,8 +98,18 @@ export class RIngresoPage implements OnInit {
   }
 
   servicioReport(form: any) {
-    this._misSe.getReport(this._authS.user.id,form.fecha_inicio,form.fecha_fin,form.tipo_asistencia_id).subscribe( (resp) => {
+    this._misSe.getReport(this._authS.user.id,form.fecha_inicio,form.fecha_fin,form.tipo_asistencia_id).subscribe({
+      next : (resp) => {
         console.log(resp);
+        if (resp.status) {
+          this.data = resp.data;
+          this._authS.Mensaje(resp.message);
+        }else{
+          this._authS.Mensaje(resp.message,'danger');
+        }
+
+      },
+      error : (err) => { console.log(err); }
     });
   }
 
@@ -102,12 +122,7 @@ export class RIngresoPage implements OnInit {
     this.router.navigateByUrl('/home');
   }
 
-  getTiposAsistencia() {
-    this._misSe.getTiposAsistencias().subscribe({
-      next: (resp) => { this.listaTiposAsistencia = resp.data; },
-      error: (err) => { console.log(err); }
-    });
-  }
+  
 
   cargarUsuario() {
     

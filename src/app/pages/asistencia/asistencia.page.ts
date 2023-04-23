@@ -4,10 +4,9 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { IonicModule, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Geolocation } from '@capacitor/geolocation';
-import { Capacitor } from '@capacitor/core';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { MiserviciosService } from '../Mis_Servicios/miservicios.service';
-import { IntTipo } from '../interfaces/misInterface';
+import { ITA, IntTipo } from '../interfaces/misInterface';
 import { map, interval, tap , takeUntil, Subject, take } from 'rxjs';
 import { GoogleMapService } from '../Mis_Servicios/google-map.service';
 
@@ -24,24 +23,22 @@ export class AsistenciaPage implements OnInit {
   fecha: any; 
   filtered: any;
   formAsistencia!: FormGroup;
-  listaTipos: IntTipo[] = []; 
-  listaTiposAsistencia: any[] = []; 
+  listaTipos: IntTipo[] = [];
 
   pipe = new DatePipe('en-Us');
 
   bandera: boolean = false;
   banderaUbicacion: boolean = false;
-
-  //tipo_registro : string = '';
   cargandoUbicacion: boolean = false;
+  existeNombreEvento : boolean = false;
+  existeTipo : boolean = false;
 
   //mapa
-  
   map: any;  marker: any;  infowindow: any;  positionSet: any;
 
   @ViewChild('map') divMap!: ElementRef; //obtener el elemnt de la vista #map
 
-  private stop$ = new Subject<number>();
+  label = { titulo:'Ubicación', subtitulo: 'ubicación de la empresa' };
 
   constructor(
     private router: Router,
@@ -52,21 +49,16 @@ export class AsistenciaPage implements OnInit {
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document:Document,
     private googleServ: GoogleMapService
-    
   ) { }
 
-  ngOnInit(): void {  
+  ngOnInit(): void { 
+    if (this._authS.user == null) {  return; }
     this.menuController.enable(true);
     this.initFormAsistencia();
-    this.setearEmail();
+    this.traerTipoAsistenciaBd();
     this.traerTipoBd();
-    this.selectTipos();
-    this.getFecha(); 
-    this.init();   
-    
-    //this.onValueChanges();
-
     this.getTiposAsistencia();
+    //this.onValueChanges();
   }
   
 
@@ -76,50 +68,79 @@ export class AsistenciaPage implements OnInit {
 			fecha: [''],
       tipo_registro_id : [''],
       tipo_asistencia_id : ['', [Validators.required]],
-      tipo_registro: [''],
+      tipo_registro: [''],//solo pintar
+      tipo_asistencia : [''],//solo pintar
       latitud : [''],
       longitud : [''],
-      coordenadas : ['']
+      coordenadas : [''],
+      nombre_evento : ['']
 		});
-  }
-
-  getTiposAsistencia(){
-    this._misSe.getTiposAsistencias().subscribe( {
-      next: (resp) => {  this.listaTiposAsistencia = resp.data; }, 
-      error: (err) => { console.log(err); }
-    });
-  }
-
-  validarTipoAsistencia(event: any){
-    this.bandera = true;
-    if (event.detail.value == 1 ) {//asistencia
-      this.banderaUbicacion = true; 
-      this.setearEmail();
-      this.selectTipos(); 
-      this.getFecha();    
-      this.printCurrentPosition();
-    }else{//evento
-      this.banderaUbicacion = false;
-      this.setearEmail();
-      this.selectTipos(); 
-      this.getFecha();
-    }
   }
 
   /* onValueChanges(): void {
     this.formAsistencia.valueChanges.subscribe(val => {
       console.log('value', val.tipo_asistencia_id);
     });
-  } */
+  } */ 
 
   traerTipoBd(){
-    if (this._authS.user == null) {  return; }
-    this._misSe.getUltimaAsistencia(this._authS.user.id).subscribe( (resp) =>{
+    this._misSe.getUltimoTipo(this._authS.user.id).subscribe( (resp) => {
       localStorage.setItem('tipo', JSON.stringify(resp))
     });
   }
 
-  selectTipos(){
+  traerTipoAsistenciaBd(){
+    this._misSe.getUltimoTipoAsistencia(this._authS.user.id).subscribe({
+      next : (resp) => {
+        if (resp.status) {
+          if (resp.data) {//por evento
+            this.formAsistencia.get('nombre_evento')?.setValue(resp.data.nombre.toUpperCase());
+          }
+          localStorage.setItem('tipo_asistencia', JSON.stringify(resp.tipo_asistencia_id));
+        }else {
+          localStorage.setItem('tipo_asistencia', JSON.stringify(resp.tipo_asistencia_id));
+        }
+      },
+    });
+  }
+
+  getTiposAsistencia(){
+    this._misSe.getTiposAsistencias()
+    .pipe( map( ( resp:ITA ) => {
+        resp.data.filter( f => {
+          let tipo_asistencia = JSON.parse(localStorage.getItem('tipo_asistencia')!) || '';
+
+          if (tipo_asistencia == 1 && f.id == 1) {
+            this.existeTipo = true; 
+            this.formAsistencia.get('tipo_asistencia_id')?.setValue(f.id);
+            this.formAsistencia.get('tipo_asistencia')?.setValue(f.type);
+            this.bandera = true;
+            this.banderaUbicacion = true; 
+            this.setearEmail();
+            this.selectTipos(); 
+            this.getFecha();    
+            this.printCurrentPosition();
+          }else if(tipo_asistencia == 2 && f.id == 2){
+            this.existeTipo = true; 
+            this.formAsistencia.get('tipo_asistencia_id')?.setValue(f.id);
+            this.formAsistencia.get('tipo_asistencia')?.setValue(f.type);
+            this.bandera = true;
+            this.existeNombreEvento = true;
+            this.banderaUbicacion = false;
+            this.setearEmail();
+            this.selectTipos(); 
+            this.getFecha();
+          }
+        });
+      })
+    )
+    .subscribe( {
+      next: (resp) => {  }, 
+      error: (err) => { console.log(err); }
+    });
+  }
+
+  selectTipos(){//entrada y salida
     this._misSe.getTipos()
       .pipe( map( (resp:IntTipo[]) => { resp.filter( r => {
           let tipo = JSON.parse(localStorage.getItem('tipo')!) || '';
@@ -160,9 +181,10 @@ export class AsistenciaPage implements OnInit {
   }
 
   regresar() {
-    this.formAsistencia.reset();
+    //this.formAsistencia.reset();
+    this.existeTipo = false; 
     this.bandera = false;
-
+    this.banderaUbicacion = false; 
     this.router.navigate(['/home']);
   }
 
@@ -178,7 +200,6 @@ export class AsistenciaPage implements OnInit {
     let coord =  `Lat: ${coordinates.coords.latitude} Lon: ${coordinates.coords.longitude}`;
     this.formAsistencia.get('coordenadas')?.setValue(coord);
 
-
     this.cargandoUbicacion = false;
   };
 
@@ -189,7 +210,6 @@ export class AsistenciaPage implements OnInit {
       const form = this.formAsistencia.value;
       
       const data = this.seteandoData(form);
-      //console.log('asistencia',data);
       this.serviceAsistencia(data);
     }
   }
@@ -203,8 +223,8 @@ export class AsistenciaPage implements OnInit {
       },
       ubicacion : [
         {
-          latitud: form.latitud, //-2.162592  form.latitud  -2.232822
-          longitud: form.longitud   //-79.929580   form.longitud   -80.879130 
+          latitud: -2.232822, //-2.162592  form.latitud  -2.232822
+          longitud:  -80.879130   //-79.929580   form.longitud   -80.879130 
         }
       ]
     }
@@ -216,8 +236,11 @@ export class AsistenciaPage implements OnInit {
       next: (resp) => { 
         if (resp.status) {
           localStorage.setItem('tipo',JSON.stringify(data.asistencia.tipo_registro_id));
+          localStorage.setItem('tipo_asistencia', JSON.stringify(data.asistencia.tipo_asistencia_id));
+
           this.formAsistencia.reset();
           this._authS.Mensaje(resp.message);
+          this.existeTipo = false; 
           this.bandera = false;
           this.router.navigate(['/home']);
         }else{
@@ -232,7 +255,8 @@ export class AsistenciaPage implements OnInit {
   }
 
   async init(){
-    this.googleServ.init(this.renderer, this.document).then( (resp) =>{
+    this.googleServ.init(this.renderer, this.document).then( (resp) => {
+      console.log('googleService',resp);
         this.initMap();
     }).catch( (err) => {
       console.log(err);
@@ -243,13 +267,9 @@ export class AsistenciaPage implements OnInit {
     if (this.divMap == undefined) { return; }
 
       const dataform = this.formAsistencia.value;
-      //console.log('latitud',dataform.latitud)
-      //console.log('longitud',dataform.longitud)
-
-      //const positions = { lat:-2.232425,lng:-80.900891 };
+  
       const positions = { lat:dataform.latitud,lng:dataform.longitud };
 
-    
       let latLng = new google.maps.LatLng(positions.lat,positions.lng); //crea una nueva posision    
       
       let mapOptions = { center: latLng, zoom: 15, disableDefaultUI:true, clickableIcons: false };
@@ -259,8 +279,17 @@ export class AsistenciaPage implements OnInit {
       this.marker = new google.maps.Marker({
         map: this.map,
         animation: google.maps.Animation.DROP,
-        draggable: true,
+        draggable: false,
       });
+
+      this.addMarker(positions);
+  }
+
+  addMarker(positions:any): void{
+    let latLng = new google.maps.LatLng(positions.lat, positions.lng);
+    this.marker.setPosition(latLng); //muestra el marcador
+    this.map.panTo(positions);//centrar el marker 
+    this.positionSet = positions;
   }
 
 }

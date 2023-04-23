@@ -30,8 +30,8 @@ export class LoginPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initForm();
     this.menuController.enable(false);
+    this.initForm();
   }
 
   initForm(){
