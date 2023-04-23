@@ -227,17 +227,6 @@ export class AsistenciaPage implements OnInit {
           this.router.navigate(['/home']);        
         }
       }, 
-<<<<<<< HEAD
-      error: (err) => { console.log(err); 
-        
-        
-      } 
-    });
-  }
-
-
-}
-=======
       error: (err) => { console.log(err); } 
     });
   }
@@ -275,4 +264,3 @@ export class AsistenciaPage implements OnInit {
   }
 
 }
->>>>>>> 3107cc3aecefb3cdba4332cf487135c40b699b5d
