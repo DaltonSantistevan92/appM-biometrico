@@ -49,12 +49,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/contrasena/contrasena.page').then( m => m.ContrasenaPage)
   },
   {
+    path: 'vista',
+    loadComponent: () => import('./reporte/vista/vista.page').then( m => m.VistaPage)
+  },
+  {
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full',
   },
-  
-
-  
-
 ];

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, LoadingController, MenuController } from '@ionic/angular';
@@ -11,7 +11,9 @@ import { Formulario } from '../interfaces/registro.interface';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  schemas : [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class LoginPage implements OnInit {
 

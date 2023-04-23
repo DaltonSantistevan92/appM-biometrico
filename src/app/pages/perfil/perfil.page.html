@@ -29,7 +29,7 @@
 
 
       <ion-row>
-        <ion-col size="6">
+        <ion-col size-lg="6" size="6" >
           <ion-item>
             <ion-label position="floating">Usuario</ion-label>
             <ion-input type="text" placeholder="Ingrese el usuario" formControlName="name"></ion-input>
@@ -37,13 +37,12 @@
               <ion-note slot="error" *ngIf="formPerfil.get('name')?.errors?.['required']">
                 El usuario es requerido.
               </ion-note>
-              <ion-note slot="error" *ngIf="formPerfil.controls['name'].errors?.['required']">
-                Minimo 3 caracteres.
+              <ion-note slot="error" *ngIf="formPerfil.controls['name'].errors?.['minlength']">
+                Minimo de 3 caracteres.
               </ion-note>
             </ng-container>
           </ion-item>
         </ion-col>
-
         <ion-col size-lg="6" size="6">
           <ion-item>
             <ion-label class="prompt-text" position="floating">Cédula</ion-label><br />
@@ -52,7 +51,7 @@
             </ion-input>
             <ng-container *ngIf="formPerfil.get('cedula')?.dirty || formPerfil.get('cedula')?.touched">
               <ion-note slot="error" *ngIf="formPerfil.get('cedula')?.errors?.['required']">
-                La cédula es requerido.
+                El Cedula es requerido.
               </ion-note>
               <ion-note slot="error" *ngIf="!cedulaValid">
                 Cédula Incorrecta
@@ -67,16 +66,15 @@
           <ion-item>
             <ion-label class="prompt-text" position="floating">Nombre</ion-label><br />
             <ion-input type="nombres" placeholder="nombres" formControlName="nombres"></ion-input>
-
             <ng-container *ngIf="formPerfil.get('nombres')?.dirty || formPerfil.get('nombres')?.touched">
               <ion-note slot="error" *ngIf="formPerfil.get('nombres')?.errors?.['required']">
-                El nombre es requerido.
+                El Nombre es requerido.
               </ion-note>
               <ion-note slot="error" *ngIf="formPerfil.get('nombres')?.errors?.['pattern']">
                 El Nombre no puede tener caracteres especiales y numéricos.
               </ion-note>
-              <ion-note slot="error" *ngIf="formPerfil.controls['nombres'].errors?.['minLength']">
-                Minimo 3 caracteres.
+              <ion-note slot="error" *ngIf="formPerfil.controls['nombres'].errors?.['minlength']">
+                 Minimo de 3 caracteres.
               </ion-note>
             </ng-container>
           </ion-item>
@@ -92,10 +90,10 @@
                 El Apellido es requerido.
               </ion-note>
               <ion-note slot="error" *ngIf="formPerfil.get('apellidos')?.errors?.['pattern']">
-                El apellido no puede tener caracteres especiales y numéricos.
+                El Apellido no puede tener caracteres especiales y numéricos.
               </ion-note>
-              <ion-note slot="error" *ngIf="formPerfil.get('apellidos')?.errors?.['minLength']">
-                Minimo 3 caracteres.
+              <ion-note slot="error" *ngIf="formPerfil.controls['apellidos'].errors?.['minlength']">
+                 Minimo de 3 caracteres.
               </ion-note>
             </ng-container>
           </ion-item>
