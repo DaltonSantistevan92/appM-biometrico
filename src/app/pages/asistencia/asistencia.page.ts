@@ -61,56 +61,14 @@ export class AsistenciaPage implements OnInit {
     this.setearEmail();
     this.traerTipoBd();
     this.selectTipos();
-<<<<<<< HEAD
-    this.getFecha();    
-    this.printCurrentPosition();
-
-    this.init();
-
-    this.cargarTipoAsistencia();
-
-  }
-
-  async init(){
-    this.googleServ.init(this.renderer, this.document).then( (resp) =>{
-        console.log(resp);
-        
-        this.initMap();
-    }).catch( (err) => {
-      console.log(err);
-    });
-  }
-
-  initMap(){
-    const positions = { lat:-2.232425,lng:-80.900891 };
-    
-    let latLng = new google.maps.LatLng(positions.lat,positions.lng); //crea una nueva posision    
-    
-    let mapOptions = { center: latLng, zoom: 15, disableDefaultUI:true, clickableIcons: false };
-    
-    this.map = new google.maps.Map(this.divMap.nativeElement, mapOptions);
-    
-    this.marker = new google.maps.Marker({
-      map: this.map,
-      animation: google.maps.Animation.DROP,
-      draggable: true,
-    });
-=======
     this.getFecha(); 
     this.init();   
     
     //this.onValueChanges();
->>>>>>> a0c0bd9c642be54da8f710fa9073d2d6d57ada0f
 
     this.getTiposAsistencia();
   }
   
-
-  cargarTipoAsistencia(){
-    this._misSe.getTipoAsistencia().subscribe((res) => {
-      console.log(JSON.stringify(res.data));
-    })
-  }
 
   initFormAsistencia(){
     this.formAsistencia = this.fb.group({
@@ -254,10 +212,6 @@ export class AsistenciaPage implements OnInit {
   }
 
   serviceAsistencia(data:any){
-
-    console.log("Asistencia: ", data)
-
-    /*
     this._misSe.saveAsistencia(data).subscribe({
       next: (resp) => { 
         if (resp.status) {
@@ -275,7 +229,6 @@ export class AsistenciaPage implements OnInit {
       }, 
       error: (err) => { console.log(err); } 
     });
-    */
   }
 
   async init(){
