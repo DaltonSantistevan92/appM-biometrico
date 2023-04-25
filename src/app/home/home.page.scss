@@ -1,7 +1,7 @@
-ion-card img { 
+/* ion-card img { 
     width: 20%;
      height: 20%; 
-    }
+} */
 
 
 
@@ -25,13 +25,31 @@ border-radius: 10px;
 .footer-container {
   background-color: #3880ff;
 }
+
 .color-scheme-dark {
   color: #ffffff;
 }
+
 .container {
   width: 100%;
   padding-right: 15px;
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+}
+
+
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mediana{
+  height: 60px;
+  width: 60px;
+}
+
+.fs{
+  font-size: 13px;
 }

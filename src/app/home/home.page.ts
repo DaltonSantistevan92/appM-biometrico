@@ -32,7 +32,10 @@ export class HomePage implements OnInit {
     localStorage.removeItem('user');
     localStorage.removeItem('menu');
     localStorage.removeItem('tipo');
+    localStorage.removeItem('tipo_asistencia');
     this.router.navigate(['/login']);
+    this.menuController.enable(false);
+
   }
 
 

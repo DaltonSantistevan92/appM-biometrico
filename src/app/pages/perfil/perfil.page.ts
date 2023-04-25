@@ -48,7 +48,7 @@ export class PerfilPage implements OnInit {
 
   initForm() {
     this.formPerfil = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern(this.nombreValidTilde), Validators.minLength(3)]],//usuario
+      name: ['', [Validators.required, Validators.minLength(3)]],//usuario
       email: ['', [Validators.required, Validators.email, Validators.pattern(this.emailValidate)]],
       cedula: ['', [Validators.required]],
       nombres: ['', [Validators.required, Validators.pattern(this.nombreValidTilde), Validators.minLength(3)]],
@@ -60,7 +60,7 @@ export class PerfilPage implements OnInit {
   }
 
   cargarUser() {
-    console.log(this._authS.user);
+    //console.log(this._authS.user);
     
     if (this._authS.user == null) { return; }
 
@@ -75,11 +75,12 @@ export class PerfilPage implements OnInit {
     this.formPerfil.get('direccion')?.setValue(this._authS.user.persona.direccion || '');
     this.formPerfil.get('imagen')?.setValue(this._authS.user.imagen || '');
 
-    this.validCedulaRetornoEditar(this._authS.user.persona.cedula);
+    this.validCedulaRetornoEditar(this._authS.user.persona.cedula || '');
   }
 
   validCedulaRetornoEditar(cedula: string) {
     this.cedulaValid = this._ms.validateCedulaEcuatoriana(cedula!);
+    
     if (!this.cedulaValid) {
         return this.cedulaValid;
     } else {
@@ -92,10 +93,10 @@ export class PerfilPage implements OnInit {
 
     this.cedulaValid = this._ms.validateCedulaEcuatoriana(cedula!);
     if (!this.cedulaValid) {
-        alert('La cédula es incorrecta');
+        this._authS.Mensaje('La cédula es incorrecta','danger');
         return this.cedulaValid;
     } else {
-        alert('La cédula es correcta');
+        this._authS.Mensaje('La cédula es correcta');
         return this.cedulaValid;
     };
   }
@@ -144,11 +145,9 @@ export class PerfilPage implements OnInit {
       const form = this.formPerfil.value;
 
       if (form.imagen === this.imagenDefault || form.imagen === '' ) {
-        //alert('la imagen es defaul');
         const data = this.addObjeto(form);  
         this.actualizandoUser(data);
       }else{
-        //alert('la imagen es nueva');
         this._ts.subirArchivo(this.files, 'img_user', 'subirArchivo').subscribe((res:any) => {
           if(res.status){  
             const data = this.addObjeto(form);
@@ -192,12 +191,16 @@ export class PerfilPage implements OnInit {
 
           this._authS.sendObjeUser(resp.data);
           localStorage.setItem('user', JSON.stringify(resp.data));
+          this._authS.Mensaje(resp.message);
+        }else{
+          this._authS.Mensaje(resp.message,'danger');
         }
       }
     });
   }
 
   regresar() {
+    this.formPerfil.reset();
     this.router.navigate(['/home']);
   }
 
@@ -207,7 +210,7 @@ export class PerfilPage implements OnInit {
       this.activeImage = true;
       this.formPerfil.get('imagen')?.setValue(event.addedFiles[0].name);
     } else {
-      alert('Solo sube 1 imagen !!');
+      this._authS.Mensaje('Solo sube 1 imagen !!','danger');
     }
   }
 
@@ -216,7 +219,6 @@ export class PerfilPage implements OnInit {
     this.activeImage = false;
     this.formPerfil.get('imagen')?.setValue('');
   }
-
 
   validarNumero(e: any) {
     return this._authS.validateNumber(e);

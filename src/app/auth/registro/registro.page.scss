@@ -1,21 +1,109 @@
 
-.container {
+/* .container {
     text-align: center;
-    left: 0;
+    left: 0; 
     right: 0;
     align-items: center;
     justify-content: center;
-    margin-top: 50%;
-    /* top: 50%;
-    transform: translateY(-50%); */
+    //margin-top: 50%;
+    //top: 50%;
+    //transform: translateY(-50%);
 
     .center{
         display: flex;
         justify-content: center;
         margin-top: 1rem;
     }
+} */
+
+/* ion-content{
+    --ion-background-color: linear-gradient(180deg, #5d6366 0, #415460 25%, #1f4459 50%, #003553 75%, #00264d 100%);
+} */
+
+.center{
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+// This will remove iOS Header Line
+ion-toolbar {
+    --border-width: 0 !important;
 }
 
-ion-content{
-    --ion-background-color: linear-gradient(180deg, #5d6366 0, #415460 25%, #1f4459 50%, #003553 75%, #00264d 100%);
+// Removing Android Header Line
+.header-md::after {
+    background: none !important;
+}
+
+.container h1 {
+    margin-top: 0;
+}
+
+.backbtn {
+    margin-left: 20px;
+}
+
+.form-container {
+    margin-top: 3px;
+}
+
+.form-container ion-item {
+   // --padding-start: 0;
+    --border-color: #DADADA;
+}
+
+.form-container ion-item ion-label {
+    color: #A6A6A6;
+}
+
+.form-container ion-item ion-icon {
+    margin-top: auto;
+    color: #c6cbd4;
+}
+
+.form-container ion-button {
+    margin-top: 48px;
+}
+
+
+
+//
+
+
+.btn_eye_icon{
+    position: absolute;
+    right: 0;
+    bottom: 4px;
+    align-items: right;
+    background: transparent;
+
+    ion-icon{
+        font-size: 22px;
+        color:#757575;
+    }
+}  
+
+.btn_eye_icon:focus{
+    outline: none  !important;
+}
+
+.card-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    ion-card{
+        max-width: 600px;
+        .ion-blue-bkg{
+            background-color: #176bff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            img{
+                height: 100%;
+            }
+        }
+    }
 }

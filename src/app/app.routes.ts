@@ -54,11 +54,19 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/contrasena/contrasena.page').then( m => m.ContrasenaPage)
   },
   {
+<<<<<<< HEAD
 >>>>>>> 3107cc3aecefb3cdba4332cf487135c40b699b5d
+=======
+    path: 'vista',
+    loadComponent: () => import('./reporte/vista/vista.page').then( m => m.VistaPage)
+  },
+  {
+>>>>>>> de289cc444eb6eb02eb513bfe6ea628588f1fb3f
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full',
   },
+<<<<<<< HEAD
   
 <<<<<<< HEAD
 
@@ -71,5 +79,7 @@ export const routes: Routes = [
 
   
 
+=======
+>>>>>>> de289cc444eb6eb02eb513bfe6ea628588f1fb3f
 ];
 >>>>>>> 3107cc3aecefb3cdba4332cf487135c40b699b5d

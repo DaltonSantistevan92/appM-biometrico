@@ -7,12 +7,13 @@
       Cambio de Contraseña
     </ion-buttons>
   </ion-toolbar>
-</ion-header>
+</ion-header> 
 
 <ion-content [fullscreen]="true">
   <ion-card-content>
     <form [formGroup]="cambioContrasenaForm">
       
+<<<<<<< HEAD
       <ion-list>
         <ion-label position="floating">Correo</ion-label>
         <ion-input type="eamil" formControlName="email" readonly></ion-input>
@@ -62,3 +63,51 @@
     <ion-button type="button" (click)="update()" [disabled]="cambioContrasenaForm.invalid">Actualizar Contraseña</ion-button>
   </ion-card-content>
 </ion-content>
+=======
+      <ion-item>
+        <ion-label position="floating">Correo</ion-label>
+        <ion-input type="eamil" formControlName="email" readonly></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Nueva Contraseña</ion-label>
+        <ion-input [type]="hide ? 'password' : 'text'" formControlName="nuevaContrasena"></ion-input>
+        <button (click)="hide = !hide" item-end class="btn_eye_icon">
+          <ion-icon slot="end" [name]="hide ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+        </button>
+        <ng-container *ngIf="cambioContrasenaForm.get('nuevaContrasena')?.dirty || cambioContrasenaForm.get('nuevaContrasena')?.touched">
+          <ion-note slot="error" *ngIf="cambioContrasenaForm.get('nuevaContrasena')?.errors?.['required']">
+            La Contraseña es requerido.
+          </ion-note>
+          <ion-note slot="error" *ngIf="cambioContrasenaForm.controls['nuevaContrasena'].errors?.['minlength']">
+            La contraseña debe tener 6 caracteres.
+          </ion-note>
+        </ng-container>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label position="floating">Confirmar Nueva Contraseña</ion-label>
+        <ion-input [type]="hideConf ? 'password' : 'text'" formControlName="confirmar"></ion-input>
+        <button (click)="hideConf = !hideConf" item-end class="btn_eye_icon">
+          <ion-icon slot="end" [name]="hideConf ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+        </button>
+        <ng-container *ngIf="cambioContrasenaForm.get('confirmar')?.dirty || cambioContrasenaForm.get('confirmar')?.touched">
+          <ion-note slot="error" *ngIf="cambioContrasenaForm.get('confirmar')?.errors?.['required']">
+            La Contraseña es requerido.
+          </ion-note>
+          <ion-note slot="error" *ngIf="cambioContrasenaForm.controls['confirmar'].errors?.['minlength']">
+            La contraseña debe tener 6 caracteres.
+          </ion-note>
+        </ng-container>
+      </ion-item>
+    </form>
+    
+    <ion-button style="margin-top: 12px;" expand="block" fill="outline" class="main-button" type="button" (click)="update()" [disabled]="cambioContrasenaForm.invalid">Actualizar Contraseña</ion-button>
+  </ion-card-content>
+</ion-content>
+
+
+
+
+
+>>>>>>> de289cc444eb6eb02eb513bfe6ea628588f1fb3f

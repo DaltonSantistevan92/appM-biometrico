@@ -4,11 +4,9 @@
       <ion-button (click)="regresar()">
         <ion-icon color="light" slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
-      Registro de Tipos de Asistencias
+      Registro de Asistencia
     </ion-buttons>
   </ion-toolbar>
-  <!--  <ion-progress-bar color="dark" *ngIf="cargandoUbicacion == true" type="indeterminate"></ion-progress-bar> -->
-
 </ion-header>
 
 <ion-content [fullscreen]="true" class="container">
@@ -17,68 +15,70 @@
     <form [formGroup]="formAsistencia">
       <ion-grid>
 
-        <ion-list>
-          <ion-label class="prompt-text" position="stacked">Seleccione el tipo de Asistencia</ion-label><br />
-          <ion-item>
-            <ion-select formControlName="tipo_asistencia_id" interface="popover"
-              (ionChange)="validarTipoAsistencia($event)" placeholder="Seleccione un tipo de asistencia">
-              <ion-select-option *ngFor="let la of listaTiposAsistencia" [value]="la.id"> {{la.type}}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
+        <ion-list>        
+          <ng-container *ngIf="existeTipo">
+            <ion-item >
+              <ion-label position="floating">Tipo de Asistencia</ion-label>
+              <ion-input type="text" formControlName="tipo_asistencia" readonly></ion-input>
+            </ion-item>
+          </ng-container>
+
+          <ng-container *ngIf="existeNombreEvento">
+            <ion-item >
+              <ion-label position="floating">Nombre del evento</ion-label>
+              <ion-input type="text" formControlName="nombre_evento" readonly></ion-input>
+            </ion-item>
+          </ng-container>
+
+
         </ion-list> <br>
 
         <div *ngIf="bandera">
-          <ion-list>
-            <ion-label type="email" class="prompt-text" position="stacked">Email</ion-label><br />
-            <ion-input class="input-field" placeholder="email@example.com" formControlName="email" readonly></ion-input>
-          </ion-list>
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" placeholder="email@example.com" formControlName="email" readonly></ion-input>
+          </ion-item>
 
           <ion-row>
             <ion-col>
-              <ion-list>
-                <ion-label class="prompt-text" position="stacked">Fecha</ion-label><br />
-                <ion-input class="input-field" type="date" formControlName="fecha" readonly></ion-input>
-              </ion-list>
+              <ion-item>
+                <ion-label position="floating">Fecha</ion-label>
+                <ion-input type="date" formControlName="fecha" readonly></ion-input>
+              </ion-item>
             </ion-col>
             <ion-col>
-              <ion-list>
-                <ion-label class="prompt-text" position="stacked">Hora</ion-label><br />
-                <ion-input class="input-field" type="text" [value]="fecha" readonly> </ion-input>
-              </ion-list>
+              <ion-item>
+                <ion-label position="floating">Hora</ion-label>
+                <ion-input type="text" [value]="fecha" readonly></ion-input>
+              </ion-item>
             </ion-col>
           </ion-row>
 
-          <ion-list>
-            <ion-label class="prompt-text" position="stacked">Tipo de Registro</ion-label><br />
-            <ion-input class="input-field" type="text" formControlName="tipo_registro" readonly> </ion-input>
-           <!--  <ion-item>
-              <ion-select formControlName="tipo_registro_id" interface="popover" placeholder="Seleccione un tipo">
-                <ion-select-option *ngFor="let lt of listaTipos" [value]="lt.id"> {{lt.tipo}} </ion-select-option>
-              </ion-select>
-            </ion-item> -->
-          </ion-list>
-
+         
+          <ion-item>
+            <ion-label position="floating">Tipo de Registro</ion-label>
+            <ion-input type="text" formControlName="tipo_registro" readonly></ion-input>
+          </ion-item>
+        
           <div *ngIf="banderaUbicacion">
-            <ion-list *ngIf="!cargandoUbicacion">
-              <ion-label class="prompt-text" position="stacked">Ubicacion</ion-label><br />
-              <ion-input class="input-field" formControlName="coordenadas" type="text" readonly>
-              </ion-input>
-            </ion-list>
+            <ion-item *ngIf="!cargandoUbicacion">
+              <ion-label position="floating">Ubicación</ion-label>
+              <ion-input type="text" formControlName="coordenadas" readonly></ion-input>
+            </ion-item>
 
-            <ion-list *ngIf="cargandoUbicacion">
-              <ion-label class="prompt-text" position="stacked">
+            <ion-item *ngIf="cargandoUbicacion">
+              <ion-label class="prompt-text" position="floating">
                 <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
               </ion-label><br />
-              <ion-input class="input-field" formControlName="coordenadas" type="text" readonly>
+              <ion-input class="prompt-text" formControlName="coordenadas" type="text" readonly>
                 <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
               </ion-input>
-            </ion-list>
+            </ion-item>
 
-          <div #map id="map" class="map"></div> <br>
+            <div #map id="map" class="map"></div> <br>
           </div>
 
-          <ion-button color="secondary" class="center" type="button" expand="block" [disabled]="formAsistencia.invalid"
+          <ion-button style="margin-top: 10px;" expand="block" fill="outline" class="main-button" class="center" type="button" [disabled]="formAsistencia.invalid"
             (click)="saveAsistencia()">
             Guardar
           </ion-button>

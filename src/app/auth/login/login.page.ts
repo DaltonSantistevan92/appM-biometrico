@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, LoadingController, MenuController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Formulario } from '../interfaces/registro.interface';
 
@@ -11,12 +11,16 @@ import { Formulario } from '../interfaces/registro.interface';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  schemas : [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class LoginPage implements OnInit {
 
   formLogin!: FormGroup;
   emailValidate: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
+  hide = true;
+
 
   constructor(
     private fb: FormBuilder,
@@ -26,8 +30,8 @@ export class LoginPage implements OnInit {
     private menuController: MenuController) {}
 
   ngOnInit(): void {
-    this.initForm();
     this.menuController.enable(false);
+    this.initForm();
   }
 
   initForm(){
@@ -45,8 +49,7 @@ export class LoginPage implements OnInit {
       await loading.present();
 
       const form : Formulario = this.formLogin.value; 
-
-      this.loginAcceso(form)
+      this.loginAcceso(form);
       await loading.dismiss();
     }
   }
@@ -54,22 +57,20 @@ export class LoginPage implements OnInit {
   loginAcceso(data: Formulario){
     this._auSer.login(data).subscribe({
       next: (resp) => { 
-        if (resp.status) {
-          this.router.navigate(['/home']);
+        if (resp.status === true) {
+          this.formLogin.reset();
           this._auSer.Mensaje(resp.message);
+          this.router.navigate(['/home']);
+        }else{
+          this._auSer.Mensaje(resp.message,'danger');
+          this.formLogin.reset();
         }
       }, 
-      error: (err) => { 
-        console.log(err);
-        this._auSer.Mensaje(err.error.message,'danger');
-      }
+      error: (err) => { console.log(err); }
     });  
 
   }
 
-  crearCuenta(){
-    this.router.navigateByUrl('/registro');
-  }
 
  
 }
