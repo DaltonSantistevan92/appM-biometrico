@@ -5,9 +5,8 @@
 export const environment = {
   production: false,
   //apiUrl: 'http://localhost:8000/api',
-  apiUrl: 'http://192.168.100.12/api',
+  apiUrl: 'http://192.168.100.12:8080/api',
   apiKeyGoogle : "AIzaSyDcYo3YAZrC5DWTLqUi0AqhWmmObFTlAfI"
-
 };
 
 /*
