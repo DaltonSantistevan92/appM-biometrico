@@ -9,6 +9,7 @@ import { environment } from './environments/environment';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { httpInterceptor } from './app/interceptor/http.interceptor';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 
 
 if (environment.production) {
@@ -17,6 +18,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
+    FingerprintAIO,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,
     provideHttpClient(withInterceptors([httpInterceptor])),

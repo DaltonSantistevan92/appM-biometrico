@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://192.168.100.12:8080/api',
-  apiKeyGoogle : "AIzaSyDcYo3YAZrC5DWTLqUi0AqhWmmObFTlAfI"  
+apiUrl: 'http://192.168.100.12:8080/api',
+apiKeyGoogle : "AIzaSyDcYo3YAZrC5DWTLqUi0AqhWmmObFTlAfI"  
 
   // julio : AIzaSyAVV5xOoceapxCqNr9rFnCJS8wgKDvD_Nw
 

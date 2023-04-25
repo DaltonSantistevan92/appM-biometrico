@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable,tap } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { StorageService } from 'src/app/pages/Mis_Servicios/storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuardGuard implements CanActivate {
-  constructor(private _autSer: AuthService, private router: Router){} 
+  constructor(private _autSer: AuthService, private router: Router,private storage: StorageService){} 
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -21,6 +22,7 @@ export class AuthGuardGuard implements CanActivate {
               localStorage.removeItem('menu');
               localStorage.removeItem('tipo');
               localStorage.removeItem('tipo_asistencia');
+              this.storage.remove('biometric');
               this.router.navigate(['/login']);
           }
       })
