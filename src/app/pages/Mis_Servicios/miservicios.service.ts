@@ -40,18 +40,7 @@ export class MiserviciosService {
     return this.http.post<any>(url,data);
   }
 
-<<<<<<< HEAD
-  //Cargar tipo de asistencias
-  getTipoAsistencia(){
-    let url = this.API + '/getTipoAsistencia';
-    return this.http.get<any>(url);
-
-  }
-
-  getUltimaAsistencia(user_id:number):Observable<number>{
-=======
   getUltimoTipo(user_id:number):Observable<number>{
->>>>>>> 977cf0f8d521e0b67f7f21a41c0fee51e944448a
     let url = `${this.API}/search/${user_id}`;
     return this.http.get<number>(url);
   }
