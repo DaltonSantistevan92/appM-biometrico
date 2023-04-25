@@ -80,6 +80,7 @@ export class PerfilPage implements OnInit {
 
   validCedulaRetornoEditar(cedula: string) {
     this.cedulaValid = this._ms.validateCedulaEcuatoriana(cedula!);
+    
     if (!this.cedulaValid) {
         return this.cedulaValid;
     } else {
@@ -199,6 +200,7 @@ export class PerfilPage implements OnInit {
   }
 
   regresar() {
+    this.formPerfil.reset();
     this.router.navigate(['/home']);
   }
 

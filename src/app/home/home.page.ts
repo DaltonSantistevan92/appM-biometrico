@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MenuComponent } from '../componentes/menu/menu.component';
 import { CardPage } from '../componentes/card/card.page';
+import { StorageService } from '../pages/Mis_Servicios/storage.service';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +21,8 @@ export class HomePage implements OnInit {
   constructor(
     private router: Router,
     private menuController: MenuController,
+    private storage: StorageService,
+
 
   ) { }
 
@@ -28,11 +31,15 @@ export class HomePage implements OnInit {
   }
 
   salir() {
+    this.storage.remove('biometric');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('menu');
     localStorage.removeItem('tipo');
+    localStorage.removeItem('tipo_asistencia');
     this.router.navigate(['/login']);
+    this.menuController.enable(false);
+
   }
 
 

@@ -16,9 +16,17 @@ import { MiserviciosService } from 'src/app/pages/Mis_Servicios/miservicios.serv
 })
 export class RIngresoPage implements OnInit {
   public data: any[] = [];
+  public datosPersonales: any;
+
   historialForm!: FormGroup;
 
   listaTiposAsistencia: any[] = [];
+
+  sortDirecion = 0;
+  sortKey = null;
+
+  band = false;
+  bandBtn = false;
 
   constructor(
     private router: Router,
@@ -30,8 +38,8 @@ export class RIngresoPage implements OnInit {
   ngOnInit() {
     if (this._authS.user == null) { return; }
     this.initForm();
-    this.infoData();
     this.getTiposAsistencia();
+
   }
 
   initForm() {
@@ -42,21 +50,37 @@ export class RIngresoPage implements OnInit {
     });
   }
 
-  infoData() {
-    this.data = [
-      {
-        FECHA: "05-02-2023",
-        HORA: "09:31:54",
-        LUGAR: "santa Elena",
-        TIPO: "Entrada"
-      },
-      {
-        FECHA: "05-02-2023",
-        HORA: "09:31:54",
-        LUGAR: "santa Elena",
-        TIPO: "Entrada"
-      }]
+  getTiposAsistencia() {
+    this._misSe.getTiposAsistencias().subscribe({
+      next: (resp) => { this.listaTiposAsistencia = resp.data; },
+      error: (err) => { console.log(err); }
+    });
+  }
 
+
+  sortBy(key:any){
+    this.sortKey = key;
+    this.sortDirecion++;
+    this.sort();  
+  }
+
+  sort(){
+    if (this.sortDirecion == 1) {
+      this.data = this.data.sort( (a,b) : any => {
+        const valA = a[this.sortKey!];
+        const valB = b[this.sortKey!];
+        return valA.localeCompare(valB);
+      });
+    }else if(this.sortDirecion == 2){
+      this.data = this.data.sort( (a,b) : any => {
+        const valA = a[this.sortKey!];
+        const valB = b[this.sortKey!];
+        return valB.localeCompare(valA);
+      });
+    }else{
+      this.sortDirecion = 0;
+      this.sortKey = null;
+    }
   }
 
   consultar() {
@@ -88,8 +112,24 @@ export class RIngresoPage implements OnInit {
   }
 
   servicioReport(form: any) {
-    this._misSe.getReport(this._authS.user.id,form.fecha_inicio,form.fecha_fin,form.tipo_asistencia_id).subscribe( (resp) => {
+    this._misSe.getReport(this._authS.user.id,form.fecha_inicio,form.fecha_fin,form.tipo_asistencia_id).subscribe({
+      next : (resp) => {
         console.log(resp);
+        if (resp.status) {
+          this.band = true;
+          this.bandBtn = true;
+          this.data = resp.data;
+          this.datosPersonales = resp.datos_personales.user;
+          console.log(this.datosPersonales);
+          this.sort();
+          this._authS.Mensaje(resp.message);
+        }else{
+          this.band = false;
+          this.bandBtn = false;
+          this._authS.Mensaje(resp.message,'danger');
+        }
+      },
+      error : (err) => { console.log(err); }
     });
   }
 
@@ -102,12 +142,7 @@ export class RIngresoPage implements OnInit {
     this.router.navigateByUrl('/home');
   }
 
-  getTiposAsistencia() {
-    this._misSe.getTiposAsistencias().subscribe({
-      next: (resp) => { this.listaTiposAsistencia = resp.data; },
-      error: (err) => { console.log(err); }
-    });
-  }
+  
 
   cargarUsuario() {
     

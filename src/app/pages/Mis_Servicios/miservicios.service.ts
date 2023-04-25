@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DataDateTime, IntTipo } from '../interfaces/misInterface';
+import { DataDateTime, ITA, IntTipo } from '../interfaces/misInterface';
 import { Geolocation } from '@capacitor/geolocation';
 import { AlertController } from "@ionic/angular";
 
@@ -40,6 +40,7 @@ export class MiserviciosService {
     return this.http.post<any>(url,data);
   }
 
+<<<<<<< HEAD
   //Cargar tipo de asistencias
   getTipoAsistencia(){
     let url = this.API + '/getTipoAsistencia';
@@ -48,13 +49,21 @@ export class MiserviciosService {
   }
 
   getUltimaAsistencia(user_id:number):Observable<number>{
+=======
+  getUltimoTipo(user_id:number):Observable<number>{
+>>>>>>> 977cf0f8d521e0b67f7f21a41c0fee51e944448a
     let url = `${this.API}/search/${user_id}`;
     return this.http.get<number>(url);
   }
 
-  getTiposAsistencias():Observable<any>{
-    let url = this.API + '/getTipoAsistencia';
+  getUltimoTipoAsistencia(user_id:number):Observable<any>{
+    let url = `${this.API}/buscarUltimoTipoAsistencia/${user_id}`;
     return this.http.get<any>(url);
+  }
+
+  getTiposAsistencias():Observable<ITA>{
+    let url = this.API + '/getTipoAsistencia';
+    return this.http.get<ITA>(url);
   }
 
   getReport(user_id:number, fecha_inicio: string, fecha_fin:string, tipo_asistencia_id:number):Observable<any>{

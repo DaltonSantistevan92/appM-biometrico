@@ -7,7 +7,7 @@ import { Formulario, RegIntTrabajador, ResponseTrabajador } from '../interfaces/
 import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { Menu, RespLogin, User } from '../interfaces/auth.interface';
 
-
+import { JwtHelperService} from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +37,8 @@ export class AuthService {
   constructor(
     private route: Router,
     private toast:ToastController,
-    private http: HttpClient
+    private http: HttpClient,
+    private jwtHelper:JwtHelperService,
   ) { 
     this._listaMenus = JSON.parse( localStorage.getItem('menu')!) || [];
   }
@@ -47,8 +48,7 @@ export class AuthService {
   verificacionAutenticacion():Observable<boolean>{
     const token = localStorage.getItem('token');
 
-    if (!token) { return of(false); }
-
+    if (this.jwtHelper.isTokenExpired(token) || !token) { return of(false); }
     return of(true);
   }
 
