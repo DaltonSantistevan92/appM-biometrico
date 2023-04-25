@@ -30,20 +30,15 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/reconocimiento-dactilar/reconocimiento-dactilar.page').then( m => m.ReconocimientoDactilarPage)
   }, */
   {
-<<<<<<< HEAD
-=======
     path: 'datos/perfil',
     canActivate: [AuthGuardGuard],
     loadComponent: () => import('./pages/perfil/perfil.page').then( m => m.PerfilPage)
   },
   {
->>>>>>> 3107cc3aecefb3cdba4332cf487135c40b699b5d
     path: 'card',
     loadComponent: () => import('./componentes/card/card.page').then( m => m.CardPage)
   },
   {
-<<<<<<< HEAD
-=======
     path: 'ringreso',
     canActivate: [AuthGuardGuard],
     loadComponent: () => import('./reporte/ringreso/ringreso.page').then( m => m.RIngresoPage)
@@ -54,32 +49,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/contrasena/contrasena.page').then( m => m.ContrasenaPage)
   },
   {
-<<<<<<< HEAD
->>>>>>> 3107cc3aecefb3cdba4332cf487135c40b699b5d
-=======
     path: 'vista',
     loadComponent: () => import('./reporte/vista/vista.page').then( m => m.VistaPage)
   },
   {
->>>>>>> de289cc444eb6eb02eb513bfe6ea628588f1fb3f
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full',
   },
-<<<<<<< HEAD
-  
-<<<<<<< HEAD
-
-
-  
-  
 ];
-
-=======
-
-  
-
-=======
->>>>>>> de289cc444eb6eb02eb513bfe6ea628588f1fb3f
-];
->>>>>>> 3107cc3aecefb3cdba4332cf487135c40b699b5d
