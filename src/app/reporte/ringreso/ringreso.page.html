@@ -164,7 +164,7 @@
           <ion-col size="3" style=" text-align: center;">{{item.hora}}</ion-col>
           <ion-col size="2" class="ion-hide-md-down" style=" text-align: center;">{{item.tipo_registro.tipo}}</ion-col>
           <ion-col size="2" style=" text-align: center;">
-            <button ion-button icon-only class="btn_eye_icon">
+            <button ion-button icon-only class="btn_eye_icon" (click)="muestraSitio()">
               <ion-icon name="eye-outline"></ion-icon>
             </button>
           </ion-col>

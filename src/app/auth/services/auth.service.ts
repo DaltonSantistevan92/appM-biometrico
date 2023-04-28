@@ -51,7 +51,7 @@ export class AuthService {
     if (this.jwtHelper.isTokenExpired(token) || !token) { return of(false); }
     return of(true);
   }
-
+ 
   login(data:Formulario): Observable<RespLogin>{
     const url = `${this.api}/login`;
     return this.http.post<RespLogin>(url,data)

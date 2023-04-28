@@ -1,13 +1,38 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>vista</ion-title>
+    <ion-title>Detalle del Reporte</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">vista</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card-content>
+    <form>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12" size-sm="4">
+            <ion-item>
+              <ion-label position="floating">Nombre del Usuario</ion-label>
+              <ion-input type="text" placeholder="Ingrese el usuario" formControlName="name"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" size-sm="4">
+            <ion-item>
+              <ion-label position="floating">Departamento</ion-label>
+              <ion-input type="text" placeholder="Ingrese el usuario" formControlName="name"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" size-sm="4">
+            <ion-item>
+              <ion-label position="floating">Tipo de Asistencia</ion-label>
+              <ion-input type="text" placeholder="Ingrese el usuario" formControlName="name"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </ion-card-content>
 </ion-content>

@@ -21,7 +21,7 @@ export class CardPage implements OnInit {
   cargo : string = '';
 
   constructor( private _authS :AuthService) { }
-
+ 
   ngOnInit() {
     this._authS.$getObjSourceUser.subscribe((resp: any) => {
       if (resp instanceof Object) {

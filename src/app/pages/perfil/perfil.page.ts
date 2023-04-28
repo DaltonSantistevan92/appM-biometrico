@@ -45,7 +45,7 @@ export class PerfilPage implements OnInit {
     this.initForm();
     this.cargarUser();
   }
-
+ 
   initForm() {
     this.formPerfil = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],//usuario
