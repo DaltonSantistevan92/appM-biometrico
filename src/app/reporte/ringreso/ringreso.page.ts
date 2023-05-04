@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -6,7 +6,13 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { MiserviciosService } from 'src/app/pages/Mis_Servicios/miservicios.service';
 import { VistaPage } from '../vista/vista.page';
+import * as html2pdf from 'html2pdf.js'
 
+/////
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { Asistencia } from '../interfaces/reporteAdmin-interface';
+/////
 
 @Component({
   selector: 'app-ringreso',
@@ -15,8 +21,14 @@ import { VistaPage } from '../vista/vista.page';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule]
 })
+//@ViewChild('elementToPrint', {static: false}) elementToPrint: ElementRef;
 export class RIngresoPage implements OnInit {
+  [x: string]: any;
+  currentDate: Date = new Date();
+  @ViewChild('pdfContent', {static: false}) pdfContent?: ElementRef; 
+
   public data: any[] = [];
+  public dataSuperAdmin: any[] = [];
   public datosPersonales: any;
 
   historialForm!: FormGroup;
@@ -27,14 +39,19 @@ export class RIngresoPage implements OnInit {
   sortKey = null;
 
   band = false;
-  bandBtn = false;
+
+  bandAdmin = false;
+  bandBtnReporte = false;
+
+  //private file!:File
 
   constructor(
     private router: Router,
     private _authS: AuthService,
     private fb: FormBuilder,
     private _misSe: MiserviciosService,
-    private modalCtrl:ModalController
+    private modalCtrl: ModalController,
+
   ) { }
 
   ngOnInit() {
@@ -44,17 +61,6 @@ export class RIngresoPage implements OnInit {
 
   }
 
-  async muestraSitio(items:any){
-    let modal = await this.modalCtrl.create({
-      component: VistaPage,
-      cssClass: 'cart-modal',
-      componentProps: {
-        data:items
-      }
-    });
-    modal.present();
- }
- 
   initForm() {
     this.historialForm = this.fb.group({
       tipo_asistencia_id: ['', [Validators.required]],
@@ -65,32 +71,36 @@ export class RIngresoPage implements OnInit {
 
   getTiposAsistencia() {
     this._misSe.getTiposAsistencias().subscribe({
-      next: (resp) => { this.listaTiposAsistencia = resp.data; },
+      next: (resp) => {
+        console.log(resp);
+
+        this.listaTiposAsistencia = resp.data;
+      },
       error: (err) => { console.log(err); }
     });
   }
 
 
-  sortBy(key:any){
+  sortBy(key: any) {
     this.sortKey = key;
     this.sortDirecion++;
-    this.sort();  
+    this.sort();
   }
 
-  sort(){
+  sort() {
     if (this.sortDirecion == 1) {
-      this.data = this.data.sort( (a,b) : any => {
+      this.data = this.data.sort((a, b): any => {
         const valA = a[this.sortKey!];
         const valB = b[this.sortKey!];
         return valA.localeCompare(valB);
       });
-    }else if(this.sortDirecion == 2){
-      this.data = this.data.sort( (a,b) : any => {
+    } else if (this.sortDirecion == 2) {
+      this.data = this.data.sort((a, b): any => {
         const valA = a[this.sortKey!];
         const valB = b[this.sortKey!];
         return valB.localeCompare(valA);
       });
-    }else{
+    } else {
       this.sortDirecion = 0;
       this.sortKey = null;
     }
@@ -104,9 +114,18 @@ export class RIngresoPage implements OnInit {
       const form = this.historialForm.value;
 
       let dateValidator = this.dateValidator(form.fecha_inicio, form.fecha_fin);
-     
+
       if (dateValidator) {
-        this.servicioReport(form);
+        if (this._authS.user.rol_id == 1 || this._authS.user.rol_id == 2) {// superadmin y adminnistrador
+          this.servicioReportAdmin(form);
+        } else if (this._authS.user.rol_id == 4) {
+          const data = { ...form, user_id: this._authS.user.id }
+          this.servicioReportTrabajador(data);
+        }
+      } else {
+        this.band = false;
+        this.bandAdmin = false;
+        this.bandBtnReporte = false;
       }
     }
   }
@@ -124,29 +143,87 @@ export class RIngresoPage implements OnInit {
     return true;
   }
 
-  servicioReport(form: any) {
-    this._misSe.getReport(this._authS.user.id,form.fecha_inicio,form.fecha_fin,form.tipo_asistencia_id).subscribe({
-      next : (resp) => {
-        //console.log(resp);
+  servicioReportAdmin(form: any) {
+    this._misSe.getReportSuperAdmin(form.fecha_inicio, form.fecha_fin, form.tipo_asistencia_id).subscribe({
+      next: (resp) => {
+        console.log("Response: ", resp);
+
         if (resp.status) {
-          this.band = true;
-          this.bandBtn = true;
-          this.data = resp.data;
-          this.datosPersonales = resp.datos_personales.user;
-          //console.log(this.datosPersonales);
-          this.sort();
-          this._authS.Mensaje(resp.message);
-        }else{
+          this.bandAdmin = true;
           this.band = false;
-          this.bandBtn = false;
-          this._authS.Mensaje(resp.message,'danger');
+          this.bandBtnReporte = true;
+          this.dataSuperAdmin = resp.data;
+          this._authS.Mensaje(resp.message);
+          this.historialForm.reset();
+        } else {
+          this.bandAdmin = false;
+          this.bandBtnReporte = false;
+          this._authS.Mensaje(resp.message, 'danger');
+          this.historialForm.reset();
         }
       },
-      error : (err) => { console.log(err); }
+      error: (err) => { console.log(err); }
+    })
+  }
+
+  servicioReportTrabajador(form: any) {
+    this._misSe.getReport(form.user_id, form.fecha_inicio, form.fecha_fin, form.tipo_asistencia_id).subscribe({
+      next: (resp) => {
+        if (resp.status) {
+          this.band = true;
+          this.bandBtnReporte = true;
+          this.data = resp.data;
+          this.datosPersonales = resp.datos_personales.user;
+          console.log(this.datosPersonales);//undef
+          this.sort();
+          this._authS.Mensaje(resp.message);
+          this.historialForm.reset();
+        } else {
+          this.band = false;
+          this.bandBtnReporte = false;
+          this._authS.Mensaje(resp.message, 'danger');
+          this.historialForm.reset();
+        }
+      },
+      error: (err) => { console.log(err); }
     });
   }
 
   imprimir() {
+   if (this._authS.user.rol_id == 1 || this._authS.user.rol_id == 2) {// superadmin y adminnistrador
+      console.log('admin', this._authS.user.rol_id);
+
+
+      
+      var element = document.getElementById('pdfContainer');
+
+      let opt = {
+        margin: 0.5,
+        filename: 'Reporte.pdf',
+        image: { type: 'jpeg', quality: 3 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'ledger', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+
+    } else {
+      console.log('trabajador', this._authS.user.rol_id);
+   
+      var element = document.getElementById('pdfContainer');
+
+
+
+      let opt = {
+        margin: 0.5,
+        filename: 'Reporte.pdf',
+        image: { type: 'jpeg', quality: 3 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'ledger', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+
+    } 
+
 
   }
 
@@ -155,10 +232,20 @@ export class RIngresoPage implements OnInit {
     this.router.navigateByUrl('/home');
   }
 
-  
+
 
   cargarUsuario() {
-    
-
 
   }
+
+  async modal(items: Asistencia){
+    let modal = await this.modalCtrl.create({
+      component: VistaPage,
+      cssClass: 'cart-modal',
+      componentProps: { data: items}
+    });
+    modal.present();
+  }
+
+
+}

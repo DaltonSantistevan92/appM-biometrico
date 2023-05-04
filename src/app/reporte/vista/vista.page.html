@@ -3,52 +3,96 @@
     <ion-title>Detalle del Reporte</ion-title>
   </ion-toolbar>
 </ion-header>
-<div>
-<ion-content>
-<ion-card>
-  <ion-card-content>
-    <form>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="6">
-          <ion-label>
-            <h2><strong>Departamento</strong></h2>
-              <p>{{ this.data.asistencias_departamento[0].departamento.nombre}}</p>
-          </ion-label>
-      </ion-col>
-      <ion-col size="6">
+
+<ion-content class="modal-dialog modal-sm">
+  <ion-card>
+    <ion-card-content>
+
+
+      <ng-container *ngIf="asist">
+       <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-label>
+                <h2><strong>Departamento</strong></h2>
+                <p>{{ departamento}}</p>
+              </ion-label>
+            </ion-col>
+            <ion-col size="6">
   
-            <ion-label>
-              <h2><strong>Fecha</strong></h2>
-              <p>{{this.data.fecha}}</p>
-            </ion-label>
-    </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="6">
-          <ion-label>
-            <h2><strong>Tipo de Registro</strong></h2>
-              <p>{{this.data.tipo_registro.tipo}}</p>
-          </ion-label>
-      </ion-col>
-      <ion-col size="6">
+              <ion-label>
+                <h2><strong>Fecha</strong></h2>
+                <p>{{this.dataAsistencia.fecha}}</p>
+              </ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <ion-label>
+                <h2><strong>Tipo de Registro</strong></h2>
+                <p>{{this.dataAsistencia.tipo_registro.tipo}}</p>
+              </ion-label>
+            </ion-col>
+            <ion-col size="6">
   
-            <ion-label>
-              <h2><strong>Correo</strong></h2>
-              <p>{{this.data.user.email}}</p>
-            </ion-label>
-    </ion-col>
-      </ion-row>
-      </ion-grid>
-      <div #map id="map" class="map"></div> <br>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">
-          <span class="fa fa-remove"></span>  
-          <span class="hidden-xs"> Cerrar</span> 
-        </button> 
-      </div>
-    </form>
-  </ion-card-content>
-</ion-card>
+              <ion-label>
+                <h2><strong>Correo</strong></h2>
+                <p>{{this.dataAsistencia.user.email}}</p>
+              </ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid> 
+      </ng-container>
+
+      <ng-container *ngIf="even">
+
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-label>
+                <h2><strong>Evento</strong></h2>
+                <p>{{ evento }}</p>
+              </ion-label>
+            </ion-col>
+            <ion-col size="6">
+  
+              <ion-label>
+                <h2><strong>Fecha</strong></h2>
+                <p>{{this.dataAsistencia.fecha}}</p>
+              </ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <ion-label>
+                <h2><strong>Tipo de Registro</strong></h2>
+                <p>{{this.dataAsistencia.tipo_registro.tipo}}</p>
+              </ion-label>
+            </ion-col>
+            <ion-col size="6">
+  
+              <ion-label>
+                <h2><strong>Correo</strong></h2>
+                <p>{{this.dataAsistencia.user.email}}</p>
+              </ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ng-container>
+
+
+      
+      
+     
+
+  
+      <ion-button style="margin-top: 12px;" expand="block" fill="outline" class="main-button" type="button"
+        (click)="cerraModal()">
+        <span class="hidden-xs"> Cerrar</span>
+      </ion-button>
+      
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
-</div>

@@ -1,41 +1,64 @@
-import { TipoAsistencia } from './../../pages/interfaces/misInterface';
-import { Component, ElementRef, OnInit, Renderer2, ViewChild,Inject } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule, NavParams } from '@ionic/angular';
-import { Geolocation } from '@capacitor/geolocation';
-import { GoogleMapService } from 'src/app/pages/Mis_Servicios/google-map.service';
-import { map, interval, tap, takeUntil, Subject, take } from 'rxjs';
-declare var google: any;
+
+import { Component, OnInit, ViewChild,} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule, NavParams,ModalController } from '@ionic/angular';
+import { Asistencia } from '../interfaces/reporteAdmin-interface';
 
 @Component({
   selector: 'app-vista',
   templateUrl: './vista.page.html',
   styleUrls: ['./vista.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule,ReactiveFormsModule]
+  imports: [IonicModule, CommonModule, FormsModule]
 })
 export class VistaPage implements OnInit {
-  data: any;
-  //mapa
-  map: any; marker: any; infowindow: any; positionSet: any;
+  dataAsistencia: Asistencia;
+  evento : string = '';
+  departamento : string = '';
+  asist : boolean = false;
+  even : boolean = false;
 
-  @ViewChild('map') divMap!: ElementRef; //obtener el elemnt de la vista #map
 
-  label = { titulo: 'Ubicación', subtitulo: 'ubicación de la empresa' };
-  
-  constructor( private nav: NavParams, private googleServ: GoogleMapService,
-    @Inject(DOCUMENT) private document: Document,   private fb: FormBuilder,
-    private renderer: Renderer2,) {
-    this.data = this.nav.get('data');
-     console.log(this.data);
+  constructor( private nav: NavParams,private modalCtrl:ModalController,) {
+    this.dataAsistencia = this.nav.get('data');
+    
+    this.pintarTipoAsistencia(this.dataAsistencia);
    }
 
   ngOnInit() {
-    
   }
 
- 
 
+
+  pintarTipoAsistencia(asistencia : Asistencia){
+    if (asistencia.tipo_asistencia_id == 1) {//asistencia
+      console.log('asistencia',asistencia);
+
+      this.asist = true;
+      this.even = false;
+      asistencia.asistencias_departamento?.forEach( (item) => {
+        this.departamento = item.departamento.nombre;
+      })
+    }else {//evento
+      this.asist = false;
+      this.even = true;
+      console.log('evento',asistencia);
+
+
+      asistencia.asistencia_evento?.forEach( (item) => {
+         this.evento = item.evento.nombre; 
+      });
+    }
+  }
+
+
+  cerraModal(){
+    this.modalCtrl.dismiss({
+      'dismissed': true
+    });
+  }
+prueba(){
   
+}
 }

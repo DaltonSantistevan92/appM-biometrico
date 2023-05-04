@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { DataDateTime, ITA, IntTipo } from '../interfaces/misInterface';
 import { Geolocation } from '@capacitor/geolocation';
 import { AlertController } from "@ionic/angular";
+import { IntAdmin } from 'src/app/reporte/interfaces/reporteAdmin-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -56,8 +57,13 @@ export class MiserviciosService {
   }
 
   getReport(user_id:number, fecha_inicio: string, fecha_fin:string, tipo_asistencia_id:number):Observable<any>{
-    let url = `${this.API}/reporte/${user_id}/${fecha_inicio}/${fecha_fin}/${tipo_asistencia_id}`;
+    let url = `${this.API}/reporteTrabajador/${user_id}/${fecha_inicio}/${fecha_fin}/${tipo_asistencia_id}`;
     return this.http.get<any>(url);
+  }
+
+  getReportSuperAdmin(fecha_inicio: string, fecha_fin:string, tipo_asistencia_id:number):Observable<IntAdmin>{
+    let url = `${this.API}/reporteSuperAdmin/${fecha_inicio}/${fecha_fin}/${tipo_asistencia_id}`;
+    return this.http.get<IntAdmin>(url);
   }
 
   async presentAlert() {

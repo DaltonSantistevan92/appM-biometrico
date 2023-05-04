@@ -41,7 +41,7 @@
           </ion-col>
 
           <ion-col size="6" size-sm="3">
-            <ion-select style="margin-top: 10px;" label="Seleccione el tipo" formControlName="tipo_asistencia_id"
+            <ion-select interface="popover" style="margin-top: 10px;" label="Seleccione el tipo" formControlName="tipo_asistencia_id"
               label-placement="floating">
               <ion-select-option *ngFor="let la of listaTiposAsistencia" [value]="la.id">
                 {{la.type}}
@@ -62,7 +62,7 @@
                 <ion-icon name="checkmark-outline"></ion-icon>
               </ion-fab-button>
             </ion-col>
-            <ion-col *ngIf="bandBtn">
+            <ion-col *ngIf="bandBtnReporte">
               <ion-fab-button size="small" fab-fixed color="success">
                 <ion-icon name="reader-outline" (click)="imprimir()"></ion-icon>
               </ion-fab-button>
@@ -72,106 +72,225 @@
       </ion-grid>
     </form>
 
-    <ng-container *ngIf="band">
-      <ion-card color="light">
-        <ion-card-header>
-          <ion-card-subtitle style="font-weight: bold; font-size: 14px; text-align: center;">
-            Información del Personal
-          </ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content mode="md">
+      <div class="container" id="pdfContainer">
+
+        <ng-container  *ngIf="bandAdmin">
+          <div class="table">
+            <div class="table-header">
+              <div class="header__item" style=" text-align: center; font-weight: bold;"><a  class="filter__link">#</a></div>
+              <div class="header__item" style=" text-align: center; font-weight: bold;"><a  class="filter__link filter__link--number">Nombre</a></div>
+              <div class="header__item" style=" text-align: center; font-weight: bold;"><a  class="filter__link filter__link--number">Fecha</a></div>
+              <div class="header__item" style=" text-align: center; font-weight: bold;"><a  class="filter__link filter__link--number">Hora</a></div>
+              <div class="header__item" style=" text-align: center; font-weight: bold;"><a  class="filter__link filter__link--number">Asistencia</a></div>
+              <div class="header__item d-none" style=" text-align: center; font-weight: bold;"><a id="ocultarBtnAsistencia"  class="filter__link filter__link--number">Vista</a></div>
+            </div>
+            <div class="table-content">
+              <div class="table-row" *ngFor="let item of dataSuperAdmin; let i = index">
+                <div class="table-data" style=" text-align: center;">{{ i + 1}}</div>
+                <div class="table-data" style=" text-align: center;" >{{item.user.persona.nombres}} {{item.user.persona.apellidos}}</div>
+                <div class="table-data" style=" text-align: center;">{{item.fecha}}</div>
+                <div class="table-data" style=" text-align: center;" >{{item.hora}}</div>
+                <div class="table-data" style=" text-align: center;">{{item.tipo_registro.tipo}}</div>
+                <div  class="table-data" style=" text-align: center;">
+                  <button ion-button icon-only class="btn_eye_icon"(click)="modal(item)" >
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="band">
+          <div class="table">
+            <div class="table-header">
+              <div class="header__item" style=" text-align: center; font-weight: bold;"><a  class="filter__link" >#</a></div>
+              <div class="header__item" style=" text-align: center; font-weight: bold;"><a  class="filter__link filter__link--number" >Fecha</a></div>
+              <div class="header__item" style=" text-align: center; font-weight: bold;"><a  class="filter__link filter__link--number" >Hora</a></div>
+              <div class="header__item" style=" text-align: center; font-weight: bold;"><a  class="filter__link filter__link--number" >Asistencia</a></div>
+              <div class="header__item d-none" style=" text-align: center; font-weight: bold;"><a id="ocultarBtnEvento"   class="filter__link filter__link--number" >Acción</a></div>
+            </div>
+            <div class="table-content">
+              <div class="table-row" *ngFor="let item of data; let i = index">
+                <div class="table-data" style=" text-align: center;">{{ i + 1}}</div>
+                <div class="table-data" style=" text-align: center;">{{item.fecha}}</div>
+                <div class="table-data" style=" text-align: center;">{{item.hora}}</div>
+                <div class="table-data" style=" text-align: center;">{{item.tipo_registro.tipo}}</div>
+               <div  class="table-data" style=" text-align: center;">
+                <button ion-button icon-only class="btn_eye_icon" (click)="modal(item)">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </button>
+               </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        
+
+       
+
+      </div>
+
+
+
+      <!-- ************ADMINISTRADOR || SUPERADMINISTRADOR************ -->
+      <!-- <ng-container *ngIf="bandAdmin" >
+        <ion-grid>
+          <ion-row class="centerrow header-row">
+            <ion-col size="1" style=" text-align: center; font-weight: bold;">#</ion-col>
   
-          <ion-grid>
-            <ion-row>
-              <ion-col size="12" size-sm="4">
-                <ion-row>
-                  <ion-col size="6">
-                    <ion-label>
-                      <h2><strong>Cedula</strong></h2>
-                      <p>{{datosPersonales?.persona.cedula}}</p>
-                    </ion-label>
-                  </ion-col>
-                  <ion-col size="6">
-                    <ion-label>
-                      <h2><strong>Nombre</strong></h2>
-                      <p>{{datosPersonales?.persona.nombres}}</p>
-                    </ion-label>
-                  </ion-col>
-                </ion-row>
-              </ion-col>
+            <ion-col size="3" style=" text-align: center; font-weight: bold;">
+              Usuario
+            </ion-col>
   
-              <ion-col size="12" size-sm="4">
-                <ion-row>
-                  <ion-col size="6">
-                    <ion-label>
-                      <h2><strong>Apellido</strong></h2>
-                      <p>{{datosPersonales?.persona.apellidos}}</p>
-                    </ion-label>
-                  </ion-col>
-                  <ion-col size="6">
-                    <ion-label>
-                      <h2><strong>Telefono</strong></h2>
-                      <p>{{datosPersonales?.persona.num_celular}}</p>
-                    </ion-label>
-                  </ion-col>
-                </ion-row>
-              </ion-col>
+            <ion-col size="2" style=" text-align: center; font-weight: bold;" tappable (click)="sortBy('fecha')">
+              Fecha
+              <ion-icon name="arrow-down" *ngIf="sortDirecion == 1"></ion-icon>
+              <ion-icon name="arrow-up" *ngIf="sortDirecion == 2"></ion-icon>
+            </ion-col>
+            <ion-col size="2" style=" text-align: center; font-weight: bold;">
+              Hora
+            </ion-col>
+            <ion-col size="2" class="ion-hide-md-down" style=" text-align: center;font-weight: bold;">
+              Tipo
+            </ion-col>
+            <ion-col size="2" style=" text-align: center;font-weight: bold;">
+              Accion
+            </ion-col>
+          </ion-row>
   
-              <ion-col size="12" size-sm="4">
-                <ion-row>
-                  <ion-col size="6">
-                    <ion-label>
-                      <h2><strong>Email</strong></h2>
-                      <p>{{ datosPersonales?.email}}</p>
-                    </ion-label>
-                  </ion-col>
-                  <ion-col size="6">
-                    <ion-label>
-                      <h2><strong>Direccion</strong></h2>
-                      <p>{{ datosPersonales?.persona.direccion}}</p>
-                    </ion-label>
-                  </ion-col>
-                </ion-row>
-              </ion-col>
+          <ion-row *ngFor="let item of dataSuperAdmin; let i = index">
+            <ion-col size="1" style=" text-align: center; font-weight: bold;">{{ i + 1}}</ion-col>
+            <ion-col size="3" style=" text-align: center;">{{item.user.persona.nombres}} {{item.user.persona.apellidos}}</ion-col>
+            <ion-col size="2" style=" text-align: center;">{{item.fecha}}</ion-col>
+            <ion-col size="2" style=" text-align: center;">{{item.hora}}</ion-col>
+            <ion-col size="2" style=" text-align: center;">{{item.tipo_registro.tipo}}</ion-col>
+            
+            <ion-col size="2" style=" text-align: center;">
+              <button ion-button icon-only class="btn_eye_icon" >
+                <ion-icon name="eye-outline"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
   
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card>
+        </ion-grid>
   
-      <ion-grid>
-        <ion-row class="centerrow header-row">
-          <ion-col size="2" style=" text-align: center; font-weight: bold;">#</ion-col>
-          <ion-col size="3" style=" text-align: center; font-weight: bold;" tappable (click)="sortBy('fecha')">
-            Fecha
-            <ion-icon name="arrow-down" *ngIf="sortDirecion == 1"></ion-icon>
-            <ion-icon name="arrow-up" *ngIf="sortDirecion == 2"></ion-icon>
-          </ion-col>
-          <ion-col size="3" style=" text-align: center; font-weight: bold;">
-            Hora
-          </ion-col>
-          <ion-col size="2" class="ion-hide-md-down" style=" text-align: center;font-weight: bold;">
-            Tipo
-          </ion-col>
-          <ion-col size="2" style=" text-align: center;font-weight: bold;">
-            Accion
-          </ion-col>
-        </ion-row>
   
-        <ion-row class="centerrow data-row" *ngFor="let item of data; let i = index">
-          <ion-col size="2" style=" text-align: center; font-weight: bold;">{{ i + 1}}</ion-col>
-          <ion-col size="3" style=" text-align: center;">{{item.fecha}}</ion-col>
-          <ion-col size="3" style=" text-align: center;">{{item.hora}}</ion-col>
-          <ion-col size="2" class="ion-hide-md-down" style=" text-align: center;">{{item.tipo_registro.tipo}}</ion-col>
-          <ion-col size="2" style=" text-align: center;">
-            <button ion-button icon-only class="btn_eye_icon" (click)="muestraSitio(item)">
-              <ion-icon name="eye-outline"></ion-icon>
-            </button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ng-container>
-    
+      </ng-container> -->
+
+
+
+
+
+
+      <!-- ************TRABAJADOR************ -->
+      <!-- <ng-container *ngIf="band" #pdfContent>
+        <ion-card color="light">
+          <ion-card-header>
+            <ion-card-subtitle style="font-weight: bold; font-size: 14px; text-align: center;">
+              Información del Personal
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content mode="md">
+
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12" size-sm="4">
+                  <ion-row>
+                    <ion-col size="6">
+                      <ion-label>
+                        <h2><strong>Cedula</strong></h2>
+                        <p>{{datosPersonales?.persona.cedula}}</p>
+                      </ion-label>
+                    </ion-col>
+                    <ion-col size="6">
+                      <ion-label>
+                        <h2><strong>Nombre</strong></h2>
+                        <p>{{datosPersonales?.persona.nombres}}</p>
+                      </ion-label>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+
+                <ion-col size="12" size-sm="4">
+                  <ion-row>
+                    <ion-col size="6">
+                      <ion-label>
+                        <h2><strong>Apellido</strong></h2>
+                        <p>{{datosPersonales?.persona.apellidos}}</p>
+                      </ion-label>
+                    </ion-col>
+                    <ion-col size="6">
+                      <ion-label>
+                        <h2><strong>Telefono</strong></h2>
+                        <p>{{datosPersonales?.persona.num_celular}}</p>
+                      </ion-label>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+
+                <ion-col size="12" size-sm="4">
+                  <ion-row>
+                    <ion-col size="6">
+                      <ion-label>
+                        <h2><strong>Email</strong></h2>
+                        <p>{{ datosPersonales?.email}}</p>
+                      </ion-label>
+                    </ion-col>
+                    <ion-col size="6">
+                      <ion-label>
+                        <h2><strong>Direccion</strong></h2>
+                        <p>{{ datosPersonales?.persona.direccion}}</p>
+                      </ion-label>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+
+        </ion-card>
+
+        <ion-grid>
+          <ion-row class="centerrow header-row">
+            <ion-col size="2" style=" text-align: center; font-weight: bold;">#</ion-col>
+
+            <ion-col size="3" style=" text-align: center; font-weight: bold;" tappable (click)="sortBy('fecha')">
+              Fecha
+              <ion-icon name="arrow-down" *ngIf="sortDirecion == 1"></ion-icon>
+              <ion-icon name="arrow-up" *ngIf="sortDirecion == 2"></ion-icon>
+            </ion-col>
+            <ion-col size="3" style=" text-align: center; font-weight: bold;">
+              Hora
+            </ion-col>
+            <ion-col size="2" class="ion-hide-md-down" style=" text-align: center;font-weight: bold;">
+              Tipo
+            </ion-col>
+            <ion-col size="2" style=" text-align: center;font-weight: bold;">
+              Accion
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="centerrow data-row" *ngFor="let item of data; let i = index">
+            <ion-col size="2" style=" text-align: center; font-weight: bold;">{{ i + 1}}</ion-col>
+            <ion-col size="3" style=" text-align: center;">{{item.fecha}}</ion-col>
+            <ion-col size="3" style=" text-align: center;">{{item.hora}}</ion-col>
+            <ion-col size="2" class="ion-hide-md-down"
+              style=" text-align: center;">{{item.tipo_registro.tipo}}</ion-col>
+            <ion-col size="2" style=" text-align: center;">
+              <button ion-button icon-only class="btn_eye_icon" (click)="muestraSitio(item)">
+                <ion-icon name="eye-outline"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ng-container> -->
+
+   
+
+
 
   </ion-card-content>
 

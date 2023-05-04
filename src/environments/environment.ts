@@ -4,7 +4,6 @@
 
 export const environment = {
   production: false,
-  //apiUrl: 'http://192.168.100.12:8000/api',
   apiUrl: 'http://localhost:8000/api',
   apiKeyGoogle : "AIzaSyDcYo3YAZrC5DWTLqUi0AqhWmmObFTlAfI"
 };
