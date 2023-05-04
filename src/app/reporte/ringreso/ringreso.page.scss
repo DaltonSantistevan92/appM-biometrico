@@ -115,3 +115,17 @@ ion-card-header {
 }
 
 //cabecera
+
+
+.cart-modal {
+  width: 80%;
+  max-width: 600px;
+  /* Otros estilos para el modal */
+}
+
+@media only screen and (max-width: 600px) {
+  .cart-modal {
+    width: 100%;
+  }
+}
+

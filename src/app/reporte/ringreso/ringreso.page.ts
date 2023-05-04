@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { MiserviciosService } from 'src/app/pages/Mis_Servicios/miservicios.service';
+import { VistaPage } from '../vista/vista.page';
 
 
 @Component({
@@ -32,7 +33,8 @@ export class RIngresoPage implements OnInit {
     private router: Router,
     private _authS: AuthService,
     private fb: FormBuilder,
-    private _misSe: MiserviciosService
+    private _misSe: MiserviciosService,
+    private modalCtrl:ModalController
   ) { }
 
   ngOnInit() {
@@ -42,6 +44,17 @@ export class RIngresoPage implements OnInit {
 
   }
 
+  async muestraSitio(items:any){
+    let modal = await this.modalCtrl.create({
+      component: VistaPage,
+      cssClass: 'cart-modal',
+      componentProps: {
+        data:items
+      }
+    });
+    modal.present();
+ }
+ 
   initForm() {
     this.historialForm = this.fb.group({
       tipo_asistencia_id: ['', [Validators.required]],
@@ -114,13 +127,13 @@ export class RIngresoPage implements OnInit {
   servicioReport(form: any) {
     this._misSe.getReport(this._authS.user.id,form.fecha_inicio,form.fecha_fin,form.tipo_asistencia_id).subscribe({
       next : (resp) => {
-        console.log(resp);
+        //console.log(resp);
         if (resp.status) {
           this.band = true;
           this.bandBtn = true;
           this.data = resp.data;
           this.datosPersonales = resp.datos_personales.user;
-          console.log(this.datosPersonales);
+          //console.log(this.datosPersonales);
           this.sort();
           this._authS.Mensaje(resp.message);
         }else{
@@ -147,5 +160,5 @@ export class RIngresoPage implements OnInit {
   cargarUsuario() {
     
 
+
   }
-}
