@@ -24,11 +24,6 @@ export const routes: Routes = [
     canActivate: [AuthGuardGuard],
     loadComponent: () => import('./pages/asistencia/asistencia.page').then( m => m.AsistenciaPage)
   },
-  /* {
-    path: 'dactilar',
-    canActivate: [AuthGuardGuard],
-    loadComponent: () => import('./pages/reconocimiento-dactilar/reconocimiento-dactilar.page').then( m => m.ReconocimientoDactilarPage)
-  }, */
   {
     path: 'datos/perfil',
     canActivate: [AuthGuardGuard],
@@ -36,10 +31,11 @@ export const routes: Routes = [
   },
   {
     path: 'card',
+    canActivate: [AuthGuardGuard],
     loadComponent: () => import('./componentes/card/card.page').then( m => m.CardPage)
   },
   {
-    path: 'ringreso',
+    path: 'reporte/asistencia',
     canActivate: [AuthGuardGuard],
     loadComponent: () => import('./reporte/ringreso/ringreso.page').then( m => m.RIngresoPage)
   },
@@ -50,6 +46,7 @@ export const routes: Routes = [
   },
   {
     path: 'vista',
+    canActivate: [AuthGuardGuard],
     loadComponent: () => import('./reporte/vista/vista.page').then( m => m.VistaPage)
   },
   {

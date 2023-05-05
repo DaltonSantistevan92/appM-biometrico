@@ -21,11 +21,11 @@ import { Asistencia } from '../interfaces/reporteAdmin-interface';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule]
 })
-//@ViewChild('elementToPrint', {static: false}) elementToPrint: ElementRef;
+
 export class RIngresoPage implements OnInit {
   [x: string]: any;
   currentDate: Date = new Date();
-  @ViewChild('pdfContent', {static: false}) pdfContent?: ElementRef; 
+  @ViewChild('content', {static: false}) content?: ElementRef;
 
   public data: any[] = [];
   public dataSuperAdmin: any[] = [];
@@ -43,8 +43,7 @@ export class RIngresoPage implements OnInit {
   bandAdmin = false;
   bandBtnReporte = false;
 
-  //private file!:File
-
+  ver = false;
   constructor(
     private router: Router,
     private _authS: AuthService,
@@ -58,7 +57,6 @@ export class RIngresoPage implements OnInit {
     if (this._authS.user == null) { return; }
     this.initForm();
     this.getTiposAsistencia();
-
   }
 
   initForm() {
@@ -71,11 +69,7 @@ export class RIngresoPage implements OnInit {
 
   getTiposAsistencia() {
     this._misSe.getTiposAsistencias().subscribe({
-      next: (resp) => {
-        console.log(resp);
-
-        this.listaTiposAsistencia = resp.data;
-      },
+      next: (resp) => { this.listaTiposAsistencia = resp.data; },
       error: (err) => { console.log(err); }
     });
   }
@@ -146,13 +140,12 @@ export class RIngresoPage implements OnInit {
   servicioReportAdmin(form: any) {
     this._misSe.getReportSuperAdmin(form.fecha_inicio, form.fecha_fin, form.tipo_asistencia_id).subscribe({
       next: (resp) => {
-        console.log("Response: ", resp);
-
         if (resp.status) {
           this.bandAdmin = true;
           this.band = false;
           this.bandBtnReporte = true;
-          this.dataSuperAdmin = resp.data;
+          this.data = resp.data;
+          this.sort();
           this._authS.Mensaje(resp.message);
           this.historialForm.reset();
         } else {
@@ -172,9 +165,8 @@ export class RIngresoPage implements OnInit {
         if (resp.status) {
           this.band = true;
           this.bandBtnReporte = true;
-          this.data = resp.data;
           this.datosPersonales = resp.datos_personales.user;
-          console.log(this.datosPersonales);//undef
+          this.data = resp.data;
           this.sort();
           this._authS.Mensaje(resp.message);
           this.historialForm.reset();
@@ -189,63 +181,44 @@ export class RIngresoPage implements OnInit {
     });
   }
 
-  imprimir() {
-   if (this._authS.user.rol_id == 1 || this._authS.user.rol_id == 2) {// superadmin y adminnistrador
-      console.log('admin', this._authS.user.rol_id);
-
-
-      
-      var element = document.getElementById('pdfContainer');
-
-      let opt = {
-        margin: 0.5,
-        filename: 'Reporte.pdf',
-        image: { type: 'jpeg', quality: 3 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'ledger', orientation: 'portrait' }
-      };
-      html2pdf().set(opt).from(element).save();
-
-    } else {
-      console.log('trabajador', this._authS.user.rol_id);
-   
-      var element = document.getElementById('pdfContainer');
-
-
-
-      let opt = {
-        margin: 0.5,
-        filename: 'Reporte.pdf',
-        image: { type: 'jpeg', quality: 3 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'ledger', orientation: 'portrait' }
-      };
-      html2pdf().set(opt).from(element).save();
-
-    } 
-
-
-  }
-
-
   regresar() {
+    this.band = false;
+    this.bandBtnReporte = false;
+    this.bandAdmin = false;
     this.router.navigateByUrl('/home');
   }
 
-
-
-  cargarUsuario() {
-
-  }
-
-  async modal(items: Asistencia){
+  async modal(items: Asistencia) {
     let modal = await this.modalCtrl.create({
       component: VistaPage,
       cssClass: 'cart-modal',
-      componentProps: { data: items}
+      componentProps: { data: items }
     });
     modal.present();
   }
 
+  public downloadPDF() {
+    const DATA = document.getElementById('pdfContainer');
+    const doc = new jsPDF('p', 'pt', 'a4');
+    const options = {
+      background: 'white',
+      scale: 3
+    };
+    html2canvas(DATA!, options).then((canvas) => {
+  
+      const img = canvas.toDataURL('image/PNG');
+  
+      // Add image Canvas to PDF
+      const bufferX = 15;
+      const bufferY = 15;
+      const imgProps = (doc as any).getImageProperties(img);
+      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+      return doc;
+    }).then((docResult) => {
+      docResult.save(`${new Date().toISOString()}_reporte.pdf`);
+    });
+  }
 
 }

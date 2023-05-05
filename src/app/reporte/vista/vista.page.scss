@@ -1,1 +1,15 @@
 $modal-sm:250px;
+
+
+
+
+//
+
+.example-modal {
+    align-items: center;
+    justify-content: center;
+    --min-height: 80%; 
+    --min-width: 50%;
+    --max-height: 80%; 
+    --max-width: 50%;
+  }

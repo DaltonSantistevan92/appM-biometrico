@@ -58,7 +58,12 @@ export class VistaPage implements OnInit {
       'dismissed': true
     });
   }
-prueba(){
-  
-}
+
+
+  /* showModal = false;
+
+  setOpen(isOpen: boolean) {
+    this.showModal = isOpen;
+  } */
+
 }

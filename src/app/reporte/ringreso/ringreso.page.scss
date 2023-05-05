@@ -107,11 +107,11 @@ ion-card-header {
 .header-row{
   font-weight: 500;
   font-size: 12px;
-  border-bottom: 2px solid #000;
+  /* border-bottom: 2px solid #000; */
 }
 
 .data-row{
-  border-bottom: 2px solid #000;
+  /* border-bottom: 2px solid #000; */
 }
 
 //cabecera
@@ -213,4 +213,17 @@ $color-form-highlight: #EEEEEE;
     visibility: collapse !important;
   } */
 	
+}
+
+
+
+
+
+
+
+@media (max-width:500px) {
+  .un_first{
+          display:none;
+  }
+
 }

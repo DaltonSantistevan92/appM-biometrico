@@ -1,5 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerraModal()">
+      <ion-icon color="secondary" slot="icon-only" name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Detalle del Reporte</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -7,8 +12,6 @@
 <ion-content class="modal-dialog modal-sm">
   <ion-card>
     <ion-card-content>
-
-
       <ng-container *ngIf="asist">
        <ion-grid>
           <ion-row>
@@ -79,20 +82,12 @@
           </ion-row>
         </ion-grid>
 
-      </ng-container>
-
-
-      
-      
-     
-
-  
-      <ion-button style="margin-top: 12px;" expand="block" fill="outline" class="main-button" type="button"
-        (click)="cerraModal()">
-        <span class="hidden-xs"> Cerrar</span>
-      </ion-button>
-      
+      </ng-container>    
     </ion-card-content>
   </ion-card>
 
 </ion-content>
+
+
+
+
