@@ -30,6 +30,11 @@ export class HomePage implements OnInit {
     this.menuController.enable(true);
   }
 
+  
+  ionViewDidEnter() {
+    this.menuController.enable(true);
+  }
+
   salir() {
     this.storage.remove('biometric');
     localStorage.removeItem('token');
