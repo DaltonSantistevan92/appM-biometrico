@@ -37,12 +37,17 @@ export class AsistenciaPage implements OnInit {
   existeNombreEvento: boolean = false;
   existeTipo: boolean = false;
 
+  
+
   //mapa
   map: any; marker: any; infowindow: any; positionSet: any;
 
   @ViewChild('map') divMap!: ElementRef; //obtener el elemnt de la vista #map
 
   label = { titulo: 'Ubicación', subtitulo: 'ubicación de la empresa' };
+
+  messagePersonalize : string = '';
+  valid : boolean = false;
 
   constructor(
     private router: Router,
@@ -63,15 +68,30 @@ export class AsistenciaPage implements OnInit {
     this.menuController.enable(true);
     this.initFormAsistencia();
     //this.onValueChanges();
+
   }
 
   ionViewWillEnter() {
-    this.unLock();
+    const fecha = new Date();
+    // 0 = domingo , 1 = lunes ... 6 = sabado;
+    const diaSemana = fecha.getDay();
+    const hora = fecha.getHours();
+
+    let lunes = 1;            let viernes = 5;
+    let horaAtencionMax = 8;  let horaAtencionMim = 22;
+
+    if (diaSemana >= lunes && diaSemana <= viernes && hora >= horaAtencionMax && hora < horaAtencionMim) {
+      this.unLock();
+      this.valid = true;
+    } else {
+      this.valid = false;
+      this.messagePersonalize = 'No puede realizar registro de asistencia';
+    }
   }
 
   async unLock() {
     let Biometric = await this.storage.get('biometric');
-    console.log(Biometric);
+    //console.log(Biometric);
 
     if (Biometric != null) {//automatico
       this.traerTipoAsistenciaBd();
@@ -134,7 +154,7 @@ export class AsistenciaPage implements OnInit {
       nombre_evento: ['']
     });
   }
-
+ 
   /* onValueChanges(): void {
     this.formAsistencia.valueChanges.subscribe(val => {
       console.log('value', val.tipo_asistencia_id);

@@ -8,6 +8,9 @@ import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { Menu, RespLogin, User } from '../interfaces/auth.interface';
 
 import { JwtHelperService} from '@auth0/angular-jwt';
+import { IntSexo } from '../interfaces/sexo.interface';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +45,7 @@ export class AuthService {
   ) { 
     this._listaMenus = JSON.parse( localStorage.getItem('menu')!) || [];
   }
-
+ 
   api = environment.apiUrl;
 
   verificacionAutenticacion():Observable<boolean>{
@@ -69,7 +72,17 @@ export class AuthService {
         }
       })
     );
+  } 
+
+  //***CARGAR SEXO DEL USUARIO***/
+  getUsuarioSexo(): Observable<IntSexo>{
+    const url = `${this.api}/sexo/listar`;
+    return this.http.get<IntSexo>(url);
+
   }
+
+
+
 
   sendObjeUser(data:User){
     this.objSourceUser.next(data);

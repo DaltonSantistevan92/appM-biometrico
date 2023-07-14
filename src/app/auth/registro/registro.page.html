@@ -1,5 +1,3 @@
-
-
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -7,25 +5,25 @@
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title >Registro del Trabajador</ion-title>
+    <ion-title>Registro del Trabajador</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<div class="card-container"> 
+<div class="card-container">
   <ion-card>
     <ion-row>
       <ion-col size-lg="12" size="12" class="ion-padding ion-blue-bkg">
-        <img src="assets/img/bg-biometrico.jpg"  alt="Ionic logo" loading="lazy" />
-      </ion-col> 
-      
+        <img src="assets/img/bg-biometrico.jpg" alt="Ionic logo" loading="lazy" />
+      </ion-col>
+
 
       <ion-col size-md="12" size="12" class="welcome">
         <ion-card-content class="ion-padding">
           <div class="ion-padding container">
-      
+
             <div class="form-container">
               <form [formGroup]="formuRT">
-      
+
                 <ion-item>
                   <ion-label position="floating">Nombre</ion-label>
                   <ion-input type="text" placeholder="Ingrese su nombre" formControlName="nombres"></ion-input>
@@ -38,8 +36,23 @@
                     </ion-note>
                   </ng-container>
                 </ion-item>
-      
-                <ion-item >
+
+                <ion-item>
+                  <ion-select interface="popover" style="margin-top: 10px;" label="Seleccione el tipo de sexo"
+                    formControlName="sexo_id" label-placement="floating">
+                    <ion-select-option *ngFor="let s of listaSexo" [value]="s.id">
+                      {{s.detalle | titlecase}}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <small *ngIf="formuRT.get('sexo_id')?.dirty || formuRT.get('sexo_id')?.touched">
+                  <ion-note color="danger" slot="error" *ngIf="formuRT.get('sexo_id')?.errors?.['required']">
+                    El tipo es requerido.
+                  </ion-note>
+                </small>
+                
+
+                <ion-item>
                   <ion-label position="floating">Email</ion-label>
                   <ion-input type="email" placeholder="Ingrese su email" formControlName="email"></ion-input>
                   <ng-container *ngIf="formuRT.get('email')?.dirty || formuRT.get('email')?.touched">
@@ -51,29 +64,30 @@
                     </ion-note>
                   </ng-container>
                 </ion-item>
-      
-                <ion-item >
+
+                <ion-item>
                   <ion-label position="floating">Password</ion-label>
-                    <ion-input [type]="hide ? 'password' : 'text'" placeholder="Ingrese su contraseña"
-                      formControlName="password" min="6" maxlength="10">
-                    </ion-input>
-                    <button (click)="hide = !hide" class="btn_eye_icon">
-                      <ion-icon slot="end" [name]="hide ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
-                    </button>
-                    <ng-container *ngIf="formuRT.get('password')?.dirty || formuRT.get('password')?.touched">
-                      <ion-note slot="error" *ngIf="formuRT.get('password')?.errors?.['required']">
-                        La Contraseña es requerido.
-                      </ion-note>
-                      <ion-note slot="error" *ngIf="formuRT.controls['password'].errors?.['minlength']">
-                        La contraseña debe tener 6 caracteres.
-                      </ion-note>
-                    </ng-container>
+                  <ion-input [type]="hide ? 'password' : 'text'" placeholder="Ingrese su contraseña"
+                    formControlName="password" min="6" maxlength="10">
+                  </ion-input>
+                  <button (click)="hide = !hide" class="btn_eye_icon">
+                    <ion-icon slot="end" [name]="hide ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+                  </button>
+                  <ng-container *ngIf="formuRT.get('password')?.dirty || formuRT.get('password')?.touched">
+                    <ion-note slot="error" *ngIf="formuRT.get('password')?.errors?.['required']">
+                      La Contraseña es requerido.
+                    </ion-note>
+                    <ion-note slot="error" *ngIf="formuRT.controls['password'].errors?.['minlength']">
+                      La contraseña debe tener 6 caracteres.
+                    </ion-note>
+                  </ng-container>
                 </ion-item>
-    
+
               </form>
-      
-              <ion-button expand="block" fill="outline" class="main-button" [disabled]="formuRT.invalid" (click)="guardarTrabajador()">Crear Cuenta</ion-button>
-      
+
+              <ion-button expand="block" fill="outline" class="main-button" [disabled]="formuRT.invalid"
+                (click)="guardarTrabajador()">Crear Cuenta</ion-button>
+
             </div>
           </div>
         </ion-card-content>
@@ -84,5 +98,3 @@
   </ion-card>
 
 </div>
-
-

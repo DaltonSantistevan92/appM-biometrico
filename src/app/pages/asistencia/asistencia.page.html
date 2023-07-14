@@ -11,81 +11,88 @@
 
 <ion-content [fullscreen]="true" class="container">
 
-  <ion-card-content>
-    <form [formGroup]="formAsistencia">
-      <ion-grid>
-
-        <ion-list>        
-          <ng-container *ngIf="existeTipo">
-            <ion-item >
-              <ion-label position="floating">Tipo de Asistencia</ion-label>
-              <ion-input type="text" formControlName="tipo_asistencia" readonly></ion-input>
-            </ion-item>
-          </ng-container>
-
-          <ng-container *ngIf="existeNombreEvento">
-            <ion-item >
-              <ion-label position="floating">Nombre del evento</ion-label>
-              <ion-input type="text" formControlName="nombre_evento" readonly></ion-input>
-            </ion-item>
-          </ng-container>
-
-
-        </ion-list> <br>
-
-        <div *ngIf="bandera">
-          <ion-item>
-            <ion-label position="floating">Email</ion-label>
-            <ion-input type="email" placeholder="email@example.com" formControlName="email" readonly></ion-input>
-          </ion-item>
-
-          <ion-row>
-            <ion-col>
-              <ion-item>
-                <ion-label position="floating">Fecha</ion-label>
-                <ion-input type="date" formControlName="fecha" readonly></ion-input>
+  <ng-container *ngIf="valid; else NoValid">
+    <ion-card-content>
+      <form [formGroup]="formAsistencia">
+        <ion-grid>
+  
+          <ion-list>        
+            <ng-container *ngIf="existeTipo">
+              <ion-item >
+                <ion-label position="floating">Tipo de Asistencia</ion-label>
+                <ion-input type="text" formControlName="tipo_asistencia" readonly></ion-input>
               </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item>
-                <ion-label position="floating">Hora</ion-label>
-                <ion-input type="text" [value]="fecha" readonly></ion-input>
+            </ng-container>
+  
+            <ng-container *ngIf="existeNombreEvento">
+              <ion-item >
+                <ion-label position="floating">Nombre del evento</ion-label>
+                <ion-input type="text" formControlName="nombre_evento" readonly></ion-input>
               </ion-item>
-            </ion-col>
-          </ion-row>
-
-         
-          <ion-item>
-            <ion-label position="floating">Tipo de Registro</ion-label>
-            <ion-input type="text" formControlName="tipo_registro" readonly></ion-input>
-          </ion-item>
-        
-          <div *ngIf="banderaUbicacion">
-            <ion-item *ngIf="!cargandoUbicacion">
-              <ion-label position="floating">Ubicación</ion-label>
-              <ion-input type="text" formControlName="coordenadas" readonly></ion-input>
+            </ng-container>
+  
+  
+          </ion-list> <br>
+  
+          <div *ngIf="bandera">
+            <ion-item>
+              <ion-label position="floating">Email</ion-label>
+              <ion-input type="email" placeholder="email@example.com" formControlName="email" readonly></ion-input>
             </ion-item>
-
-            <ion-item *ngIf="cargandoUbicacion">
-              <ion-label class="prompt-text" position="floating">
-                <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
-              </ion-label><br />
-              <ion-input class="prompt-text" formControlName="coordenadas" type="text" readonly>
-                <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
-              </ion-input>
+  
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="floating">Fecha</ion-label>
+                  <ion-input type="date" formControlName="fecha" readonly></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="floating">Hora</ion-label>
+                  <ion-input type="text" [value]="fecha" readonly></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+  
+           
+            <ion-item>
+              <ion-label position="floating">Tipo de Registro</ion-label>
+              <ion-input type="text" formControlName="tipo_registro" readonly></ion-input>
             </ion-item>
-
-            <div #map id="map" class="map"></div> <br>
+          
+            <div *ngIf="banderaUbicacion">
+              <ion-item *ngIf="!cargandoUbicacion">
+                <ion-label position="floating">Ubicación</ion-label>
+                <ion-input type="text" formControlName="coordenadas" readonly></ion-input>
+              </ion-item>
+  
+              <ion-item *ngIf="cargandoUbicacion">
+                <ion-label class="prompt-text" position="floating">
+                  <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
+                </ion-label><br />
+                <ion-input class="prompt-text" formControlName="coordenadas" type="text" readonly>
+                  <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
+                </ion-input>
+              </ion-item>
+  
+              <div #map id="map" class="map"></div> <br>
+            </div>
+  
+            <ion-button style="margin-top: 10px;" expand="block" fill="outline" class="main-button" class="center" type="button" [disabled]="formAsistencia.invalid"
+              (click)="saveAsistencia()">
+              Guardar
+            </ion-button>
           </div>
+        </ion-grid>
+      </form>
+  
+    </ion-card-content>
+  </ng-container>
 
-          <ion-button style="margin-top: 10px;" expand="block" fill="outline" class="main-button" class="center" type="button" [disabled]="formAsistencia.invalid"
-            (click)="saveAsistencia()">
-            Guardar
-          </ion-button>
-        </div>
-      </ion-grid>
-    </form>
-
-  </ion-card-content>
-
+  <ng-template #NoValid>
+    {{ messagePersonalize | titlecase }}
+  </ng-template>
+  
+  
 </ion-content>

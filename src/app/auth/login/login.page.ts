@@ -16,7 +16,7 @@ import { Formulario } from '../interfaces/registro.interface';
 
 })
 export class LoginPage implements OnInit {
-
+ 
   formLogin!: FormGroup;
   emailValidate: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
   hide = true;

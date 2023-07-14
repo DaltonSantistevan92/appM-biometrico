@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Formulario, RegIntTrabajador } from '../interfaces/registro.interface';
 import { Router } from '@angular/router';
+import { Sexo } from '../interfaces/sexo.interface';
 
 @Component({
   selector: 'app-registro',
@@ -20,6 +21,8 @@ export class RegistroPage implements OnInit {
   emailValidate: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
   hide = true;
 
+  listaSexo : Sexo [] = []; 
+
 
   constructor(
     private _builder: FormBuilder,
@@ -32,13 +35,27 @@ export class RegistroPage implements OnInit {
   ngOnInit() {
     this.menuController.enable(false);
     this.validarFrmulario();
+    this.mostrarSexo();
+  }
+
+  mostrarSexo(){
+    this._auSer.getUsuarioSexo().subscribe({
+      next: (resp) => { 
+        if (resp.status) {
+          console.log(resp.data);
+          this.listaSexo = resp.data;
+        }
+      },
+      error: (err) => { console.log(err); },
+    })
   }
 
   validarFrmulario() {
     this.formuRT = this._builder.group({
       nombres: ["", [Validators.required, Validators.minLength(3)]],
       email: ["", [Validators.required, Validators.email, Validators.pattern(this.emailValidate)]],
-      password: ["", [Validators.required, Validators.minLength(6)]]
+      password: ["", [Validators.required, Validators.minLength(6)]],
+      sexo_id : ["", [Validators.required]]
     })
   }
 
@@ -48,7 +65,6 @@ export class RegistroPage implements OnInit {
     if (this.formuRT.valid) {
       const formul: Formulario = this.formuRT.value;
       const data = this.armarJson(formul);
-
       this.registrarTrabajador(data);
     }
   }
@@ -70,7 +86,7 @@ export class RegistroPage implements OnInit {
 
   armarJson(form: Formulario): RegIntTrabajador {
     let registro: RegIntTrabajador = {
-      persona: { nombres: form.nombres },
+      persona: { nombres: form.nombres, sexo_id : form.sexo_id },
       usuario: { email: form.email, password: form.password }
     }
     return registro;

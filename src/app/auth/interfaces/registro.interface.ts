@@ -4,6 +4,7 @@ export interface Formulario{
     nombres?: string;
     email: string; 
     password: string;
+    sexo_id : number;
 }
 
 //request interface registro trabajador
@@ -19,6 +20,7 @@ export interface Usuario {
 
 export interface Persona {
   nombres?: string;
+  sexo_id ? : number;
 }
 
 //response trabajador
